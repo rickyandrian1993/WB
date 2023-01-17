@@ -42,6 +42,8 @@ const defaultKeyInitialValue = [
   'grade_class',
   'grading_brondolan',
   'grading_brondolan_kg',
+  'is_from_tph',
+  'is_lefted',
   'janjang_kosong',
   'janjang_kosong_kg',
   'loader_nm',
@@ -54,6 +56,7 @@ const defaultKeyInitialValue = [
   'moist',
   'mt_vndr_rent_vhcle_cd',
   'netto_w',
+  'nfc_id',
   'overripe_brondolan',
   'overripe_brondolan_kg',
   'overripe_fruit',
@@ -94,7 +97,7 @@ const defaultKeyInitialValue = [
   'wb_created_by',
   'wb_created_dt',
   'young_fruit',
-  'young_fruit_kg',
+  'young_fruit_kg'
 ]
 
 export { payloadServer, defaultKeyInitialValue }

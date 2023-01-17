@@ -46,6 +46,8 @@ const initialValues = {
     grade_class: '',
     grading_brondolan: 0, // Grading data Brondolan
     grading_brondolan_kg: 0, // Grading data Brondolan
+    is_from_tph: 'N',
+    is_lefted: 'N',
     janjang_kosong: 0, // Janjang kosong
     janjang_kosong_kg: 0, // Janjang kosong
     loader_nm: '', // Pemuat

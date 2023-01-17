@@ -52,9 +52,9 @@ const SyncData = (data, callback) => {
     WHERE (wb_arrive_dt::DATE = '${date}'
     AND upload_flag = 'N') AND netto_w > 0`
 
-  const getEvacActDtl = `
-    SELECT * FROM pcc_evacuation_activity_dtl 
-    WHERE wb_arrive_dt::DATE = '${date}' AND upload_flag = 'N'`
+  // const getEvacActDtl = `
+  //   SELECT * FROM pcc_evacuation_activity_dtl
+  //   WHERE wb_arrive_dt::DATE = '${date}' AND upload_flag = 'N'`
 
   pool
     .query(getMillYieldActivityQuery)
@@ -63,31 +63,16 @@ const SyncData = (data, callback) => {
         callback({ ...success200, message: 'Tidak ada data yang di upload.', data: [] })
       else {
         await mappingMillData(sess, res.rows)
-        pool
-          .query(getEvacActDtl)
-          .then(async (resEvac) => {
-            if (resEvac.rowCount > 0) await mappingEvacData(sess, resEvac.rows)
-          })
-          .catch((error) => console.error(`Error get evac: ${error}`))
+        // pool
+        //   .query(getEvacActDtl)
+        //   .then(async (resEvac) => {
+        //     if (resEvac.rowCount > 0) await mappingEvacData(sess, resEvac.rows)
+        //   })
+        //   .catch((error) => console.error(`Error get evac: ${error}`))
         callback({ ...success200, data: 'Berhasil' })
       }
     })
     .catch((error) => callback({ ...error500, data: `Error get mill yields: ${error}` }))
-  // pool.query(getMillYieldActivityQuery, async (err, res) => {
-  //   if (err) callback({ ...error500, data: err })
-  //   else if (res.rowCount === 0)
-  //     callback({ ...success200, message: 'Tidak ada data yang di upload.' })
-  //   else {
-  //     pool.query(getEvacActDtl, async (err, resEvac) => {
-  //       if (err) console.error('Error', err)
-  //       else if (resEvac.rowCount === 0) console.log('Data tidak ada')
-  //       else {
-  //         await mappingEvacData(sess, resEvac.rows)
-  //         callback({ ...success200, data: 'Berhasil' })
-  //       }
-  //     })
-  //   }
-  // })
 }
 
 const mappingMillData = async (sess, data) => {
