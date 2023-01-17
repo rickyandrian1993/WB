@@ -14,8 +14,33 @@ try {
   console.error('Error', error)
 }
 
-const SyncData = (req, callback) => {
-  const { date, userCd, estate, millManager } = req.body
+const GetUploadData = (data, callback) => {
+  const { from_date, thru_date } = data
+  const listUploadDataQuery = `
+    SELECT pm.wb_arrive_dt::DATE as tanggal,
+      COUNT(pm.cd) as record,
+      SUM(case when pm.upload_flag = 'N' then 1 else 0 end) as failed,
+      SUM(case when pm.upload_flag = 'Y' then 1 else 0 end) as success
+    FROM pcc_mill_yields_activity pm
+    WHERE (pm.wb_arrive_dt::DATE BETWEEN 
+      '${from_date}' AND '${thru_date}')
+      AND pm.second_w > 0
+    GROUP BY pm.wb_arrive_dt::DATE
+    ORDER BY pm.wb_arrive_dt::DATE DESC`
+
+  pool
+    .query(listUploadDataQuery)
+    .then((res) =>
+      callback({
+        ...success200,
+        data: res.rows
+      })
+    )
+    .catch((error) => callback({ ...error500, data: `Error Get Upload List: ${error}` }))
+}
+
+const SyncData = (data, callback) => {
+  const { date, userCd, estate, millManager } = data
   const sess = {
     userCd: userCd,
     estate: estate,
@@ -23,32 +48,46 @@ const SyncData = (req, callback) => {
   }
 
   const getMillYieldActivityQuery = `
-    SELECT *
-    FROM pcc_mill_yields_activity
-    WHERE wb_arrive_dt::DATE = '${date}'
-    AND upload_flag = 'N' AND (second_w notnull or second_w > 0)`
+    SELECT * FROM pcc_mill_yields_activity
+    WHERE (wb_arrive_dt::DATE = '${date}'
+    AND upload_flag = 'N') AND netto_w > 0`
 
   const getEvacActDtl = `
-    SELECT * 
-    FROM pcc_evacuation_activity_dtl 
+    SELECT * FROM pcc_evacuation_activity_dtl 
     WHERE wb_arrive_dt::DATE = '${date}' AND upload_flag = 'N'`
 
-  pool.query(getMillYieldActivityQuery, async (err, res) => {
-    if (err) callback({ ...error500, data: err })
-    else if (res.rowCount === 0)
-      callback({ ...success200, message: 'Tidak ada data yang di upload.' })
-    else {
-      await mappingMillData(sess, res.rows)
-      pool.query(getEvacActDtl, async (err, resEvac) => {
-        if (err) console.error('Error', err)
-        else if (resEvac.rowCount === 0) console.log('Data tidak ada')
-        else {
-          await mappingEvacData(sess, resEvac.rows)
-          callback({ ...success200, data: 'Berhasil' })
-        }
-      })
-    }
-  })
+  pool
+    .query(getMillYieldActivityQuery)
+    .then(async (res) => {
+      if (res.rowCount === 0)
+        callback({ ...success200, message: 'Tidak ada data yang di upload.', data: [] })
+      else {
+        await mappingMillData(sess, res.rows)
+        pool
+          .query(getEvacActDtl)
+          .then(async (resEvac) => {
+            if (resEvac.rowCount > 0) await mappingEvacData(sess, resEvac.rows)
+          })
+          .catch((error) => console.error(`Error get evac: ${error}`))
+        callback({ ...success200, data: 'Berhasil' })
+      }
+    })
+    .catch((error) => callback({ ...error500, data: `Error get mill yields: ${error}` }))
+  // pool.query(getMillYieldActivityQuery, async (err, res) => {
+  //   if (err) callback({ ...error500, data: err })
+  //   else if (res.rowCount === 0)
+  //     callback({ ...success200, message: 'Tidak ada data yang di upload.' })
+  //   else {
+  //     pool.query(getEvacActDtl, async (err, resEvac) => {
+  //       if (err) console.error('Error', err)
+  //       else if (resEvac.rowCount === 0) console.log('Data tidak ada')
+  //       else {
+  //         await mappingEvacData(sess, resEvac.rows)
+  //         callback({ ...success200, data: 'Berhasil' })
+  //       }
+  //     })
+  //   }
+  // })
 }
 
 const mappingMillData = async (sess, data) => {
@@ -204,6 +243,7 @@ const sendingDataToServer = async (sess, url, data, batch, maxBatch, type) => {
       },
       data: data[batch - 1]
     }
+    console.log(payload)
 
     await axios({
       method: 'POST',
@@ -265,4 +305,4 @@ const updateFlagEvacActivityDtl = (cd) => {
   }
 }
 
-export { SyncData }
+export { GetUploadData, SyncData }

@@ -6,6 +6,8 @@ import PopUpModal from './popUpModal/PopUpModal'
 import ToastNotification from './notification/ToastNotification'
 import WideLogo from './logo/WideLogo'
 import ScaleDisplay from './scaleDisplay/ScaleDisplay'
+import ActionsButton from './actionsButton/ActionsButton'
+import UploadAction from './actionsButton/UploadAction'
 
 // TBS Inti
 import TbsIntiMasuk from './form/commodity/tbsInti/TbsIntiMasuk'
@@ -22,7 +24,6 @@ import CpoPkoMasuk from './form/commodity/cpoPko/CpoPkoMasuk'
 // Non Commodity
 import NonCommodityKeluar from './form/nonCommodity/NonCommodityKeluar'
 import NonCommodityMasuk from './form/nonCommodity/NonCommodityMasuk'
-import ActionsButton from './actionsButton/ActionsButton'
 // Setting
 import FingerSettingContent from './settings/finger/FingerSettingContent'
 import MillSettingContent from './settings/mill/MillSettingContent'
@@ -50,5 +51,6 @@ export {
   TbsPlasmaMasuk,
   TbsPlasmaKeluar,
   ToastNotification,
+  UploadAction,
   WideLogo
 }

@@ -22,11 +22,12 @@ export const endpoints = {
   getCommodity: `${baseAPIUrlLocal}/commodity`,
   getConnectionOption: `${baseAPIUrlLocal}/serial/get-connection-options`,
   getCustomer: `${baseAPIUrlLocal}/customer`,
-  getVendorVehicle: `${baseAPIUrlLocal}/vendor`,
+  getListUploadData: `${baseAPIUrlLocal}/sync`,
   getMillUser: `${baseAPIUrlLocal}/mill`,
   getReport: `${baseAPIUrlLocal}/report`,
   getScaleHistory: `${baseAPIUrlLocal}/history/scale-in`,
   getTimbanganData: `${baseAPIUrlLocalExternal}/get-weigh`,
+  getVendorVehicle: `${baseAPIUrlLocal}/vendor`,
   inputData: `${baseAPIUrlLocal}/input-data/insert`,
   insertCommodity: `${baseAPIUrlLocal}/commodity/insert`,
   insertCustomer: `${baseAPIUrlLocal}/customer/insert`,
@@ -45,6 +46,7 @@ export const endpoints = {
   updateData: `${baseAPIUrlLocal}/input-data/update`,
   updateMill: `${baseAPIUrlLocal}/mill/update`,
   updateConnectionOption: `${baseAPIUrlLocal}/serial/update-connection-options`,
+  uploadData: `${baseAPIUrlLocal}/sync/upload`,
 
   /* API NFC */
   readNfc: `${baseAPIUrlLocalExternal}/nfc`,

@@ -102,7 +102,7 @@ export default function Login() {
         >
           {loadingLogin ? <Loader color="#fff" variant="bars" size="sm" /> : 'LOGIN'}
         </ButtonWB>
-        <div className="login__copyright">&copy;WIDE 2021 - V.1.0.1</div>
+        <div className="login__copyright">&copy;WIDE 2021 - V.0.1</div>
       </GlassCard>
     </LoginPage>
   )

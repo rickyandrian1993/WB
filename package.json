@@ -1,13 +1,9 @@
 {
   "name": "weigh-bridge",
-  "version": "1.0.1",
+  "version": "0.1.0",
   "description": "Weigh Bridge an Electron application with React and Node",
   "main": "./main.js",
   "homepage": "./",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rickyandrian1993/WB.git"
-  },
   "scripts": {
     "start": "concurrently \"npm run react-start\" \"npm run server\"  \"npm run external\"  \"wait-on http://localhost:3000 && npm run electron-dev\"",
     "server-start": "nodemon --watch server server/index.js",
@@ -49,7 +45,7 @@
     "axios": "^1.2.1",
     "dayjs": "^1.11.7",
     "electron-is-dev": "^1.1.0",
-    "electron-updater": "^4.0.6",
+    "electron-updater": "^5.0.5",
     "express": "^4.17.1",
     "moment": "^2.29.4",
     "nodemon": "^1.19.1",
@@ -71,9 +67,9 @@
         "provider": "github",
         "owner": "rickyandrian1993",
         "repo": "WB",
-        "private": true,
-        "token": "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"
-      }
+        "private": true
+      },
+      "icon": "public/wb.ico"
     },
     "files": [
       "build/**/**/*",

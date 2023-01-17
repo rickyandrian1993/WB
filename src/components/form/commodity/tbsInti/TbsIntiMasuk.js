@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import ScaleDisplay from '../../../scaleDisplay/ScaleDisplay'
 import { dateFormat, trimPayload } from '../../../../helpers/utility'
 import { defaultKeyInitialValue } from '../../../../constants/basePayload'
+import moment from 'moment'
 
 const TbsIntiMasuk = ({ commodity, submitRef, form, dropdownData }) => {
   const { customer, vendor } = dropdownData
@@ -23,6 +24,8 @@ const TbsIntiMasuk = ({ commodity, submitRef, form, dropdownData }) => {
         ...trimmedValue,
         comodity_nm: commodity,
         do_date: values.do_date && dateFormat(values.do_date, 'Y-MM-DD'),
+        nfc_received: 'Y',
+        nfc_received_dt: moment().format('Y-MM-DD HH:mm:ss'),
         mt_comodity_cd: commodity,
         spb_date: values.spb_date && dateFormat(values.spb_date, 'Y-MM-DD')
       },

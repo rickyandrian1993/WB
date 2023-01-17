@@ -103,10 +103,7 @@ const insertEvac = (data) => {
       wb_arrive_dt
     ) VALUES ${valueEvacActDtl}`
 
-  pool
-    .query(insertEvacActDtlQuery)
-    .then(() => console.log('success insert evac'))
-    .catch((error) => console.log('error insert evac', error))
+  pool.query(insertEvacActDtlQuery).catch((error) => console.log('error insert evac', error))
 }
 
 const GetScaleHistory = (data, callback) => {

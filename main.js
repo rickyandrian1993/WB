@@ -13,14 +13,15 @@ let mainWindow
 function createWindow() {
   if (!isDev) {
     require(path.join(__dirname, 'build-server/webservice'))
-    // require(path.join(__dirname, 'build-server/serial'))
-    // require(path.join(__dirname, 'build-server/nfc'))
   }
 
   mainWindow = new BrowserWindow({
-    show: false,
+    // width: 1200,
+    // height: 715,
+    // show: false,
     autoHideMenuBar: true,
-    icon: __dirname + 'public/favicon.ico',
+    icon: path.join(__dirname + 'public/wb.ico'),
+    fullscreen: true,
     webPreferences: {
       // devTools: isDev ? true : false,
       nodeIntegration: true
@@ -40,16 +41,14 @@ function createWindow() {
   mainWindow.on('closed', function () {
     mainWindow = null
   })
-
-  mainWindow.once('ready-to-show', () => {
-    autoUpdater.checkForUpdatesAndNotify()
-  })
 }
 
 app.on('ready', () => {
   createWindow()
-  mainWindow.maximize()
+  // mainWindow.maximize()
   if (isDev) mainWindow.webContents.openDevTools()
+
+  if (!isDev) autoUpdater.checkForUpdatesAndNotify()
 })
 
 app.on('window-all-closed', function () {
@@ -64,7 +63,7 @@ autoUpdater.on('update-available', (_event, releaseNotes, releaseName) => {
   const dialogOpts = {
     type: 'info',
     buttons: ['Ok'],
-    title: `${autoUpdater.channel} Update Available`,
+    title: `Update Available`,
     message: process.platform === 'win32' ? releaseNotes : releaseName,
     detail: `A new version download started.`
   }
@@ -76,16 +75,4 @@ autoUpdater.on('update-downloaded', (_event) => {
   setTimeout(() => {
     autoUpdater.quitAndInstall()
   }, 3500)
-})
-
-autoUpdater.on('update-not-available', (_event) => {
-  const dialogOpts = {
-    type: 'info',
-    buttons: ['Ok'],
-    title: `Update Not available`,
-    message: 'A message!',
-    detail: `Update Not available`
-  }
-
-  dialog.showMessageBox(dialogOpts)
 })

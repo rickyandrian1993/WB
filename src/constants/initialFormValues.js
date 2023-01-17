@@ -173,8 +173,8 @@ const initialValues = {
           : null,
       spb_number: values.spb_number.trim().length > 20 ? 'Max karakter 20' : null,
       spb_weight: values?.spb_weight?.toString().length > 5 ? 'Max karakter 5.' : null,
-      total_bunch: values?.total_bunch?.toString().length > 4 ? 'Max karakter 5.' : null,
-      total_brondolan: values?.total_brondolan?.toString().length > 3 ? 'Max karakter 5.' : null,
+      total_bunch: values?.total_bunch?.toString().length > 5 ? 'Max karakter 5.' : null,
+      total_brondolan: values?.total_brondolan?.toString().length > 5 ? 'Max karakter 5.' : null,
       water: values.water.toString().length > 5 ? 'Max karakter 5.' : null,
       young_fruit: values.young_fruit.toString().length > 5 ? 'Max karakter 5.' : null
     }

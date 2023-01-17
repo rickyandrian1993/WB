@@ -137,6 +137,17 @@ const menu = [
     ),
     rightIcon: '',
     child: false
+  },
+  {
+    label: 'Upload',
+    path: '/sync',
+    icon: (
+      <>
+        <i className="ri-refresh-line"></i>
+      </>
+    ),
+    rightIcon: '',
+    child: false
   }
 ]
 

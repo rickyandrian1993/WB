@@ -8,6 +8,7 @@ import {
   NonCommodityPage,
   Print,
   Report,
+  SyncPage,
   TbsIntiPage,
   TbsLuarPage,
   TbsPlasmaPage
@@ -28,6 +29,7 @@ const AppLayout = () => {
         <Route path="/tankos" element={<NonCommodityPage />} />
         <Route path="/others" element={<NonCommodityPage />} />
         <Route path="/report" element={<Report />} />
+        <Route path="/sync" element={<SyncPage />} />
         <Route path="/print" element={<Print />} />
         {/* <Route path="/history" element={<HistoryPage />} />
         <Route path="/upload" element={<UploadPage />} />
