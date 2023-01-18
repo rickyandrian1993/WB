@@ -53,6 +53,6 @@ export const endpoints = {
 
   /* API Finger Print */
   authFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/scan`,
-  registerFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/scan`,
-  validateFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/scan`
+  registerFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/insert`,
+  validateFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/identify`
 }

@@ -1,17 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import ButtonWB from '../buttons/ButtonWB'
 import { ReportController } from '../../services'
 import { getStore } from '../../helpers/utility'
 import moment from 'moment'
-import { LoadingOverlay } from '@mantine/core'
-
+import { OverlayContext } from '../../pages/sync/Sync'
 export default function UploadAction({ data }) {
   const { user } = getStore('accountInfo')
   const { mill, mill_detail } = getStore('mill')
   const { uploadData } = ReportController()
-  const [loading, setLoading] = useState(true)
-
+  const { setLoading } = useContext(OverlayContext)
   const uploadHandler = (data) => {
     const estateList = []
 
@@ -23,14 +21,19 @@ export default function UploadAction({ data }) {
       estate: estateList,
       millManager: mill.mill_manager
     }
-
+    setLoading(true)
     // uploadData(payload)
-    console.log(payload)
   }
 
   return (
     <>
-      <ButtonWB size="sm" color="red" variant="outline" onClick={() => uploadHandler(data.tanggal)}>
+      <ButtonWB
+        disabled={parseInt(data.failed) === 0}
+        size="sm"
+        color="red"
+        variant="outline"
+        onClick={() => uploadHandler(data.tanggal)}
+      >
         Upload
       </ButtonWB>
     </>

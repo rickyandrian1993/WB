@@ -211,6 +211,7 @@ const CpoPkoKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     decimalSeparator="."
                     precision={2}
                     min={0}
+                    max={100}
                     icon="%"
                     label="FFA"
                     hideControls
@@ -223,6 +224,7 @@ const CpoPkoKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     decimalSeparator="."
                     precision={2}
                     min={0}
+                    max={100}
                     icon="%"
                     label="Moist"
                     hideControls
@@ -235,6 +237,7 @@ const CpoPkoKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     decimalSeparator="."
                     precision={2}
                     min={0}
+                    max={100}
                     icon="%"
                     label="PV"
                     hideControls
@@ -245,7 +248,6 @@ const CpoPkoKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                   <NumberInput
                     disabled={loading}
                     min={0}
-                    icon="%"
                     label="Dirt"
                     hideControls
                     {...form.getInputProps('dirt')}
@@ -255,7 +257,6 @@ const CpoPkoKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                   <NumberInput
                     disabled={loading}
                     min={0}
-                    icon="%"
                     label="Dobi"
                     hideControls
                     {...form.getInputProps('dobi')}

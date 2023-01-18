@@ -1,6 +1,6 @@
 {
   "name": "weigh-bridge",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Weigh Bridge an Electron application with React and Node",
   "main": "./main.js",
   "homepage": "./",

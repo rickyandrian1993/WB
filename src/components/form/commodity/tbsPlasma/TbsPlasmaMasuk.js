@@ -82,7 +82,7 @@ const TbsPlasmaMasuk = ({ commodity, submitRef, form, dropdownData }) => {
         </ColGrid>
         <ColGrid span={6}>
           <ScaleGrid>
-            <Divider label="Data NFC" />
+            <Divider label="Detail Kendaraan" />
             <ColGrid span={12}>
               <ScaleGrid>
                 <ColGrid span={6}>
@@ -132,7 +132,7 @@ const TbsPlasmaMasuk = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
               </ScaleGrid>
             </ColGrid>
-            <Divider label="Detail Kendaraan" />
+            <Divider label="Data Panen" />
             <ColGrid span={6}>
               <ScaleGrid>
                 <ColGrid span={12}>
@@ -172,6 +172,7 @@ const TbsPlasmaMasuk = ({ commodity, submitRef, form, dropdownData }) => {
               <ScaleGrid>
                 <ColGrid span={12}>
                   <NumberInput
+                    withAsterisk
                     disabled={loading}
                     min={0}
                     label="Jumlah Tandan"

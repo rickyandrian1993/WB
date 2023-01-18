@@ -140,7 +140,7 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
                 <ColGrid span={12}>
                   <Select
-                    disabled={loading}
+                    disabled
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
                     withAsterisk
                     label="Customer"
@@ -155,7 +155,7 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <TextInput
                     withAsterisk
-                    disabled={loading}
+                    disabled
                     label="Supplier"
                     placeholder="Supplier"
                     {...form.getInputProps('supplier')}
@@ -275,10 +275,10 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={3}>
                   <TextInput
                     disabled
-                    label="grading_brondolan"
+                    label="Brondolan"
                     placeholder="0"
                     rightSection="%"
-                    {...form.getInputProps('bunch_tdn')}
+                    {...form.getInputProps('grading_brondolan')}
                   />
                 </ColGrid>
                 <ColGrid span={3}>

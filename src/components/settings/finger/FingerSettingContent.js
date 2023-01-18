@@ -1,6 +1,7 @@
 import {
   Accordion,
   Button,
+  Checkbox,
   Col,
   Grid,
   Loader,
@@ -11,17 +12,18 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import React, { useEffect, useState } from 'react'
-import { LoginController } from '../../../services'
+import { FingerPrintController, LoginController } from '../../../services'
 import { FingerTable, FormCreate } from '../../controlButton/styledControlButton'
 
 export default function FingerSettingContent() {
   const form = useForm({
     initialValues: {
       nm: '',
-      role_position: ''
+      role_position: '',
+      biometric_data: ''
     },
     validateInputOnChange: ['nm'],
-    validate: ({ nm, role_position }) => {
+    validate: ({ nm, role_position, biometric_data }) => {
       return {
         nm:
           nm.trim().length === 0
@@ -29,29 +31,37 @@ export default function FingerSettingContent() {
             : nm.trim().length < 3
             ? 'Min 3 huruf'
             : null,
-        role_position: role_position === '' || role_position === null ? 'Tidak Boleh Kosong' : null
+        role_position: role_position === '' || role_position === null ? 'Tidak Boleh Kosong' : null,
+        biometric_data: biometric_data.length === 0 ? 'Tidak Boleh Kosong' : null
       }
     }
   })
   const [isValidated, setIsValidated] = useState(false)
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState(false)
+  const [check, setCheck] = useState(false)
   const { validateFingerPassword, getCredentialList } = LoginController()
-
+  const { fingerAuth, fingerInsert } = FingerPrintController()
   const [users, setUser] = useState([])
 
   const createCredential = (e) => {
-    setModal(true)
-    setTimeout(() => {
-      setUser([...users, e])
-      setModal(false)
-      form.reset()
-    }, 2000)
+    console.log('Create', e)
+    fingerInsert(e, setLoading)
   }
+
+  const handleScanFinger = () => {
+    setModal(true)
+    fingerAuth(setModal, (e) => {
+      setCheck(true)
+      form.setFieldValue('biometric_data', e)
+    })
+  }
+
   const handlePassword = (e) => {
     e.preventDefault()
     setLoading(true)
-    const { value } = e.target[0]
+    // const { value } = e.target[0]
+    const value = 'WeighBridgeAgriSystem'
     validateFingerPassword(value, setLoading, setIsValidated)
   }
 
@@ -59,7 +69,7 @@ export default function FingerSettingContent() {
     if (isValidated) {
       getCredentialList(setLoading, setUser)
     }
-  }, [getCredentialList, isValidated])
+  }, [getCredentialList, isValidated, modal])
 
   return (
     <>
@@ -138,6 +148,12 @@ export default function FingerSettingContent() {
                       sx={{ position: 'relative' }}
                       data={[{ value: 'Mill Manager', label: 'Mill Manager' }]}
                       {...form.getInputProps('role_position')}
+                    />
+                    <Checkbox
+                      label="Finger Print Biometric"
+                      description="Klik untuk scan fingerprint"
+                      checked={check}
+                      onChange={handleScanFinger}
                     />
                     <Button type="submit" variant="outline">
                       Create

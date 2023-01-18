@@ -104,7 +104,9 @@ const initialValues = {
   },
   validateInputOnChange: [
     'contract',
+    'dirt',
     'do_number',
+    'dobi',
     'driver_nm',
     'farmer',
     'fresh_fruit',
@@ -131,7 +133,9 @@ const initialValues = {
   validate: (values) => {
     return {
       contract: values.contract.trim().length > 5 ? 'Max karakter 5.' : null,
+      dirt: values?.dirt?.toString().length > 5 ? 'Max karakter 5' : null,
       do_number: values.do_number.trim().length > 20 ? 'Max karakter 20' : null,
+      dobi: values?.dobi?.toString().length > 5 ? 'Max karakter 5' : null,
       driver_nm:
         values.driver_nm.trim().length === 0
           ? 'Tidak boleh kosong.'
@@ -175,7 +179,12 @@ const initialValues = {
           : null,
       spb_number: values.spb_number.trim().length > 20 ? 'Max karakter 20' : null,
       spb_weight: values?.spb_weight?.toString().length > 5 ? 'Max karakter 5.' : null,
-      total_bunch: values?.total_bunch?.toString().length > 5 ? 'Max karakter 5.' : null,
+      total_bunch:
+        values?.total_bunch?.toString().length > 5
+          ? 'Max karakter 5.'
+          : !values.total_bunch
+          ? 'Jumlah tandan tidak boleh kosong atau 0.'
+          : null,
       total_brondolan: values?.total_brondolan?.toString().length > 5 ? 'Max karakter 5.' : null,
       water: values.water.toString().length > 5 ? 'Max karakter 5.' : null,
       young_fruit: values.young_fruit.toString().length > 5 ? 'Max karakter 5.' : null

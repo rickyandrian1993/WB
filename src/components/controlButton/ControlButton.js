@@ -32,12 +32,12 @@ const ModalContent = ({ setOpenModal }) => (
 const ControlButton = () => {
   const { getConnOpt } = SerialPortController()
   const { getMillList } = MillController()
-  const [activeTab, setActiveTab] = useState('finger')
+  const [activeTab, setActiveTab] = useState('port')
   const [millData, setMillData] = useState([])
   const [portData, setPortData] = useState([])
   const [loading, setLoading] = useState(false)
   const [openModal, setOpenModal] = useState(false)
-  const [openDrawer, setOpenDrawer] = useState(true)
+  const [openDrawer, setOpenDrawer] = useState(false)
 
   useEffect(() => {
     if (openDrawer) {

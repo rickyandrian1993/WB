@@ -33,7 +33,7 @@ export default function ActionsButton({ data }) {
   const [loading, setLoading] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [isVerify] = useState(null)
-  const { fingerAuth } = FingerPrintController()
+  const { fingerValidate } = FingerPrintController()
 
   const navigateToPage = (cd) => {
     const url = findPathByCd(cd)
@@ -41,11 +41,11 @@ export default function ActionsButton({ data }) {
   }
 
   const handlePrint = (type, data) => {
-    // setOpenModal(true)
-    // fingerAuth(setLoading, (res) => {
-    //   if (res.status === 200) navigate('/print', { state: { type: type, data: data } })
-    // })
-    navigate('/print', { state: { type: type, data: data } })
+    setOpenModal(true)
+    fingerValidate(setLoading, (res) => {
+      if (res.status_code === 200) navigate('/print', { state: { type: type, data: data } })
+      else setOpenModal(false)
+    })
   }
 
   return (

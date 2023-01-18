@@ -66,6 +66,22 @@ export const getLastMonthDate = () => {
   return new Date(date.getFullYear(), prevMonth, firstDay)
 }
 
+export const parseCSVData = (data) => {
+  let result = []
+  Object.keys(data).map((items) => {
+    const row = data[items]
+    let newObj = {
+      ...row,
+      wb_arrive_dt: row.wb_arrive_dt ? moment(row.wb_arrive_dt).format('DD MMMM Y HH:mm:ss') : null,
+      first_update: row.first_update ? moment(row.first_update).format('DD MMMM Y HH:mm:ss') : null
+    }
+    result.push(newObj)
+    return null
+  })
+  console.log('Result', result)
+  return result
+}
+
 export const generateHeader = (header) => {
   let columnHeader = []
   Object.keys(header).map((name) => {
@@ -107,11 +123,10 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
     const childDataLength = child.split('~')
     for (let i = 0; i < childDataLength.length; i++) {
       const splitData = childDataLength[i].split(';')
-
       childData.push({
         pcc_estate_cd: dataParent[3],
         pcc_estate_level_cd: splitData[1],
-        pcc_evacuation_activity_cd: splitData[4],
+        pcc_evacuation_activity_cd: dataParent[1],
         pcc_harvas_or_evact_cd: splitData[0],
         created_dt: moment.unix(dataParent[13] / 1000).format('Y-MM-DD HH:mm:ss'),
         bunch_amount: splitData[2],
@@ -137,8 +152,8 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
       is_from_tph: dataParent[12],
       date: dataParent[13],
       total_loaded_nfc: dataParent[14],
-      total_bunch: dataParent[15],
-      total_brondolan: dataParent[16],
+      total_bunch: +dataParent[15],
+      total_brondolan: +dataParent[16],
       mill_nm: mill.nm,
       driver_cd: dataParent[7],
       estate_level_cd: dataChild[1],
@@ -156,6 +171,8 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
     }
   } else if (nfcIndicator === '34' && isGrading) {
     if (dataParent[5] === evac_cd) {
+      console.table(dataParent)
+
       result.push({
         disortasi_worker_cd: dataParent[8],
         fresh_fruit: dataParent[9],

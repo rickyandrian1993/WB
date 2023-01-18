@@ -25,13 +25,14 @@ export default function Print() {
     if (!state) {
       navigate('/report')
     } else {
-      printFunc().then(() => navigate(findPathByCd(state.data.mt_comodity_cd).path))
+      let pathRedirect = findPathByCd(state.data.mt_comodity_cd).path
+      printFunc().then((e) => navigate(pathRedirect))
     }
   }, [state, navigate])
   return (
-    <div>
+    <div style={{ position: 'relative', borderRadius: '16px' }}>
       {state && (
-        <PrintWrapper id="print-section" >
+        <PrintWrapper id="print-section">
           {state?.type !== 'SPB' && <Header data={state?.data} />}
           {state?.type === 'SPB' && commodity.includes(state?.data?.mt_comodity_cd) && (
             <SPBContent data={state?.data} />
@@ -56,10 +57,9 @@ export default function Print() {
       )}
       <LoadingOverlay
         visible={true}
-        overlayBlur={2}
         loaderProps={{ size: 'xl', color: '#628B48', variant: 'bars' }}
-        overlayOpacity={1}
         overlayColor="#e1ffb1 !important"
+        radius={16}
       />
     </div>
   )

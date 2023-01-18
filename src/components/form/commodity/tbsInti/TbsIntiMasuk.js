@@ -31,6 +31,7 @@ const TbsIntiMasuk = ({ commodity, submitRef, form, dropdownData }) => {
       },
       evac_act_dtl: form.values?.child_data
     }
+    // console.log(payload)
     insertData(payload, setLoading, form)
   }
 

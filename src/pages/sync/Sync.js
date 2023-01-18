@@ -1,5 +1,5 @@
 import { DatePicker } from '@mantine/dates'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import {
   ColGrid,
@@ -11,6 +11,8 @@ import {
 import { ToastNotification } from '../../components'
 import { columnsSync } from '../../constants/headerTable'
 import { ReportController } from '../../services'
+
+export const OverlayContext = createContext(null)
 
 export default function Sync() {
   const { getUploadList } = ReportController()
@@ -84,19 +86,21 @@ export default function Sync() {
       </ColGrid>
       <ColGrid>
         <ReportTableBox>
-          <DataTable
-            columns={columnsSync}
-            data={data}
-            direction="auto"
-            fixedHeaderScrollHeight="300px"
-            highlightOnHover
-            persistTableHead
-            progressPending={loading}
-            defaultSortFieldId
-            responsive
-            subHeaderAlign="left"
-            subHeaderWrap
-          />
+          <OverlayContext.Provider value={{ setLoading }}>
+            <DataTable
+              columns={columnsSync}
+              data={data}
+              direction="auto"
+              fixedHeaderScrollHeight="300px"
+              highlightOnHover
+              persistTableHead
+              progressPending={loading}
+              defaultSortFieldId
+              responsive
+              subHeaderAlign="left"
+              subHeaderWrap
+            />
+          </OverlayContext.Provider>
         </ReportTableBox>
       </ColGrid>
     </ScaleGrid>

@@ -52,9 +52,11 @@ const SyncData = (data, callback) => {
     WHERE (wb_arrive_dt::DATE = '${date}'
     AND upload_flag = 'N') AND netto_w > 0`
 
-  // const getEvacActDtl = `
-  //   SELECT * FROM pcc_evacuation_activity_dtl
-  //   WHERE wb_arrive_dt::DATE = '${date}' AND upload_flag = 'N'`
+  const getEvacActDtl = `
+    SELECT pead.* FROM 
+      pcc_evacuation_activity_dtl pead JOIN pcc_mill_yields_activity pmya 
+        ON pead.pcc_evacuation_activity_cd = pmya.pcc_evacuation_activity_cd
+    WHERE (pead.wb_arrive_dt::DATE = '${date}' AND pead.upload_flag = 'N') AND pmya.netto_w > 0`
 
   pool
     .query(getMillYieldActivityQuery)
@@ -63,12 +65,12 @@ const SyncData = (data, callback) => {
         callback({ ...success200, message: 'Tidak ada data yang di upload.', data: [] })
       else {
         await mappingMillData(sess, res.rows)
-        // pool
-        //   .query(getEvacActDtl)
-        //   .then(async (resEvac) => {
-        //     if (resEvac.rowCount > 0) await mappingEvacData(sess, resEvac.rows)
-        //   })
-        //   .catch((error) => console.error(`Error get evac: ${error}`))
+        pool
+          .query(getEvacActDtl)
+          .then(async (resEvac) => {
+            if (resEvac.rowCount > 0) await mappingEvacData(sess, resEvac.rows)
+          })
+          .catch((error) => console.error(`Error get evac: ${error}`))
         callback({ ...success200, data: 'Berhasil' })
       }
     })
@@ -170,7 +172,12 @@ const mappingMillData = async (sess, data) => {
         young_fruit_kg: item.young_fruit_kg || null,
         pcc_mill_is_load_st: item.pcc_mill_is_load_st || null,
         total_harvaster_nfc: item.total_loaded_nfc || null,
-        wb_upload_dt: Date.parse(new Date())
+        wb_upload_dt: Date.parse(new Date()),
+        contract: item.contract || null,
+        supplier: item.supplier || null,
+        grade_class: item.grade_class || null,
+        spb_weight: item.spb_weight || null,
+        farmer: item.farmer || null
       })
     }
     dataMap.push(temp)
@@ -228,7 +235,6 @@ const sendingDataToServer = async (sess, url, data, batch, maxBatch, type) => {
       },
       data: data[batch - 1]
     }
-    console.log(payload)
 
     await axios({
       method: 'POST',

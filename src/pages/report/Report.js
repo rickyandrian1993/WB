@@ -15,7 +15,7 @@ import { ToastNotification } from '../../components'
 import { label } from '../../constants'
 import { labelNonDetail } from '../../constants/databaseLabelKeys'
 import { columns } from '../../constants/headerTable'
-import { generateHeader } from '../../helpers/utility'
+import { generateHeader, getLastMonthDate, parseCSVData } from '../../helpers/utility'
 import { CommodityController, ReportController } from '../../services'
 
 const Expand = ({ data }) => {
@@ -61,7 +61,7 @@ export default function Report() {
 
   const [payload, setPayload] = useState({
     commodity: 'all',
-    startDate: new Date(),
+    startDate: getLastMonthDate(),
     endDate: new Date(),
     page: 1,
     perPage: 10,
@@ -154,7 +154,7 @@ export default function Report() {
               <ScaleGrid>
                 <ColGrid span={'content'}>
                   <CSVLink
-                    data={data}
+                    data={parseCSVData(data)}
                     headers={generateHeader(labelNonDetail)}
                     separator=";"
                     filename={`Laporan Timbangan ${moment(new Date()).format(
@@ -166,7 +166,7 @@ export default function Report() {
                 </ColGrid>
                 <ColGrid span={'content'}>
                   <CSVLink
-                    data={data}
+                    data={parseCSVData(data)}
                     headers={generateHeader(label)}
                     separator=";"
                     filename={`Laporan Timbangan Detail ${moment(new Date()).format(

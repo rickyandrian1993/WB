@@ -221,7 +221,7 @@ const TbsLuarKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
-                    disabled={loading}
+                    disabled
                     withAsterisk
                     label="Customer"
                     placeholder="Customer"
@@ -235,7 +235,7 @@ const TbsLuarKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <TextInput
                     withAsterisk
-                    disabled={loading}
+                    disabled
                     label="Supplier"
                     placeholder="Supplier"
                     {...form.getInputProps('supplier')}
@@ -243,6 +243,7 @@ const TbsLuarKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
                 <ColGrid span={12}>
                   <TextInput
+                    disabled
                     label="Petani"
                     placeholder="Petani"
                     {...form.getInputProps('farmer')}
@@ -251,7 +252,7 @@ const TbsLuarKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <NumberInput
                     withAsterisk
-                    disabled={loading}
+                    disabled
                     min={0}
                     label="Jumlah Tandan"
                     hideControls
@@ -260,7 +261,7 @@ const TbsLuarKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
                 <ColGrid span={12}>
                   <NumberInput
-                    disabled={loading}
+                    disabled
                     min={0}
                     label="Brondolan"
                     hideControls
@@ -275,7 +276,7 @@ const TbsLuarKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <TextInput
                     withAsterisk
-                    disabled={loading}
+                    disabled
                     label="Supir"
                     placeholder="Supir"
                     {...form.getInputProps('driver_nm')}
@@ -283,7 +284,7 @@ const TbsLuarKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
                 <ColGrid span={12}>
                   <TextInput
-                    disabled={loading}
+                    disabled
                     label="Pemuat"
                     placeholder="Pemuat"
                     {...form.getInputProps('loader_nm')}
@@ -292,7 +293,7 @@ const TbsLuarKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
-                    disabled={loading}
+                    disabled
                     withAsterisk
                     label="Ekspedisi"
                     placeholder="Ekspedisi"

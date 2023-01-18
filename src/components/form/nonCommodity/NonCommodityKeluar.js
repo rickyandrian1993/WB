@@ -182,7 +182,7 @@ export default function NonCommodityKeluar({ commodity, submitRef, form, dropdow
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
-                    disabled={loading}
+                    disabled
                     withAsterisk
                     label="Ekspedisi"
                     placeholder="Ekspedisi"

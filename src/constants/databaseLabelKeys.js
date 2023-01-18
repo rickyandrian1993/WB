@@ -2,7 +2,7 @@ const label = {
     actions: 'Aksi',
     wb_arrive_dt: 'Tanggal Masuk',
     first_update: 'Tanggal Keluar',
-    commodity_nm: 'Komoditi',
+    comodity_nm: 'Komoditi',
     pcc_vehicle_cd: 'No. Kendaraan',
     first_w: 'Timbangan Pertama',
     second_w: 'Timbangan Kedua',
@@ -20,7 +20,7 @@ const label = {
 const labelNonDetail = {
     wb_arrive_dt: 'Tanggal Masuk',
     first_update: 'Tanggal Keluar',
-    commodity_nm: 'Komoditi',
+    comodity_nm: 'Komoditi',
     pcc_vehicle_cd: 'No. Kendaraan',
     first_w: 'Timbangan Pertama',
     second_w: 'Timbangan Kedua',

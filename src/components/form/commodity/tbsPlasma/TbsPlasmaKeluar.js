@@ -203,7 +203,7 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
         </ColGrid>
         <ColGrid span={6}>
           <ScaleGrid>
-            <Divider label="Data Kendaraan" />
+            <Divider label="Detail Kendaraan" />
             <ColGrid span={12}>
               <ScaleGrid>
                 <ColGrid span={6}>
@@ -223,7 +223,7 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={6}>
                   <TextInput
                     withAsterisk
-                    disabled={loading}
+                    disabled
                     label="Supir"
                     placeholder="Supir"
                     {...form.getInputProps('driver_nm')}
@@ -231,7 +231,7 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
                 <ColGrid span={6}>
                   <TextInput
-                    disabled={loading}
+                    disabled
                     label="Pemuat"
                     placeholder="Pemuat"
                     {...form.getInputProps('loader_nm')}
@@ -240,7 +240,7 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={6}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
-                    disabled={loading}
+                    disabled
                     withAsterisk
                     label="Ekspedisi"
                     placeholder="Ekspedisi"
@@ -258,13 +258,13 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
               </ScaleGrid>
             </ColGrid>
-            <Divider label="Detail Kendaraan" />
+            <Divider label="Data Panen" />
             <ColGrid span={6}>
               <ScaleGrid>
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
-                    disabled={loading}
+                    disabled
                     withAsterisk
                     label="Customer"
                     placeholder="Customer"
@@ -278,7 +278,7 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <TextInput
                     withAsterisk
-                    disabled={loading}
+                    disabled
                     label="Supplier"
                     placeholder="Supplier"
                     {...form.getInputProps('supplier')}
@@ -286,7 +286,7 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
                 <ColGrid span={12}>
                   <TextInput
-                    disabled={loading}
+                    disabled
                     label="Petani"
                     placeholder="Petani"
                     {...form.getInputProps('farmer')}
@@ -298,7 +298,8 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
               <ScaleGrid>
                 <ColGrid span={12}>
                   <NumberInput
-                    disabled={loading}
+                    withAsterisk
+                    disabled
                     min={0}
                     label="Jumlah Tandan"
                     hideControls
@@ -307,7 +308,7 @@ const TbsPlasmaKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
                 <ColGrid span={12}>
                   <NumberInput
-                    disabled={loading}
+                    disabled
                     min={0}
                     label="Brondolan"
                     hideControls
