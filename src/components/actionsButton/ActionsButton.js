@@ -48,6 +48,7 @@ export default function ActionsButton({ data }) {
     })
   }
 
+
   return (
     <ActionsBox>
       <PopUpModal state={openModal} stateCb={setOpenModal} title="Silahkan pindai sidik jari">

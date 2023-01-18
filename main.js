@@ -34,7 +34,7 @@ if (!gotTheLock) {
       // show: false,
       autoHideMenuBar: true,
       icon: path.join(__dirname + 'public/wb.ico'),
-      // fullscreen: true,
+      fullscreen: true,
       webPreferences: {
         // devTools: isDev ? true : false,
         nodeIntegration: true
@@ -58,10 +58,10 @@ if (!gotTheLock) {
 
   app.on('ready', () => {
     createWindow()
-    mainWindow.maximize()
+    // mainWindow.maximize()
     if (isDev) mainWindow.webContents.openDevTools()
 
-    if (!isDev) autoUpdater.checkForUpdatesAndNotify()
+    autoUpdater.checkForUpdatesAndNotify()
   })
 
   app.on('window-all-closed', function () {

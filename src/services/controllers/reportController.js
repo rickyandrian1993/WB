@@ -32,16 +32,22 @@ export default function ReportController() {
     })
   }, [])
 
-  const uploadData = useCallback((payload, loading, callback) => {
+  const uploadData = useCallback(async (payload, loading) => {
     loading(true)
-    ApiService.jsonRequest(endpoints.uploadData, payload, (response) => {
+    await ApiService.jsonRequest(endpoints.uploadData, payload, (response) => {
       if (response.isError === true || response.isError === 'Y') {
         ToastNotification({
           title: 'Kesalahan',
           message: response.message,
           isError: response.isError
         })
-      } else callback(response.data)
+      } else {
+        ToastNotification({
+          title: 'Berhasil',
+          message: response.message,
+          isError: response.isError
+        })
+      }
       loading(false)
     })
   }, [])

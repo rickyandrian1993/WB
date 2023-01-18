@@ -18,7 +18,7 @@ export default function Sync() {
   const { getUploadList } = ReportController()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-
+  const [uploadLoading, setUploadLoading] = useState(false)
   const [payload, setPayload] = useState({
     from_date: new Date('2022-12-01'),
     thru_date: new Date()
@@ -46,9 +46,7 @@ export default function Sync() {
   }
 
   useEffect(() => {
-    if (loading) {
-      getUploadList(payload, setLoading, handleChangeData)
-    }
+    if (loading) getUploadList(payload, setLoading, handleChangeData)
   }, [getUploadList, handleChangeData, loading, payload])
 
   return (
@@ -86,7 +84,9 @@ export default function Sync() {
       </ColGrid>
       <ColGrid>
         <ReportTableBox>
-          <OverlayContext.Provider value={{ setLoading }}>
+          <OverlayContext.Provider
+            value={{ setUploadLoading, getUploadList, payload, handleChangeData }}
+          >
             <DataTable
               columns={columnsSync}
               data={data}
@@ -94,7 +94,7 @@ export default function Sync() {
               fixedHeaderScrollHeight="300px"
               highlightOnHover
               persistTableHead
-              progressPending={loading}
+              progressPending={loading || uploadLoading}
               defaultSortFieldId
               responsive
               subHeaderAlign="left"

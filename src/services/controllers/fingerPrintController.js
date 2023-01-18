@@ -7,11 +7,11 @@ export default function FingerPrintController() {
   const fingerAuth = useCallback((loading, callback) => {
     loading(true)
     ApiService.jsonRequest(endpoints.authFinger, {}, (response) => {
-      if (response.is_error) {
+      if (response.isError) {
         ToastNotification({
           title: 'Kesalahan',
           message: response.message,
-          isError: response.is_error
+          isError: response.isError
         })
       } else callback(response.data)
       loading(false)
@@ -21,35 +21,38 @@ export default function FingerPrintController() {
   const fingerValidate = useCallback((loading, callback) => {
     loading(true)
     ApiService.jsonRequest(endpoints.validateFinger, {}, (response) => {
-      if (response.is_error)
+      if (response.isError) {
         ToastNotification({
           title: 'Kesalahan',
           message: response.message,
-          isError: response.is_error
+          isError: response.isError
         })
-      else callback(response)
+        callback(response)
+      } else callback(response)
       loading(false)
     })
   }, [])
 
-  const fingerInsert = useCallback((payload, loading) => {
-    loading(true)
-    ApiService.jsonRequest(endpoints.registerFinger, {...payload, created_by: 'Super Admin'}, (response) => {
-      if (response.is_error)
-        ToastNotification({
-          title: 'Kesalahan',
-          message: response.message,
-          isError: response.is_error
-        })
-      else {
-        ToastNotification({
-          title: 'Berhasil',
-          message: 'User Baru Berhasil Ditambah',
-          isError: response.is_error
-        })
+  const fingerInsert = useCallback(async (payload) => {
+    ApiService.jsonRequest(
+      endpoints.registerFinger,
+      { ...payload, created_by: 'Super Admin' },
+      (response) => {
+        if (response.isError)
+          ToastNotification({
+            title: 'Kesalahan',
+            message: response.data.message,
+            isError: response.isError
+          })
+        else {
+          ToastNotification({
+            title: 'Berhasil',
+            message: 'User Baru Berhasil Ditambah',
+            isError: response.isError
+          })
+        }
       }
-      loading(false)
-    })
+    )
   }, [])
 
   return { fingerAuth, fingerValidate, fingerInsert }

@@ -14,6 +14,7 @@ import { useForm } from '@mantine/form'
 import React, { useEffect, useState } from 'react'
 import { FingerPrintController, LoginController } from '../../../services'
 import { FingerTable, FormCreate } from '../../controlButton/styledControlButton'
+import Loading from '../../loading/Loading'
 
 export default function FingerSettingContent() {
   const form = useForm({
@@ -45,8 +46,11 @@ export default function FingerSettingContent() {
   const [users, setUser] = useState([])
 
   const createCredential = (e) => {
-    console.log('Create', e)
-    fingerInsert(e, setLoading)
+    setLoading(true)
+    fingerInsert(e).then(() => {
+      form.reset()
+      setCheck(false)
+    })
   }
 
   const handleScanFinger = () => {
@@ -60,16 +64,18 @@ export default function FingerSettingContent() {
   const handlePassword = (e) => {
     e.preventDefault()
     setLoading(true)
-    // const { value } = e.target[0]
-    const value = 'WeighBridgeAgriSystem'
-    validateFingerPassword(value, setLoading, setIsValidated)
+    const { value } = e.target[0]
+    validateFingerPassword(value, setLoading, (e) => {
+      setIsValidated(e)
+      getCredentialList(setLoading, setUser)
+    })
   }
 
   useEffect(() => {
-    if (isValidated) {
+    if (isValidated && loading) {
       getCredentialList(setLoading, setUser)
     }
-  }, [getCredentialList, isValidated, modal])
+  }, [getCredentialList, isValidated, loading, modal, users])
 
   return (
     <>
@@ -92,7 +98,9 @@ export default function FingerSettingContent() {
           </Col>
         </Grid>
       </Modal>
-      {!loading && !isValidated ? (
+      {loading ? (
+        <Loading visible={loading} />
+      ) : !isValidated ? (
         <form onSubmit={handlePassword}>
           <PasswordInput
             size="md"
@@ -115,16 +123,19 @@ export default function FingerSettingContent() {
               </tr>
             </thead>
             <tbody>
-              {users.map(({ nm, role_position }) => (
-                <tr key={`${nm}-${role_position}`}>
-                  <td>{nm}</td>
-                  <td>{role_position}</td>
-                </tr>
-              ))}
+              {loading
+                ? null
+                : users.map(({ nm, role_position }) => (
+                    <tr key={`${nm}-${role_position}`}>
+                      <td>{nm}</td>
+                      <td>{role_position}</td>
+                    </tr>
+                  ))}
             </tbody>
           </FingerTable>
           {users.length < 3 ? (
             <Accordion
+              defaultValue={null}
               variant="separated"
               chevronPosition="left"
               chevron={<i className="ri-add-circle-line"></i>}
@@ -150,9 +161,11 @@ export default function FingerSettingContent() {
                       {...form.getInputProps('role_position')}
                     />
                     <Checkbox
-                      label="Finger Print Biometric"
+                      label="Biometric Fingerprint "
                       description="Klik untuk scan fingerprint"
                       checked={check}
+                      labelPosition="left"
+                      error={form.errors?.biometric_data}
                       onChange={handleScanFinger}
                     />
                     <Button type="submit" variant="outline">

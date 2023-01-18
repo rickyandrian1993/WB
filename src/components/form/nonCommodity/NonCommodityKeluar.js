@@ -144,8 +144,7 @@ export default function NonCommodityKeluar({ commodity, submitRef, form, dropdow
                     searchable
                     data={customer}
                     size="sm"
-                    nothingFound="Tidak ada data."
-                    error={form.errors?.pcc_customer_cd}
+                    nothingFound="Tidak ada data kontol!."
                     {...form.getInputProps('pcc_customer_cd')}
                   />
                 </ColGrid>

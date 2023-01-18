@@ -64,6 +64,20 @@ img {
   border: 1px solid rgba(149, 149, 149, 0.44);
 }
 
+.mantine-Checkbox-body {
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+  padding-top: 6px;
+  padding-bottom: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.mantine-Checkbox-body:hover {
+  background-color: rgba(206, 212, 218, 0.3);
+}
+
 .mantine-InputWrapper-label {
   margin-left: 8px;
 }

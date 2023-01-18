@@ -78,7 +78,6 @@ export const parseCSVData = (data) => {
     result.push(newObj)
     return null
   })
-  console.log('Result', result)
   return result
 }
 

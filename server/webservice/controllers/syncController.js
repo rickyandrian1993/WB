@@ -5,6 +5,10 @@ import pool from '../dbconfig.js'
 import fs from 'fs'
 
 let url = ''
+let responseUpload = {
+  status: 200,
+  message: 'Berhasil.'
+}
 
 try {
   const config = fs.readFileSync('config/config.json')
@@ -71,7 +75,7 @@ const SyncData = (data, callback) => {
             if (resEvac.rowCount > 0) await mappingEvacData(sess, resEvac.rows)
           })
           .catch((error) => console.error(`Error get evac: ${error}`))
-        callback({ ...success200, data: 'Berhasil' })
+        callback({ ...success200, status: responseUpload.status, message: responseUpload.message })
       }
     })
     .catch((error) => callback({ ...error500, data: `Error get mill yields: ${error}` }))
@@ -244,23 +248,29 @@ const sendingDataToServer = async (sess, url, data, batch, maxBatch, type) => {
       url: `${url}`,
       data: JSON.stringify(payload)
     })
+      .then(() => {
+        const uploadedData = data[batch - 1].map((item) => {
+          return type === 'mill' ? item.cd : item.pcc_evacuation_activity_cd
+        })
 
-    // console.log("Response", response);
+        responseUpload['status'] = 200
+        responseUpload['message'] = 'Data telah diupload.'
 
-    const uploadedData = data[batch - 1].map((item) => {
-      return type === 'mill' ? item.cd : item.pcc_evacuation_activity_cd
-    })
-
-    switch (type) {
-      case 'mill':
-        updateUploadFlagPccMillYieldActivity(uploadedData)
-        break
-      case 'evac':
-        updateFlagEvacActivityDtl(uploadedData)
-        break
-      default:
-        break
-    }
+        switch (type) {
+          case 'mill':
+            updateUploadFlagPccMillYieldActivity(uploadedData)
+            break
+          case 'evac':
+            updateFlagEvacActivityDtl(uploadedData)
+            break
+          default:
+            break
+        }
+      })
+      .catch((error) => {
+        responseUpload['status'] = 500
+        responseUpload['message'] = error.message
+      })
 
     if (batch < maxBatch) await sendingDataToServer(sess, url, data, batch + 1, maxBatch, type)
   } catch (error) {

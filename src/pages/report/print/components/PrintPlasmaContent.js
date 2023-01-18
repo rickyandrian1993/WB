@@ -17,7 +17,6 @@ export default function PrintTbsPlasmaContent({ data }) {
     ekspedisi_nm,
     fresh_fruit,
     fresh_fruit_kg,
-    garbage,
     garbage_kg,
     grading_brondolan,
     grading_brondolan_kg,

@@ -9,20 +9,23 @@ export default function UploadAction({ data }) {
   const { user } = getStore('accountInfo')
   const { mill, mill_detail } = getStore('mill')
   const { uploadData } = ReportController()
-  const { setLoading } = useContext(OverlayContext)
+  const { setUploadLoading, getUploadList, payload, handleChangeData } = useContext(OverlayContext)
+
   const uploadHandler = (data) => {
     const estateList = []
 
     mill_detail.map((item) => estateList.push(item.pcc_estate_cd))
 
-    const payload = {
+    const payloadUpload = {
       date: moment(data).format('Y-MM-DD'),
       userCd: user.cd,
       estate: estateList,
       millManager: mill.mill_manager
     }
-    setLoading(true)
-    // uploadData(payload)
+
+    uploadData(payloadUpload, setUploadLoading).then(() =>
+      getUploadList(payload, setUploadLoading, handleChangeData)
+    )
   }
 
   return (
