@@ -5,6 +5,7 @@ import { ReportController } from '../../services'
 import { getStore } from '../../helpers/utility'
 import moment from 'moment'
 import { OverlayContext } from '../../pages/sync/Sync'
+import { server_url } from '../../../package.json'
 export default function UploadAction({ data }) {
   const { user } = getStore('accountInfo')
   const { mill, mill_detail } = getStore('mill')
@@ -20,7 +21,8 @@ export default function UploadAction({ data }) {
       date: moment(data).format('Y-MM-DD'),
       userCd: user.cd,
       estate: estateList,
-      millManager: mill.mill_manager
+      millManager: mill.mill_manager,
+      url: server_url
     }
 
     uploadData(payloadUpload, setUploadLoading).then(() =>

@@ -6,6 +6,7 @@ import { payloadServer } from '../../constants/basePayload'
 import ApiService from '../ApiService'
 import Login from './loginController'
 import moment from 'moment'
+import { server_url } from '../../../package.json'
 
 export default function SyncController() {
   const { getToken, loginServer, logoutServer } = Login()
@@ -344,7 +345,7 @@ export default function SyncController() {
   const syncData = useCallback(
     async (body, loading) => {
       loading(true)
-      const { mill, mill_detail, server_url, update_data } = getStore('mill')
+      const { mill, mill_detail, update_data } = getStore('mill')
       const estate = []
 
       mill_detail?.forEach(async (data) => {

@@ -6,7 +6,7 @@ export default function PopUpModal({ title, state, stateCb, children }) {
   return (
     <ModalWb
       opened={state}
-      onClose={() => stateCb(!state)}
+      onClose={() => null}
       transition="fade"
       centered
       withCloseButton={false}

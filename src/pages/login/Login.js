@@ -5,6 +5,7 @@ import { GlassCard, LoginPage } from './styledLogin'
 import { LoginController, MillController, SyncController } from '../../services'
 import { useForm } from '@mantine/form'
 import { loginForm } from '../../constants'
+import { version } from '../../../package.json'
 
 const { Col } = Grid
 
@@ -102,7 +103,7 @@ export default function Login() {
         >
           {loadingLogin ? <Loader color="#fff" variant="bars" size="sm" /> : 'LOGIN'}
         </ButtonWB>
-        <div className="login__copyright">&copy;WIDE 2021 - V.0.1.2</div>
+        <div className="login__copyright">&copy;WIDE 2021 - V{version}</div>
       </GlassCard>
     </LoginPage>
   )

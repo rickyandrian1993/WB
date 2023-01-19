@@ -1,6 +1,8 @@
 {
   "name": "weigh-bridge",
-  "version": "0.1.2",
+  "author": "Wide Agri",
+  "version": "0.0.3",
+  "server_url": "https://192.168.110.127:5041",
   "description": "Weigh Bridge an Electron application with React and Node",
   "main": "./main.js",
   "homepage": "./",
@@ -14,9 +16,8 @@
     "electron-dev": "node scripts/dev.js scripts/start.js",
     "electron-pack": "electron-builder -c.extraMetadata.main='./main.js'",
     "bp": "npm run react-build && npm run electron-dev",
-    "deploy": "electron-builder -c.extraMetadata.main='./main.js' build --win --publish always"
+    "deploy": "npm run react-build && electron-builder -c.extraMetadata.main='./main.js' build --win --publish always"
   },
-  "author": "Wide Agri",
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
@@ -67,7 +68,8 @@
         "provider": "github",
         "owner": "rickyandrian1993",
         "repo": "WB",
-        "private": true
+        "private": true,
+        "token": "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"
       },
       "icon": "public/wb.ico"
     },

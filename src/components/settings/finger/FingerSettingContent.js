@@ -54,11 +54,13 @@ export default function FingerSettingContent() {
   }
 
   const handleScanFinger = () => {
-    setModal(true)
-    fingerAuth(setModal, (e) => {
-      setCheck(true)
-      form.setFieldValue('biometric_data', e)
-    })
+    if (!check) {
+      setModal(true)
+      fingerAuth(setModal, (e) => {
+        setCheck(true)
+        form.setFieldValue('biometric_data', e)
+      })
+    } else setCheck(false)
   }
 
   const handlePassword = (e) => {
@@ -73,6 +75,7 @@ export default function FingerSettingContent() {
 
   useEffect(() => {
     if (isValidated && loading) {
+      setUser([])
       getCredentialList(setLoading, setUser)
     }
   }, [getCredentialList, isValidated, loading, modal, users])
@@ -123,7 +126,7 @@ export default function FingerSettingContent() {
               </tr>
             </thead>
             <tbody>
-              {loading
+              {loading && !users.length
                 ? null
                 : users.map(({ nm, role_position }) => (
                     <tr key={`${nm}-${role_position}`}>
@@ -166,7 +169,8 @@ export default function FingerSettingContent() {
                       checked={check}
                       labelPosition="left"
                       error={form.errors?.biometric_data}
-                      onChange={handleScanFinger}
+                      onChange={() => null}
+                      onClick={handleScanFinger}
                     />
                     <Button type="submit" variant="outline">
                       Create

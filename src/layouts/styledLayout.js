@@ -2,20 +2,20 @@ import { Grid, Navbar } from '@mantine/core'
 import styled from 'styled-components'
 
 const NavGrid = styled(Grid)`
-  background: #628B48;
+  background: #628b48;
   border-radius: 8px;
-  margin: 0 -8px 10px;
+  margin: 4px -8px 10px;
   justify-content: space-around;
   padding: 4px;
   color: #fff;
   font-size: 16px;
   font-weight: 600;
-  .mantine{
+  .mantine {
     &-Grid-root {
       background: transparent;
       margin: 0;
       padding: 0;
-      .mantine-Grid-col{
+      .mantine-Grid-col {
         padding: 0;
       }
     }
@@ -39,7 +39,7 @@ const SideBox = styled(Navbar)`
   padding: 16px;
   > div {
     margin: 16px 0;
-    &:nth-child(2){
+    &:nth-child(2) {
       max-height: 75vh;
       overflow-y: hidden;
     }

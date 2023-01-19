@@ -2,7 +2,8 @@ import { useCallback } from 'react'
 import { endpoints } from '../endpoints'
 import ApiService from '../ApiService'
 import { ToastNotification } from '../../components'
-import { getStore, setStore } from '../../helpers/utility'
+import { setStore } from '../../helpers/utility'
+import { server_url } from '../../../package.json'
 
 export default function MillController() {
   const getMillUser = useCallback((setMillUser) => {
@@ -21,8 +22,7 @@ export default function MillController() {
   }, [])
 
   const getMillList = useCallback((loading, setMillList) => {
-    const { server_url: url } = getStore('mill')
-    ApiService.jsonRequest(url + endpoints.getToken, {}, (response) => {
+    ApiService.jsonRequest(server_url + endpoints.getToken, {}, (response) => {
       if (response.isError === true || response.isError === 'Y') {
         ToastNotification({
           title: 'Kesalahan',
@@ -37,7 +37,7 @@ export default function MillController() {
           user: {},
           data: { token_request: response?.data?.token_request }
         }
-        ApiService.jsonRequest(url + endpoints.getAllMill, payload, (response) => {
+        ApiService.jsonRequest(server_url + endpoints.getAllMill, payload, (response) => {
           if (response.isError === true || response.isError === 'Y') {
             ToastNotification({
               title: 'Kesalahan',

@@ -9,7 +9,6 @@ app.commandLine.appendSwitch('disable-web-security')
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true
 
 let mainWindow = null
-
 const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {
@@ -29,14 +28,11 @@ if (!gotTheLock) {
     }
 
     mainWindow = new BrowserWindow({
-      // width: 1200,
-      // height: 715,
-      // show: false,
       autoHideMenuBar: true,
       icon: path.join(__dirname + 'public/wb.ico'),
       fullscreen: true,
       webPreferences: {
-        // devTools: isDev ? true : false,
+        devTools: isDev ? true : false,
         nodeIntegration: true
       }
     })
@@ -58,7 +54,6 @@ if (!gotTheLock) {
 
   app.on('ready', () => {
     createWindow()
-    // mainWindow.maximize()
     if (isDev) mainWindow.webContents.openDevTools()
 
     autoUpdater.checkForUpdatesAndNotify()

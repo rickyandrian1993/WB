@@ -1,7 +1,6 @@
 import { deleteQuery } from '../constants/deleteAllQuery.js'
 import { error500, success200 } from '../constants/responseCallback.js'
 import pool from '../dbconfig.js'
-import fs from 'fs'
 import { InsertCustomer } from './customerController.js'
 
 const GetMill = (callback) => {
@@ -16,7 +15,6 @@ const GetMill = (callback) => {
       else response.mill_detail = []
       GetLastUpdate((res) => {
         response.update_data = res.update_data
-        response.server_url = res.server_url
         callback({ ...success200, data: response })
       })
     })
@@ -47,11 +45,8 @@ const GetLastUpdate = (callback) => {
   pool
     .query(updateDataQuery)
     .then((resUpdateData) => {
-      const config = fs.readFileSync('config/config.json')
-
       data.update_data =
         resUpdateData.rowCount === 0 ? 0 : Date.parse(resUpdateData.rows[0].last_update)
-      data.server_url = config ? JSON.parse(config).api : null
       callback(data)
     })
     .catch((error) =>

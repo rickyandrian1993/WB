@@ -2,20 +2,10 @@ import axios from 'axios'
 import https from 'https'
 import { error500, success200 } from '../constants/responseCallback.js'
 import pool from '../dbconfig.js'
-import fs from 'fs'
 
-let url = ''
 let responseUpload = {
   status: 200,
   message: 'Berhasil.'
-}
-
-try {
-  const config = fs.readFileSync('config/config.json')
-  const data = JSON.parse(config)
-  url = data.api
-} catch (error) {
-  console.error('Error', error)
 }
 
 const GetUploadData = (data, callback) => {
@@ -44,11 +34,12 @@ const GetUploadData = (data, callback) => {
 }
 
 const SyncData = (data, callback) => {
-  const { date, userCd, estate, millManager } = data
+  const { date, userCd, estate, millManager, url } = data
   const sess = {
     userCd: userCd,
     estate: estate,
-    millManager: millManager
+    millManager: millManager,
+    url: url
   }
 
   const getMillYieldActivityQuery = `
@@ -185,7 +176,7 @@ const mappingMillData = async (sess, data) => {
       })
     }
     dataMap.push(temp)
-    const millYieldsUrl = `${url}/mill_yields_activity/addMillYieldsActivityList`
+    const millYieldsUrl = `${sess.url}/mill_yields_activity/addMillYieldsActivityList`
     await sendingDataToServer(sess, millYieldsUrl, dataMap, 1, maxBatch, 'mill')
   } catch (error) {
     return {
@@ -222,7 +213,7 @@ const mappingEvacData = async (sess, item) => {
   }
 
   dataMaps.push(temp)
-  const syncEvacUrl = `${url}/pcc_evacuation_activity_dtl/addEvacuationDtlListFromMillYieldsMillActivity`
+  const syncEvacUrl = `${sess.url}/pcc_evacuation_activity_dtl/addEvacuationDtlListFromMillYieldsMillActivity`
   await sendingDataToServer(sess, syncEvacUrl, dataMaps, 1, maxBatch, 'evac')
 }
 

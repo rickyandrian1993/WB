@@ -170,8 +170,6 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
     }
   } else if (nfcIndicator === '34' && isGrading) {
     if (dataParent[5] === evac_cd) {
-      console.table(dataParent)
-
       result.push({
         disortasi_worker_cd: dataParent[8],
         fresh_fruit: dataParent[9],

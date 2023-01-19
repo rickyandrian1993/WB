@@ -2,9 +2,8 @@ import { error500, success200 } from '../constants/responseCallback.js'
 import pool from '../dbconfig.js'
 
 const GetReport = (data, callback) => {
+  const { startDate, endDate } = data
   const commodity = data.commodity
-  const startDate = new Date(data.startDate).toISOString().split('T')[0]
-  const endDate = new Date(data.endDate).toISOString().split('T')[0]
   let page = data.page !== 'undefined' ? parseInt(data.page) : 1
   page === 0 ? (page = 1) : page
   const perPage = parseInt(data.perPage)
