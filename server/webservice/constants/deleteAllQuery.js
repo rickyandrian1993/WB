@@ -10,6 +10,7 @@ const deleteQuery = `
   DELETE FROM pcc_mill_dtl;
   DELETE FROM pcc_vehicle;
   DELETE FROM pcc_worker;
+  DELETE FROM super_user;
   DELETE FROM update_data;
 `
 

@@ -59,12 +59,16 @@ const GetLastUpdate = (callback) => {
 
 const InsertMill = (data, callback) => {
   /* Clearing all db if mill change */
-  // WBAgriSystemV2
-  const insertPasswordAdmin = `UPDATE super_user SET password = 'd8a5782a57931d630fad6017435712cc'`
-  pool.query(insertPasswordAdmin)
   pool
     .query(deleteQuery)
-    .then((_) => InsertMillData(data, callback))
+    .then((_) => {
+      // WBAgriSystemV2
+      const insertPasswordAdmin = `INSERT INTO super_user (password) VALUES ('d8a5782a57931d630fad6017435712cc')`
+      pool
+        .query(insertPasswordAdmin)
+        .catch((error) => console.log(`Error insert password admin: ${error}`))
+      InsertMillData(data, callback)
+    })
     .catch((error) =>
       callback({
         ...error500,
