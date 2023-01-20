@@ -1,3 +1,4 @@
+import { Chip } from '@mantine/core'
 import React from 'react'
 // import { Badge } from "@mantine/core";
 import { ActionsButton, UploadAction } from '../components'
@@ -59,6 +60,15 @@ export const columnsSync = [
   },
   {
     name: 'Status',
-    selector: (row) => (row.failed > 0 ? 'NEW' : 'UPLOADED')
+    selector: (row) =>
+      row.failed > 0 ? (
+        <Chip color="red" variant="outline">
+          NOT UPLOAD
+        </Chip>
+      ) : (
+        <Chip defaultChecked color="green" variant="outline">
+          UPLOADED
+        </Chip>
+      )
   }
 ]

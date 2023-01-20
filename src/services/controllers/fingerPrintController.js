@@ -24,7 +24,7 @@ export default function FingerPrintController() {
       if (response.isError) {
         ToastNotification({
           title: 'Kesalahan',
-          message: response.message,
+          message: 'Fingerprint Tidak Terdaftar',
           isError: response.isError
         })
         callback(response)
@@ -47,7 +47,7 @@ export default function FingerPrintController() {
         else {
           ToastNotification({
             title: 'Berhasil',
-            message: 'User Baru Berhasil Ditambah',
+            message: 'Pendaftaran Fingerprint Berhasil',
             isError: response.isError
           })
         }

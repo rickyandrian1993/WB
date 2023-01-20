@@ -379,7 +379,7 @@ const ActionsBox = styled(Box)`
 `
 
 const PrintWrapper = styled(Box)`
-visibility: hidden;
+  visibility: hidden;
   * {
     font-family: 'Consolas', Courier, monospace;
   }

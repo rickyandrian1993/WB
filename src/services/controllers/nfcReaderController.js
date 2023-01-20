@@ -12,6 +12,7 @@ export default function SerialPortController() {
   const readNFC = useCallback(
     async (isGrading, loading, form) => {
       loading(true)
+      form.reset()
       ApiService.jsonRequest(endpoints.readNfc, {}, ({ isError, data, message }) => {
         if (isError === true || isError === 'Y') {
           if (data === 'card off')
