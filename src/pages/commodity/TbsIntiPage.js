@@ -33,7 +33,10 @@ const TbsIntiPage = () => {
       setPath(pathname)
       setInOut('in')
     }
-  }, [path, pathname, form])
+    if (commodity) {
+      form.setFieldValue('comodity_nm', commodity)
+    }
+  }, [path, pathname, form, commodity])
 
   const readTimbangan = () => {
     getTimbanganData(setReadTimbanganLoading, (res) => {

@@ -23,6 +23,7 @@ const initialValues = {
     block_nm: '',
     block_nm2: '',
     block_nm3: '',
+    comodity_nm: '',
     contract: '',
     created_by: getStore('accountInfo')?.user?.nm,
     created_dt: moment().format('Y-MM-DD HH:mm:ss'),
@@ -180,10 +181,12 @@ const initialValues = {
       spb_number: values.spb_number.trim().length > 20 ? 'Max karakter 20' : null,
       spb_weight: values?.spb_weight?.toString().length > 5 ? 'Max karakter 5.' : null,
       total_bunch:
-        values?.total_bunch?.toString().length > 5
-          ? 'Max karakter 5.'
-          : !values.total_bunch
-          ? 'Jumlah tandan tidak boleh kosong atau 0.'
+        values?.comodity_nm.search('TBS') === 0
+          ? values?.total_bunch?.toString().length > 5
+            ? 'Max karakter 5.'
+            : !values.total_bunch
+            ? 'Jumlah tandan tidak boleh kosong atau 0.'
+            : null
           : null,
       total_brondolan: values?.total_brondolan?.toString().length > 5 ? 'Max karakter 5.' : null,
       water: values.water.toString().length > 5 ? 'Max karakter 5.' : null,

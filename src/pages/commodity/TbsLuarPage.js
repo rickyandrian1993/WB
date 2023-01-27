@@ -1,6 +1,6 @@
 import { Loader, SegmentedControl } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ColGrid, ScaleGrid } from '../../assets/style/styled'
 import { ButtonWB, TbsLuarKeluar, TbsLuarMasuk } from '../../components'
@@ -34,6 +34,10 @@ const TbsLuarPage = () => {
       }
     })
   }
+
+  useEffect(() => {
+    if (commodity) form.setFieldValue('comodity_nm', commodity)
+  }, [commodity, form])
 
   return (
     <ScaleGrid align="center">

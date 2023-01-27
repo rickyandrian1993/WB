@@ -29,6 +29,7 @@ export default function Print() {
       printFunc().then((e) => navigate(pathRedirect))
     }
   }, [state, navigate])
+
   return (
     <div style={{ position: 'relative', borderRadius: '16px' }}>
       {state && (
