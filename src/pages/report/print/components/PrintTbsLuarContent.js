@@ -48,123 +48,106 @@ export default function PrintTbsLuarContent({ data }) {
     water,
     water_kg,
     young_fruit,
-    young_fruit_kg
+    young_fruit_kg,
+    grade_class,
+    supplier,
+    spb_weight,
+    farmer
   } = data
   return (
     <PrintContent>
-      <Grid>
-        <Col span={3}>
+      <Grid className='info'>
+        <Col span={6}>
           <Grid>
-            <Col>No. Tgl DO</Col>
-          </Grid>
-          <Grid>
-            <Col>Mill/Pabrik</Col>
-          </Grid>
-          <Grid>
-            <Col>Jumlah Tandan</Col>
-          </Grid>
-          <Grid>
-            <Col>Pemuat</Col>
-          </Grid>
-          <Grid>
-            <Col>Ekspedisi</Col>
-          </Grid>
-          <Grid>
-            <Col>Customer</Col>
-          </Grid>
-          <Grid>
-            <Col>Nomor Seal</Col>
-          </Grid>
-          <Grid>
-            <Col>Timbangan Pertama</Col>
-          </Grid>
-          <Grid>
-            <Col>Timbangan Kedua</Col>
-          </Grid>
-        </Col>
-        <Col span={3}>
-          <Grid>
-            <Col>
+            <Col span={6}>No/Tgl DO</Col>
+            <Col span={6}>
               {do_number} - {do_date && moment(do_date).format('DD/MM/YY')}
             </Col>
           </Grid>
           <Grid>
-            <Col>{mill_nm || '-'}</Col>
+            <Col span={6}>Mill/Pabrik</Col>
+            <Col span={6}>{mill_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(total_bunch) || '-'}</Col>
+            <Col span={6}>Supplier</Col>
+            <Col span={6}>{supplier || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{loader_nm || '-'}</Col>
+            <Col span={6}>Customer</Col>
+            <Col span={6}>{customer_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{ekspedisi_nm || '-'}</Col>
+            <Col span={6}>No. Kendaraan</Col>
+            <Col span={6}>{pcc_vehicle_cd || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{customer_nm || '-'}</Col>
+            <Col span={6}>Supir</Col>
+            <Col span={6}>{driver_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{seal_number || '-'}</Col>
+            <Col span={6}>Petani</Col>
+            <Col span={6}>{farmer || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(first_w) || '-'} Kg</Col>
+            <Col span={6}>Pemuat</Col>
+            <Col span={6}>{loader_nm || '-'}</Col>
+          </Grid>
+
+          <Grid>
+            <Col span={6}>Ekspedisi</Col>
+            <Col span={6}>{ekspedisi_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(second_w) || '-'} Kg</Col>
-          </Grid>
-        </Col>
-        <Col span={3}>
-          <Grid>
-            <Col>No. Tgl SPB</Col>
-          </Grid>
-          <Grid>
-            <Col>Nomor Kendaraan</Col>
-          </Grid>
-          <Grid>
-            <Col>Brondolan</Col>
-          </Grid>
-          <Grid>
-            <Col>Supir</Col>
-          </Grid>
-          <Grid>
-            <Col>Potongan</Col>
-          </Grid>
-          <Grid>
-            <Col>Setelah Potongan</Col>
-          </Grid>
-          <Grid>
-            <Col>BJR</Col>
-          </Grid>
-          <Grid>
-            <Col>Netto</Col>
+            <Col span={6}>No. Seal</Col>
+            <Col span={6}>{seal_number || '-'}</Col>
           </Grid>
         </Col>
-        <Col span={3}>
+        <Col span={6}>
           <Grid>
-            <Col>
+            <Col span={6}>No/Tgl SPB</Col>
+            <Col span={6}>
               {spb_number} - {spb_date && moment(spb_date).format('DD/MM/YY')}
             </Col>
           </Grid>
           <Grid>
-            <Col>{pcc_vehicle_cd || '-'}</Col>
+            <Col span={6}>Kelas</Col>
+            <Col span={6}>{grade_class || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(total_brondolan) || '-'}</Col>
+            <Col span={6}>Berat SPB</Col>
+            <Col span={6}>{numberFormat(spb_weight) || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{driver_nm || '-'}</Col>
+            <Col span={6}>Jumlah Tandan</Col>
+            <Col span={6}>{numberFormat(total_bunch) || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(cut) || '-'} Kg</Col>
+            <Col span={6}>Brondolan</Col>
+            <Col span={6}>{numberFormat(total_brondolan) || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(after_cut) || '-'} Kg</Col>
+            <Col span={6}>Timbangan Ke-1</Col>
+            <Col span={6}>{numberFormat(first_w) || '-'} Kg</Col>
           </Grid>
           <Grid>
-            <Col>{bjr || '-'}</Col>
+            <Col span={6}>Timbangan Ke-2</Col>
+            <Col span={6}>{numberFormat(second_w) || '-'} Kg</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(netto_w) || '-'} Kg</Col>
+            <Col span={6}>Netto</Col>
+            <Col span={6}>{numberFormat(netto_w) || '-'} Kg</Col>
+          </Grid>
+          <Grid>
+            <Col span={6}>Potongan</Col>
+            <Col span={6}>{numberFormat(cut) || '-'} Kg</Col>
+          </Grid>
+          <Grid>
+            <Col span={6}>Setelah Potongan</Col>
+            <Col span={6}>{numberFormat(after_cut) || '-'} Kg</Col>
+          </Grid>
+          <Grid>
+            <Col span={6}>BJR</Col>
+            <Col span={6}>{bjr || '-'}</Col>
           </Grid>
         </Col>
       </Grid>

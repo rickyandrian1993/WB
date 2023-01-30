@@ -99,22 +99,35 @@ img {
 }
 
 @media print {
+  .mantine-Navbar-root{
+    display: none;
+  }
+  
+  .mantine-AppShell-main {
+    padding: unset;
+  }
+  
+  body {
+    overflow-x: hidden;
+  }
+  
   body * {
     visibility: hidden;
+    padding: unset;
   }
-
+  
   #print-section {
     position: absolute;
     top: -20px;
     left: 50%;
     transform: translateX(-50%);
   }
-
+  
   #print-section * {
-    font-size: 12px;
+    font-size: 14px;
     visibility: visible;
   }
-
+  
   #print-title {
     font-size: 24px;
   }

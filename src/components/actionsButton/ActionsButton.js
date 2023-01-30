@@ -8,7 +8,7 @@ import PopUpModal from '../popUpModal/PopUpModal'
 import { Col, Grid, Loader } from '@mantine/core'
 import { FingerPrintController } from '../../services'
 
-const ModalContent = ({ setOpenModal, loading, verify }) => (
+const ModalContent = ({ setOpenModal, verify }) => (
   <Grid justify="center" align="center">
     <Col span="content">
       <div style={{ position: 'relative', width: '100px', height: '100px' }}>
@@ -30,7 +30,6 @@ const ModalContent = ({ setOpenModal, loading, verify }) => (
 export default function ActionsButton({ data }) {
   const { netto_w, mt_comodity_cd } = data
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
   const [openModal, setOpenModal] = useState(false)
   const [isVerify] = useState(null)
   const { fingerValidate } = FingerPrintController()
@@ -42,17 +41,16 @@ export default function ActionsButton({ data }) {
 
   const handlePrint = (type, data) => {
     setOpenModal(true)
-    fingerValidate(setLoading, (res) => {
+    fingerValidate(setOpenModal, (res) => {
       if (res.status_code === 200) navigate('/print', { state: { type: type, data: data } })
       else setOpenModal(false)
     })
   }
 
-
   return (
     <ActionsBox>
       <PopUpModal state={openModal} stateCb={setOpenModal} title="Silahkan pindai sidik jari">
-        <ModalContent setOpenModal={setOpenModal} loading={loading} verify={isVerify} />
+        <ModalContent setOpenModal={setOpenModal} verify={isVerify} />
       </PopUpModal>
       <ScaleGrid justify="start">
         <>

@@ -33,124 +33,86 @@ export default function SPBContent({ data }) {
       <Title id="print-title" order={1} align="center">
         Surat Penerimaan Barang
       </Title>
-      <Grid>
-        <Col span={3}>
+      <Grid className="info">
+        <Col span={6}>
           <Grid>
-            <Col>No. Tgl DO</Col>
-          </Grid>
-          <Grid>
-            <Col>Mill/Pabrik</Col>
-          </Grid>
-          <Grid>
-            <Col>Ekspedisi</Col>
-          </Grid>
-          <Grid>
-            <Col>Pelanggan</Col>
-          </Grid>
-          <Grid>
-            <Col>Bruto</Col>
-          </Grid>
-          <Grid>
-            <Col>Tarra</Col>
-          </Grid>
-          <Grid>
-            <Col>Netto</Col>
-          </Grid>
-          <Grid>
-            <Col>Nomor Seal</Col>
-          </Grid>
-        </Col>
-        <Col span={3}>
-          <Grid>
-            <Col>
+            <Col span={6}>No/Tgl DO</Col>
+            <Col span={6}>
               {do_number} - {do_date && moment(do_date).format('DD/MM/YY')}
             </Col>
           </Grid>
           <Grid>
-            <Col>{mill_nm || '-'}</Col>
+            <Col span={6}>Mill/Pabrik</Col>
+            <Col span={6}>{mill_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{ekspedisi_nm || '-'}</Col>
+            <Col span={6}>Ekspedisi</Col>
+            <Col span={6}>{ekspedisi_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{customer_nm || '-'}</Col>
+            <Col span={6}>Customer</Col>
+            <Col span={6}>{customer_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(first_w) || '-'} Kg</Col>
+            <Col span={6}>Bruto</Col>
+            <Col span={6}>{numberFormat(first_w) || '-'} Kg</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(second_w) || '-'} Kg</Col>
+            <Col span={6}>Tarra</Col>
+            <Col span={6}>{numberFormat(second_w) || '-'} Kg</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(netto_w) || '-'} Kg</Col>
+            <Col span={6}>Netto</Col>
+            <Col span={6}>{numberFormat(netto_w) || '-'} Kg</Col>
           </Grid>
           <Grid>
-            <Col>{seal_number || '-'}</Col>
-          </Grid>
-        </Col>
-        <Col span={3}>
-          <Grid>
-            <Col>No. Tgl SPB</Col>
-          </Grid>
-          <Grid>
-            <Col>Komoditi</Col>
-          </Grid>
-          <Grid>
-            <Col>Nomor Kendaraan</Col>
-          </Grid>
-          <Grid>
-            <Col></Col>
-          </Grid>
-          <Grid>
-            <Col>FFA %</Col>
-          </Grid>
-          <Grid>
-            <Col>Moist %</Col>
-          </Grid>
-          <Grid>
-            <Col>PV %</Col>
-          </Grid>
-          <Grid>
-            <Col>Dirt</Col>
-          </Grid>
-          <Grid>
-            <Col>Dobi</Col>
+            <Col span={6}>No. Seal</Col>
+            <Col span={6}>{seal_number || '-'}</Col>
           </Grid>
         </Col>
-        <Col span={3}>
+        <Col span={6}>
           <Grid>
-            <Col>
+            <Col span={6}>No/Tgl SPB</Col>
+            <Col span={6}>
               {spb_number} - {spb_date && moment(spb_date).format('DD/MM/YY')}
             </Col>
           </Grid>
           <Grid>
-            <Col>{comodity_nm || '-'}</Col>
+            <Col span={6}>Komoditi</Col>
+            <Col span={6}>{comodity_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{pcc_vehicle_cd || '-'}</Col>
+            <Col span={6}>No. Kendaraan</Col>
+            <Col span={6}>{pcc_vehicle_cd || '-'}</Col>
           </Grid>
           <Grid>
-            <Col></Col>
+            <Col span={6}></Col>
+            <Col span={6}></Col>
           </Grid>
           <Grid>
-            <Col>{ffa || '-'} %</Col>
+            <Col span={6}>FFA %</Col>
+            <Col span={6}>{ffa || '-'} %</Col>
           </Grid>
           <Grid>
-            <Col>{moist || '-'} %</Col>
+            <Col span={6}>Moist %</Col>
+            <Col span={6}>{moist || '-'} %</Col>
           </Grid>
           <Grid>
-            <Col>{pv || '-'} %</Col>
+            <Col span={6}>PV %</Col>
+            <Col span={6}>{pv || '-'} %</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(dirt) || '-'}</Col>
+            <Col span={6}>Dirt</Col>
+            <Col span={6}>{numberFormat(dirt) || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(dobi) || '-'}</Col>
+            <Col span={6}>Dobi</Col>
+            <Col span={6}>{numberFormat(dobi) || '-'}</Col>
           </Grid>
         </Col>
       </Grid>
       <Grid>
-        <Col>Catatan: {remark1}</Col>
+        <Col style={{ borderTop: '2px double #628b48' }}>Catatan: {remark1}</Col>
       </Grid>
     </PrintContent>
   )

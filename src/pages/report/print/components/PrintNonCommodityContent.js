@@ -21,99 +21,81 @@ export default function PrintNonCommodityContent({ data }) {
     seal_number,
     second_w,
     spb_date,
-    spb_number
+    spb_number,
+    supplier,
+    spb_weight
   } = data
 
   return (
     <PrintContent>
-      <Grid>
-        <Col span={3}>
+      <Grid className='info'>
+        <Col span={6}>
           <Grid>
-            <Col>No. Tgl DD</Col>
-          </Grid>
-          <Grid>
-            <Col>Mill/Pabrik</Col>
-          </Grid>
-          <Grid>
-            <Col>Supir</Col>
-          </Grid>
-          <Grid>
-            <Col>Ekspedisi</Col>
-          </Grid>
-          <Grid>
-            <Col>Pelanggan</Col>
-          </Grid>
-          <Grid>
-            <Col>Nomor Seal</Col>
-          </Grid>
-        </Col>
-        <Col span={3}>
-          <Grid>
-            <Col>
+            <Col span={6}>No/Tgl DO</Col>
+            <Col span={6}>
               {do_number} - {do_date && moment(do_date).format('DD/MM/YY')}
             </Col>
           </Grid>
           <Grid>
-            <Col>{mill_nm || '-'}</Col>
+            <Col span={6}>Mill/Pabrik</Col>
+            <Col span={6}>{mill_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{driver_nm || '-'}</Col>
+            <Col span={6}>Supplier</Col>
+            <Col span={6}>{supplier || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{ekspedisi_nm || '-'}</Col>
+            <Col span={6}>Supir</Col>
+            <Col span={6}>{driver_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{customer_nm || '-'}</Col>
+            <Col span={6}>Ekspedisi</Col>
+            <Col span={6}>{ekspedisi_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{seal_number || '-'}</Col>
-          </Grid>
-        </Col>
-        <Col span={3}>
-          <Grid>
-            <Col>No. Tgl SPB</Col>
+            <Col span={6}>Pelanggan</Col>
+            <Col span={6}>{customer_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>Nomor Kendaraan</Col>
-          </Grid>
-          <Grid>
-            <Col>Pemuat</Col>
-          </Grid>
-          <Grid>
-            <Col>Timbangan Pertama</Col>
-          </Grid>
-          <Grid>
-            <Col>Timbangan Kedua</Col>
-          </Grid>
-          <Grid>
-            <Col>Netto</Col>
+            <Col span={6}>No. Seal</Col>
+            <Col span={6}>{seal_number || '-'}</Col>
           </Grid>
         </Col>
-        <Col span={3}>
+        <Col span={6}>
           <Grid>
-            <Col>
+            <Col span={6}>No/Tgl SPB</Col>
+            <Col span={6}>
               {spb_number} - {spb_date && moment(spb_date).format('DD/MM/YY')}
             </Col>
           </Grid>
           <Grid>
-            <Col>{pcc_vehicle_cd || '-'}</Col>
+            <Col span={6}>No. Kendaraan</Col>
+            <Col span={6}>{pcc_vehicle_cd || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{loader_nm || '-'}</Col>
+            <Col span={6}>Pemuat</Col>
+            <Col span={6}>{loader_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(first_w) || '-'} Kg</Col>
+            <Col span={6}>Berat SPB</Col>
+            <Col span={6}>{numberFormat(spb_weight) || '-'} Kg</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(second_w) || '-'} Kg</Col>
+            <Col span={6}>Timbangan Ke-1</Col>
+            <Col span={6}>{numberFormat(first_w) || '-'} Kg</Col>
           </Grid>
           <Grid>
-            <Col>{numberFormat(netto_w) || '-'} Kg</Col>
+            <Col span={6}>Timbangan Ke-2</Col>
+            <Col span={6}>{numberFormat(second_w) || '-'} Kg</Col>
+          </Grid>
+          <Grid>
+            <Col span={6}>Netto</Col>
+            <Col span={6}>{numberFormat(netto_w) || '-'} Kg</Col>
           </Grid>
         </Col>
       </Grid>
       <Grid>
-        <Col>Catatan: {remark1}</Col>
+        <Col style={{borderTop: "2px double #628b48"}}>Catatan: {remark1}</Col>
       </Grid>
     </PrintContent>
   )

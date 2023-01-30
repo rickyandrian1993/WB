@@ -380,31 +380,50 @@ const ActionsBox = styled(Box)`
 
 const PrintWrapper = styled(Box)`
   visibility: hidden;
-  * {
-    font-family: 'Consolas', Courier, monospace;
-  }
   width: 9.5in;
   margin: auto;
   padding: 16px;
 `
 
 const PrintHeader = styled.div`
-  border-bottom: 2px dashed #628b48;
+  border-bottom: 2px double #628b48;
 `
 
 const PrintContent = styled.div`
   h1 {
-    border-bottom: 2px dashed #628b48;
+    border-bottom: 2px double #628b48;
+  }
+  .info {
+    > div {
+      &:not(:last-child) {
+        border-right: 4px double #628b48;
+      }
+      > div {
+        > div {
+          padding: 6px;
+          &:nth-child(1) {
+            text-align: start;
+          }
+          &:nth-child(2) {
+            text-align: end;
+          }
+        }
+      }
+    }
   }
   .grading-info {
-    border-top: 2px dashed #628b48;
-    border-bottom: 2px dashed #628b48;
+    border-top: 2px double #628b48;
+    border-bottom: 2px double #628b48;
     > div {
       text-align: center;
       > div {
         > div {
+          padding: 6px;
           :first-child {
             text-align: left;
+          }
+          :last-child{
+            text-align: right;
           }
         }
       }
@@ -412,23 +431,15 @@ const PrintContent = styled.div`
   }
   > div {
     margin: 0 26px;
-    line-height: 0.8;
+    line-height: 1;
     &:nth-child(1) {
       margin-top: 4px;
-      > div {
-        &:nth-child(even) {
-          text-align: right;
-        }
-        &:nth-child(3) {
-          border-left: 2px dashed #628b48;
-        }
-      }
     }
   }
 `
 
 const PrintFooter = styled.div`
-  border-top: 2px dashed #628b48;
+  border-top: 2px double #628b48;
   > div {
     padding: 8px 0;
     line-height: 0;

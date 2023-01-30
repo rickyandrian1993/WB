@@ -1,7 +1,7 @@
 {
   "name": "weigh-bridge",
   "author": "Wide Agri",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "server_url": "https://192.168.110.127:5041",
   "description": "Weigh Bridge an Electron application with React and Node",
   "main": "./main.js",
@@ -68,8 +68,7 @@
         "provider": "github",
         "owner": "rickyandrian1993",
         "repo": "WB",
-        "private": true,
-        "token": "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"
+        "private": true
       },
       "icon": "public/wb.ico"
     },

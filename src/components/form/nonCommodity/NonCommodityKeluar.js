@@ -39,6 +39,8 @@ export default function NonCommodityKeluar({ commodity, submitRef, form, dropdow
 
   const historyChangeHandler = (e) => {
     const selected = history.find((item) => item.cd === e)
+    const customerNm = customer.find((item) => item.value === selected.pcc_customer_cd)?.label
+    form.setFieldValue('customer_nm', customerNm)
     const newObj = {}
     Object.keys(selected).map((item) => {
       return (newObj[item] = selected[item] || '')
@@ -52,6 +54,7 @@ export default function NonCommodityKeluar({ commodity, submitRef, form, dropdow
     const payload = {
       ...values,
       comodity_nm: commodity,
+      customer_nm: values.customer_nm,
       do_date: values.do_date === null ? null : dateFormat(values.do_date, 'Y-MM-DD'),
       first_update: form.values.first_update || moment().format('Y-MM-DD HH:mm:ss'),
       mt_comodity_cd: commodity,
