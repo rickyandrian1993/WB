@@ -32,7 +32,7 @@ if (!gotTheLock) {
       icon: path.join(__dirname + 'public/wb.ico'),
       fullscreen: true,
       webPreferences: {
-        devTools: isDev ? true : false,
+        // devTools: isDev ? true : false,
         nodeIntegration: true
       }
     })
