@@ -11,6 +11,32 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true
 let mainWindow = null
 const gotTheLock = app.requestSingleInstanceLock()
 
+autoUpdater.on('update-available', (_event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Ok'],
+    title: `Update Available`,
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: `A new version download started.`
+  }
+
+  dialog.showMessageBox(dialogOpts)
+})
+
+autoUpdater.on('update-not-available', (info) => {
+  console.info('info', info)
+})
+
+autoUpdater.on('download-progress', (progressObj) => {
+  console.info('progressObj', progressObj)
+})
+
+autoUpdater.on('update-downloaded', (_event) => {
+  setTimeout(() => {
+    autoUpdater.quitAndInstall()
+  }, 3500)
+})
+
 if (!gotTheLock) {
   app.quit()
 } else {
@@ -53,8 +79,8 @@ if (!gotTheLock) {
   }
 
   app.on('ready', () => {
-    createWindow()
     autoUpdater.checkForUpdatesAndNotify()
+    createWindow()
     if (isDev) mainWindow.webContents.openDevTools()
   })
 
@@ -64,23 +90,5 @@ if (!gotTheLock) {
 
   app.on('activate', function () {
     if (mainWindow === null) createWindow()
-  })
-
-  autoUpdater.on('update-available', (_event, releaseNotes, releaseName) => {
-    const dialogOpts = {
-      type: 'info',
-      buttons: ['Ok'],
-      title: `Update Available`,
-      message: process.platform === 'win32' ? releaseNotes : releaseName,
-      detail: `A new version download started.`
-    }
-
-    dialog.showMessageBox(dialogOpts)
-  })
-
-  autoUpdater.on('update-downloaded', (_event) => {
-    setTimeout(() => {
-      autoUpdater.quitAndInstall()
-    }, 3500)
   })
 }
