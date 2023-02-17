@@ -9,11 +9,12 @@ import { findLabelPath } from '../../helpers/utility'
 import { CustomerController, TimbanganController, VendorController } from '../../services'
 
 const TbsPlasmaPage = () => {
-  const { pathname } = useLocation()
+  const { pathname, state } = useLocation()
+  const [path, setPath] = useState(pathname)
   const commodity = findLabelPath(pathname).cd
   const form = useForm(initialValues)
   const submitRef = useRef()
-  const [inOut, setInOut] = useState('in')
+  const [inOut, setInOut] = useState(state || 'in')
   const [readTimbanganLoading, setReadTimbanganLoading] = useState(false)
   const { customer } = CustomerController()
   const { vendor } = VendorController()
@@ -36,8 +37,12 @@ const TbsPlasmaPage = () => {
   }
 
   useEffect(() => {
-    if (commodity) form.setFieldValue('comodity_nm', commodity)
-  }, [commodity, form])
+    if (path !== pathname) {
+      form.reset()
+      setPath(pathname)
+      setInOut('in')
+    }
+  }, [path, pathname, form, commodity])
 
   return (
     <ScaleGrid align="center">

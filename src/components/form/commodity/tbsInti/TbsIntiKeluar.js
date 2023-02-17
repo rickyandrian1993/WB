@@ -227,7 +227,7 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                 </ColGrid>
               </ScaleGrid>
             </ColGrid>
-            <Divider label="Detail Timbangan" />
+            <Divider label="Detail Grading" />
             <ColGrid span={12}>
               <ScaleGrid>
                 <ColGrid span={3}>
@@ -235,7 +235,7 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     disabled
                     label="Buah Mentah"
                     placeholder="0"
-                    rightSection="Kg"
+                    rightSection="Tdn"
                     {...form.getInputProps('fresh_fruit')}
                   />
                 </ColGrid>
@@ -244,7 +244,7 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     disabled
                     label="Buah Busuk"
                     placeholder="0"
-                    rightSection="Kg"
+                    rightSection="Tdn"
                     {...form.getInputProps('overripe_fruit')}
                   />
                 </ColGrid>
@@ -253,7 +253,7 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     disabled
                     label="Buah Muda"
                     placeholder="0"
-                    rightSection="Kg"
+                    rightSection="Tdn"
                     {...form.getInputProps('young_fruit')}
                   />
                 </ColGrid>
@@ -262,7 +262,7 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     disabled
                     label="Tangkai Panjang"
                     placeholder="0"
-                    rightSection="Kg"
+                    rightSection="Tdn"
                     {...form.getInputProps('long_stalk')}
                   />
                 </ColGrid>
@@ -271,7 +271,7 @@ const TbsIntiKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     disabled
                     label="Janjang Kosong"
                     placeholder="0"
-                    rightSection="Kg"
+                    rightSection="Tdn"
                     {...form.getInputProps('janjang_kosong')}
                   />
                 </ColGrid>

@@ -36,7 +36,7 @@ export default function ActionsButton({ data }) {
 
   const navigateToPage = (cd) => {
     const url = findPathByCd(cd)
-    navigate(url.path)
+    navigate(url.path, { state: 'out' })
   }
 
   const handlePrint = (type, data) => {

@@ -363,8 +363,11 @@ export default function SyncController() {
       }
 
       try {
+        const timer = (ms) => new Promise((res) => setTimeout(res, ms))
         for (let i = 0; i < mill_detail.length; i++) {
-          getToken(server_url, loading, async (tokenResponse) => {
+          let tokenValid = true
+          let isError = true
+          getToken(server_url, loading, (tokenResponse) => {
             const payload = {
               locale: 'en_US',
               agent: 'mozzila',
@@ -376,46 +379,35 @@ export default function SyncController() {
                 token_request: tokenResponse.data.token_request
               }
             }
-            loginServer(server_url, payload, async (loginResponse) => {
-              if (loginResponse.isError === 'Y' && i === mill_detail.length - 1) {
-                ToastNotification({
-                  title: 'Kesalahan',
-                  message: loginResponse.message,
-                  isError: true
-                })
-                loading(false)
-              } else {
-                await fetchAppUser(server_url, body.username, update_data, estate, (res) => {
+            tokenValid = false
+            loginServer(server_url, payload, (loginResponse) => {
+              if (loginResponse.isError === 'N') {
+                isError = false
+                fetchAppUser(server_url, body.username, update_data, estate, (res) => {
                   sendDataToLocal(endpoints.insertUser, res)
                 })
-                await fetchAppUserPassword(
-                  server_url,
-                  body.username,
-                  update_data,
-                  estate,
-                  (res) => {
-                    sendDataToLocal(endpoints.insertPassword, res)
-                  }
-                )
-                await fetchCommodity(server_url, body.username, update_data, estate, (res) => {
+                fetchAppUserPassword(server_url, body.username, update_data, estate, (res) => {
+                  sendDataToLocal(endpoints.insertPassword, res)
+                })
+                fetchCommodity(server_url, body.username, update_data, estate, (res) => {
                   sendDataToLocal(endpoints.insertCommodity, res)
                 })
-                await fetchEstate(server_url, body.username, update_data, estate, (res) => {
+                fetchEstate(server_url, body.username, update_data, estate, (res) => {
                   sendDataToLocal(endpoints.insertEstate, res)
                 })
-                await fetchEstateLevel(server_url, body.username, update_data, estate, (res) => {
+                fetchEstateLevel(server_url, body.username, update_data, estate, (res) => {
                   sendDataToLocal(endpoints.insertEstateLevel, res)
                 })
-                await fetchVehicle(server_url, body.username, update_data, estate, (res) => {
+                fetchVehicle(server_url, body.username, update_data, estate, (res) => {
                   sendDataToLocal(endpoints.insertVehicle, res)
                 })
-                await fetchVendor(server_url, body.username, update_data, estate, (res) => {
+                fetchVendor(server_url, body.username, update_data, estate, (res) => {
                   sendDataToLocal(endpoints.insertVendor, res)
                 })
-                await fetchWorker(server_url, body.username, update_data, estate, (res) => {
+                fetchWorker(server_url, body.username, update_data, estate, (res) => {
                   sendDataToLocal(endpoints.insertWorker, res)
                 })
-                await fetchMillManager(server_url, body.username, mill.cd, async (res) => {
+                fetchMillManager(server_url, body.username, mill.cd, async (res) => {
                   const createdDate = moment().format('Y-MM-DD')
                   const payload = {
                     ...res,
@@ -423,12 +415,7 @@ export default function SyncController() {
                   }
                   await ApiService.jsonRequest(endpoints.updateMill, payload, () => {})
                 })
-                await logoutServer(
-                  server_url,
-                  body.username,
-                  mill_detail[i].pcc_estate_cd,
-                  () => {}
-                )
+                logoutServer(server_url, body.username, mill_detail[i].pcc_estate_cd, () => {})
                 setTimeout(() => {
                   ToastNotification({
                     title: 'Berhasil',
@@ -437,10 +424,25 @@ export default function SyncController() {
                   })
                 }, 2000)
                 loading(false)
-                window.location.reload()
+              } else {
+                if (loginResponse.isError === 'Y' && i === mill_detail.length - 1) {
+                  ToastNotification({
+                    title: 'Kesalahan',
+                    message: loginResponse.message,
+                    isError: true
+                  })
+                  loading(false)
+                }
               }
             })
           })
+          while (tokenValid) {
+            await timer(1000)
+          }
+          if (!isError) {
+            loading(false)
+            break
+          }
         }
       } catch (error) {
         loading(false)

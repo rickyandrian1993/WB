@@ -9,12 +9,12 @@ import { findLabelPath } from '../../helpers/utility'
 import { CustomerController, TimbanganController, VendorController } from '../../services'
 
 export default function NonCommodityPage() {
-  const { pathname } = useLocation()
+  const { pathname, state } = useLocation()
   const [path, setPath] = useState(pathname)
   const commodity = findLabelPath(pathname).cd
   const form = useForm(initialValues)
   const submitRef = useRef()
-  const [inOut, setInOut] = useState('in')
+  const [inOut, setInOut] = useState(state || 'in')
   const [readTimbanganLoading, setReadTimbanganLoading] = useState(false)
   const { customer } = CustomerController()
   const { vendor } = VendorController()

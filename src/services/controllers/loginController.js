@@ -8,18 +8,18 @@ import { setStore } from '../../helpers/utility'
 export default function LoginController() {
   const navigate = useNavigate()
 
-  const getToken = useCallback((url, loading, callback) => {
-    ApiService.jsonRequest(url + endpoints.getToken, {}, (response) => {
-      if (response.isError === true || response.isError === 'Y') {
+  const getToken = async (url, loading, callback) => {
+    ApiService.jsonRequest(url + endpoints.getToken, {}, (e) => {
+      if (e.isError === true || e.isError === 'Y') {
         ToastNotification({
           title: 'Kesalahan',
-          message: response.message,
-          isError: response.isError
+          message: e.message,
+          isError: e.isError
         })
         loading(false)
-      } else callback(response)
+      } else callback(e)
     })
-  }, [])
+  }
 
   const login = useCallback(
     (body, loading) => {

@@ -14,10 +14,10 @@ import { useForm } from '@mantine/form'
 import { initialValues } from '../../constants/initialFormValues'
 
 const TbsIntiPage = () => {
-  const { pathname } = useLocation()
+  const { pathname, state } = useLocation()
   const { readNFC } = NFCReaderController()
   const [path, setPath] = useState(pathname)
-  const [inOut, setInOut] = useState('in')
+  const [inOut, setInOut] = useState(state || 'in')
   const [readTimbanganLoading, setReadTimbanganLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const commodity = findLabelPath(pathname).cd
@@ -32,9 +32,6 @@ const TbsIntiPage = () => {
       form.reset()
       setPath(pathname)
       setInOut('in')
-    }
-    if (commodity) {
-      form.setFieldValue('comodity_nm', commodity)
     }
   }, [path, pathname, form, commodity])
 
