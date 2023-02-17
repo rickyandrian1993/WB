@@ -10,6 +10,7 @@ import {
 } from '../../assets/style/styled'
 import { ToastNotification } from '../../components'
 import { columnsSync } from '../../constants/headerTable'
+import { getLastMonthDate } from '../../helpers/utility'
 import { ReportController } from '../../services'
 
 export const OverlayContext = createContext(null)
@@ -20,7 +21,7 @@ export default function Sync() {
   const [loading, setLoading] = useState(true)
   const [uploadLoading, setUploadLoading] = useState(false)
   const [payload, setPayload] = useState({
-    from_date: new Date('2022-12-01'),
+    from_date: getLastMonthDate(),
     thru_date: new Date()
   })
 

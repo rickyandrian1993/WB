@@ -54,10 +54,8 @@ if (!gotTheLock) {
 
   app.on('ready', () => {
     createWindow()
-    if (isDev) mainWindow.webContents.openDevTools()
-    // mainWindow.maximize()
-
     autoUpdater.checkForUpdatesAndNotify()
+    if (isDev) mainWindow.webContents.openDevTools()
   })
 
   app.on('window-all-closed', function () {
