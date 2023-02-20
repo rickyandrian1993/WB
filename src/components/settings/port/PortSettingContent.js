@@ -22,10 +22,8 @@ export default function PortSettingContent({ data, drawerVisible }) {
             ? 'Baudrate tidak boleh kosong.'
             : null,
         bits: values.bits === '' || values.bits === null ? 'Tidak boleh kosong.' : null,
-        stopbit:
-          values.stopbit === '' || values.stopbit === null ? 'Tidak boleh kosong.' : null,
-        parity:
-          values.parity === '' || values.parity === null ? 'Tidak boleh kosong.' : null,
+        stopbit: values.stopbit === '' || values.stopbit === null ? 'Tidak boleh kosong.' : null,
+        parity: values.parity === '' || values.parity === null ? 'Tidak boleh kosong.' : null,
         com: values.com === '' || values.com === null ? 'Tidak boleh kosong.' : null
       }
     }
@@ -46,6 +44,7 @@ export default function PortSettingContent({ data, drawerVisible }) {
         <Col>
           <Select
             rightSection={<i className="ri-arrow-down-s-line"></i>}
+            styles={{ rightSection: { pointerEvents: 'none' } }}
             withAsterisk
             label="Baudrate"
             placeholder="Baudrate"
@@ -64,6 +63,7 @@ export default function PortSettingContent({ data, drawerVisible }) {
         <Col>
           <Select
             rightSection={<i className="ri-arrow-down-s-line"></i>}
+            styles={{ rightSection: { pointerEvents: 'none' } }}
             withAsterisk
             label="Bits"
             placeholder="Bits"
@@ -86,6 +86,7 @@ export default function PortSettingContent({ data, drawerVisible }) {
         <Col>
           <Select
             rightSection={<i className="ri-arrow-down-s-line"></i>}
+            styles={{ rightSection: { pointerEvents: 'none' } }}
             withAsterisk
             label="Stop Bit"
             placeholder="Stop Bit"
@@ -104,6 +105,7 @@ export default function PortSettingContent({ data, drawerVisible }) {
         <Col>
           <Select
             rightSection={<i className="ri-arrow-down-s-line"></i>}
+            styles={{ rightSection: { pointerEvents: 'none' } }}
             withAsterisk
             label="Parity"
             placeholder="Parity"
@@ -117,6 +119,7 @@ export default function PortSettingContent({ data, drawerVisible }) {
         <Col>
           <Select
             rightSection={<i className="ri-arrow-down-s-line"></i>}
+            styles={{ rightSection: { pointerEvents: 'none' } }}
             withAsterisk
             label="COM"
             placeholder="COM"

@@ -64,6 +64,11 @@ const Side = () => {
         <SideSection>
           <LogoBurger state={open} setState={setOpen} />
         </SideSection>
+        {/* <SideSection
+          sx={!open && { '.mantine-NavLink-rightSection': { display: 'none' } }}
+          grow
+          component={ScrollArea}
+        > */}
         <SideSection sx={!open && { '.mantine-NavLink-rightSection': { display: 'none' } }}>
           {menu.map(({ label, path, icon, rightIcon, child }, index) => (
             <div key={index}>

@@ -109,6 +109,7 @@ export default function Report() {
                 <ColGrid span={4}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     required
                     withAsterisk
                     label="Komoditi"

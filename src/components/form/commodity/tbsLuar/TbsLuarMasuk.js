@@ -87,6 +87,7 @@ const TbsLuarMasuk = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     withAsterisk
                     label="Customer"
                     placeholder="Customer"
@@ -167,6 +168,7 @@ const TbsLuarMasuk = ({ commodity, submitRef, form, dropdownData }) => {
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     disabled={loading}
                     withAsterisk
                     label="Ekspedisi"

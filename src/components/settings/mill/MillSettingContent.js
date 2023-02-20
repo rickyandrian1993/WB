@@ -33,7 +33,8 @@ export default function MillSettingContent({ data }) {
     <Grid sx={{ '.mantine-Select-root': { position: 'relative' } }}>
       <Col>
         <Select
-                rightSection={<i className="ri-arrow-down-s-line"></i>}
+          rightSection={<i className="ri-arrow-down-s-line"></i>}
+          styles={{ rightSection: { pointerEvents: 'none' } }}
           withAsterisk
           label="Mill"
           placeholder="Mill"

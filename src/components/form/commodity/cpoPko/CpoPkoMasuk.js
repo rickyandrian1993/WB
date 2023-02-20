@@ -87,8 +87,9 @@ export default function CpoPkoMasuk({ commodity, submitRef, form, dropdownData }
               <ScaleGrid>
                 <ColGrid span={12}>
                   <Select
-                    withAsterisk
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
+                    withAsterisk
                     disabled={loading}
                     label="Customer"
                     placeholder="Customer"
@@ -141,6 +142,7 @@ export default function CpoPkoMasuk({ commodity, submitRef, form, dropdownData }
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     disabled={loading}
                     withAsterisk
                     label="Ekspedisi"

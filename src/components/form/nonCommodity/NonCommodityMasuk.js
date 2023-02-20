@@ -89,6 +89,7 @@ export default function NonCommodityMasuk({ commodity, submitRef, form, dropdown
                   <Select
                     withAsterisk
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     disabled={loading}
                     label="Customer"
                     placeholder="Customer"
@@ -141,6 +142,7 @@ export default function NonCommodityMasuk({ commodity, submitRef, form, dropdown
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     disabled={loading}
                     withAsterisk
                     label="Ekspedisi"

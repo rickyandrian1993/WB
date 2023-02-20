@@ -126,6 +126,7 @@ export default function NonCommodityKeluar({ commodity, submitRef, form, dropdow
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     value={vehicleSelected}
                     disabled={loading}
                     label="No. Kendaraan"
@@ -140,6 +141,7 @@ export default function NonCommodityKeluar({ commodity, submitRef, form, dropdow
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     disabled
                     withAsterisk
                     label="Customer"
@@ -184,6 +186,7 @@ export default function NonCommodityKeluar({ commodity, submitRef, form, dropdow
                 <ColGrid span={12}>
                   <Select
                     rightSection={<i className="ri-arrow-down-s-line"></i>}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
                     disabled
                     withAsterisk
                     label="Ekspedisi"
