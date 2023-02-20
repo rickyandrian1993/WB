@@ -4,38 +4,14 @@ const { autoUpdater } = require('electron-updater')
 const path = require('path')
 const url = require('url')
 
+app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
+app.commandLine.appendSwitch('disable-site-isolation-trials')
 app.commandLine.appendSwitch('ignore-certificate-errors')
 app.commandLine.appendSwitch('disable-web-security')
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true
 
 let mainWindow = null
 const gotTheLock = app.requestSingleInstanceLock()
-
-autoUpdater.on('update-available', (_event, releaseNotes, releaseName) => {
-  const dialogOpts = {
-    type: 'info',
-    buttons: ['Ok'],
-    title: `Update Available`,
-    message: process.platform === 'win32' ? releaseNotes : releaseName,
-    detail: `A new version download started.`
-  }
-
-  dialog.showMessageBox(dialogOpts)
-})
-
-autoUpdater.on('update-not-available', (info) => {
-  console.info('info', info)
-})
-
-autoUpdater.on('download-progress', (progressObj) => {
-  console.info('progressObj', progressObj)
-})
-
-autoUpdater.on('update-downloaded', (_event) => {
-  setTimeout(() => {
-    autoUpdater.quitAndInstall()
-  }, 3500)
-})
 
 if (!gotTheLock) {
   app.quit()
@@ -76,13 +52,12 @@ if (!gotTheLock) {
     mainWindow.on('closed', function () {
       mainWindow = null
     })
-
-    autoUpdater.checkForUpdatesAndNotify()
   }
 
   app.on('ready', () => {
     createWindow()
     if (isDev) mainWindow.webContents.openDevTools()
+    autoUpdater.checkForUpdatesAndNotify()
   })
 
   app.on('window-all-closed', function () {
@@ -91,5 +66,23 @@ if (!gotTheLock) {
 
   app.on('activate', function () {
     if (mainWindow === null) createWindow()
+  })
+
+  autoUpdater.on('update-available', (_event, releaseNotes, releaseName) => {
+    const dialogOpts = {
+      type: 'info',
+      buttons: ['Ok'],
+      title: `Update Available`,
+      message: process.platform === 'win32' ? releaseNotes : releaseName,
+      detail: `A new version download started.`
+    }
+
+    dialog.showMessageBox(dialogOpts)
+  })
+
+  autoUpdater.on('update-downloaded', (_event) => {
+    setTimeout(() => {
+      autoUpdater.quitAndInstall()
+    }, 3500)
   })
 }
