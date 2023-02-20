@@ -76,10 +76,11 @@ if (!gotTheLock) {
     mainWindow.on('closed', function () {
       mainWindow = null
     })
+
+    autoUpdater.checkForUpdatesAndNotify()
   }
 
   app.on('ready', () => {
-    autoUpdater.checkForUpdatesAndNotify()
     createWindow()
     if (isDev) mainWindow.webContents.openDevTools()
   })
