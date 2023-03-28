@@ -39,10 +39,6 @@ a {
   outline: none;
 }
 
-a:hover {
-  border-bottom: 1px solid;
-}
-
 img {
   object-fit: contain;
 }
@@ -57,11 +53,27 @@ img {
 }
 
 .mantine-Drawer-drawer {
-  background: #ffffffbe;
+  background: #ffffffdc;
   border-radius: 8px;
   box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(4px);
   border: 1px solid rgba(149, 149, 149, 0.44);
+}
+
+.mantine-Drawer-drawer .mantine-Divider-root {
+  border-width: 2px;
+  background-color: #628b48;
+  margin: 8px 0px;
+  margin-top: 4px;
+}
+
+.mantine-Title-root {
+  display: flex;
+  align-items: center;
+} 
+
+.mantine-Title-root i {
+  margin-right: 8px;
 }
 
 .mantine-Checkbox-root *:hover {
@@ -91,6 +103,7 @@ img {
 }
 
 .mantine-AppShell-body {
+  margin-top: 60px;
   background-color: #fafff5bb;
 }
 
@@ -99,35 +112,35 @@ img {
 }
 
 @media print {
-  .mantine-Navbar-root{
+  .mantine-Navbar-root {
     display: none;
   }
-  
+
   .mantine-AppShell-main {
     padding: unset;
   }
-  
+
   body {
     overflow-x: hidden;
   }
-  
+
   body * {
     visibility: hidden;
     padding: unset;
   }
-  
+
   #print-section {
     position: absolute;
     top: -20px;
     left: 50%;
     transform: translateX(-50%);
   }
-  
+
   #print-section * {
     font-size: 14px;
     visibility: visible;
   }
-  
+
   #print-title {
     font-size: 24px;
   }

@@ -15,6 +15,7 @@ import sync from './routes/sync.js'
 import vendor from './routes/vendor.js'
 import vehicle from './routes/vehicle.js'
 import worker from './routes/worker.js'
+import supplier from './routes/supplier.js'
 
 const router = express.Router()
 
@@ -35,5 +36,6 @@ router.use('/user', appUser)
 router.use('/vehicle', vehicle)
 router.use('/vendor', vendor)
 router.use('/worker', worker)
+router.use('/supplier', supplier)
 
 export default router

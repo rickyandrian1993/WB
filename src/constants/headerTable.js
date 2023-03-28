@@ -27,7 +27,7 @@ export const columns = [
     sortable: true
   },
   {
-    name: 'No. Kendaraan',
+    name: 'No. Polisi',
     selector: (row) => row.pcc_vehicle_cd ?? '-',
     sortable: true
   },

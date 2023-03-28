@@ -36,21 +36,21 @@ const TbsIntiPage = () => {
   }, [path, pathname, form, commodity])
 
   const readTimbangan = () => {
-    getTimbanganData(setReadTimbanganLoading, (res) => {
-      if (inOut === 'in') form.setFieldValue('first_w', res)
+    // getTimbanganData(setReadTimbanganLoading, (res) => {
+      if (inOut === 'in') form.setFieldValue('first_w', 300)
       else {
         const { first_w, total_bunch } = form.values
-        let netto_w = Math.abs(+first_w - res)
+        let netto_w = Math.abs(+first_w - 350)
         let bjr = (netto_w / total_bunch).toFixed(2)
         form.setValues((prev) => ({
           ...prev,
           after_cut: netto_w,
           netto_w,
-          second_w: res,
+          second_w: 350,
           bjr
         }))
       }
-    })
+    // })
   }
 
   const nfcReader = () => {
@@ -124,19 +124,19 @@ const TbsIntiPage = () => {
       {/* Form */}
       <ColGrid>
         {inOut === 'in' ? (
-          <TbsIntiMasuk
-            commodity={commodity}
-            submitRef={submitRef}
-            form={form}
-            dropdownData={{ customer: customer, vendor: vendor }}
-          />
+        <TbsIntiMasuk
+          commodity={commodity}
+          submitRef={submitRef}
+          form={form}
+          dropdownData={{ customer: customer, vendor: vendor }}
+        />
         ) : (
-          <TbsIntiKeluar
-            commodity={commodity}
-            submitRef={submitRef}
-            form={form}
-            dropdownData={{ customer: customer, vendor: vendor }}
-          />
+        <TbsIntiKeluar
+          commodity={commodity}
+          submitRef={submitRef}
+          form={form}
+          dropdownData={{ customer: customer, vendor: vendor }}
+        />
         )}
       </ColGrid>
     </ScaleGrid>

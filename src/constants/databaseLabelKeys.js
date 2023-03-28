@@ -4,7 +4,7 @@ const label = {
   first_update: 'Tanggal Keluar',
   estate_nm: 'Estate',
   comodity_nm: 'Komoditi / Non Komoditi',
-  pcc_vehicle_cd: 'No. Kendaraan',
+  pcc_vehicle_cd: 'No. Polisi',
   first_w: 'Timbangan Pertama',
   second_w: 'Timbangan Kedua',
   netto_w: 'Netto',
@@ -43,7 +43,7 @@ const labelNonDetail = {
   wb_arrive_dt: 'Tanggal Masuk',
   first_update: 'Tanggal Keluar',
   comodity_nm: 'Komoditi',
-  pcc_vehicle_cd: 'No. Kendaraan',
+  pcc_vehicle_cd: 'No. Polisi',
   first_w: 'Timbangan Pertama',
   second_w: 'Timbangan Kedua',
   netto_w: 'Netto'

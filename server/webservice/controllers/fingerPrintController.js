@@ -21,4 +21,14 @@ const CredentialList = (callback) => {
     )
 }
 
-export { CredentialList }
+const RemoveBiometric = (req, res) => {
+  const { username } = req.body
+  const removeBiometricQuery = `UPDATE pcc_app_user SET biometric = null WHERE cd = '${username}'`
+  
+  pool
+    .query(removeBiometricQuery)
+    .then((_) => res.json({ ...success200}))
+    .catch((err) => res.status(500).json({ ...error500, data: err}))
+}
+
+export { CredentialList, RemoveBiometric }

@@ -1,10 +1,11 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { AppShell } from '@mantine/core'
-import Top from './layout/Top'
-import Side from './layout/Side'
 import {
+  AllForm,
+  Commodity,
   CpoPkoPage,
+  History,
   NonCommodityPage,
   Print,
   Report,
@@ -13,12 +14,13 @@ import {
   TbsLuarPage,
   TbsPlasmaPage
 } from '../pages'
+import NavHeader from './layout/NavHeader'
 
 const AppLayout = () => {
   return (
-    <AppShell navbar={<Side />}>
-      <Top />
+    <AppShell header={<NavHeader />}>
       <Routes>
+        <Route path="/" element={<AllForm />} />
         <Route path="/tbs-inti" element={<TbsIntiPage />} />
         <Route path="/tbs-plasma" element={<TbsPlasmaPage />} />
         <Route path="/tbs-luar" element={<TbsLuarPage />} />
@@ -31,12 +33,8 @@ const AppLayout = () => {
         <Route path="/report" element={<Report />} />
         <Route path="/sync" element={<SyncPage />} />
         <Route path="/print" element={<Print />} />
-        {/* <Route path="/history" element={<HistoryPage />} />
-        <Route path="/upload" element={<UploadPage />} />
-
-        <Route path="/history/edit" element={<EditPage />} />
-        <Route path="/history/print" element={<PrintPage />} />
-        <Route path="/history/print-spb" element={<PrintSPBPage />} /> */}
+        <Route path="/commodity" element={<Commodity />} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </AppShell>
   )

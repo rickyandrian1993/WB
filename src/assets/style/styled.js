@@ -2,6 +2,9 @@ import { Box, Grid } from '@mantine/core'
 import styled from 'styled-components'
 
 const GlobalStyledComponent = styled.div`
+  main {
+    min-height: auto;
+  }
   .mantine {
     &-AppShell-main {
       padding-top: 0px;
@@ -56,12 +59,17 @@ const GlobalStyledComponent = styled.div`
         }
       }
     }
-    &-Divider-label {
-      border-color: #628b48;
-      color: #628b48;
-      &::after,
-      &::before {
+    &-Divider {
+      &-root {
+        border-width: 2px;
+      }
+      &-label {
         border-color: #628b48;
+        color: #628b48;
+        &::after,
+        &::before {
+          border-color: #628b48;
+        }
       }
     }
     &-NavLink-root {
@@ -71,6 +79,23 @@ const GlobalStyledComponent = styled.div`
       }
     }
   }
+`
+
+const ColGrid = styled(Grid.Col)`
+  &.button-header-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 4px;
+    button {
+      height: 46px;
+    }
+  }
+  .mantine-Col-root {
+    margin-top: 0;
+  }
+  ${({ leftdivider }) => leftdivider && `border-left : 1px solid #628B48;`}
 `
 
 const ScaleGrid = styled(Grid)`
@@ -90,10 +115,9 @@ const ScaleGrid = styled(Grid)`
       }
       &-label {
         padding-left: 0px;
-        padding: 0px 4px;
-        font-size: 14px;
+        margin: 0px 4px;
+        font-size: 12px;
         top: -8px;
-        left: 6px;
         position: absolute;
         opacity: 1;
         z-index: 1;
@@ -103,11 +127,12 @@ const ScaleGrid = styled(Grid)`
     }
     &-Input {
       &-input {
+        font-size: 14px;
         border-color: #628b48;
-        min-height: 38px;
+        min-height: 32px;
         padding-top: 0px;
         input {
-          height: 38px;
+          height: 32px;
           padding-top: 0px;
         }
         &:focus,
@@ -119,6 +144,13 @@ const ScaleGrid = styled(Grid)`
         border-left: 1px solid #628b48;
         font-size: 12px;
       }
+      &-withIcon {
+        padding-left: 32px;
+      }
+      &-icon {
+        font-size: 12px;
+        width: 30px;
+      }
     }
     &-Textarea-input {
       padding-top: 6px;
@@ -126,6 +158,10 @@ const ScaleGrid = styled(Grid)`
     &-Divider-root {
       margin: 8px;
       width: 100%;
+      border-color: #628b48;
+      &:not(.mantine-Divider-withLabel) {
+        margin: 18px 8px;
+      }
     }
     &-SegmentedControl {
       &-root {
@@ -168,11 +204,17 @@ const ScaleGrid = styled(Grid)`
     border-radius: 8px;
     text-align: center;
     padding: 8px;
-    .mantine-Text-root:last-child {
-      &::after {
-        font-size: 16px;
-        content: 'Kg';
-        margin-left: 5px;
+    .mantine-Text-root {
+      &:first-child {
+        font-size: 14px;
+      }
+      &:last-child {
+        font-size: 18px;
+        &::after {
+          font-size: 12px;
+          content: 'Kg';
+          margin-left: 5px;
+        }
       }
     }
   }
@@ -192,24 +234,6 @@ const FormBox = styled.form`
   }
 `
 
-const ColGrid = styled(Grid.Col)`
-  &.button-header-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    border-radius: 8px;
-    padding: 4px;
-
-    button {
-      height: 46px;
-    }
-  }
-  .mantine-Col-root {
-    margin-top: 0;
-  }
-  ${({ leftdivider }) => leftdivider && `border-left : 1px solid #628B48;`}
-`
-
 const FormGroup = styled(Box)`
   display: flex;
   border: solid 1px #628b48;
@@ -225,7 +249,6 @@ const FormGroup = styled(Box)`
   .mantine {
     &-Input {
       &-input {
-        min-height: 36px;
         border: none;
         background-color: transparent;
         &:focus,
@@ -238,6 +261,11 @@ const FormGroup = styled(Box)`
       width: 100%;
       &:first-child {
         position: initial;
+      }
+      &.form {
+        &-rekapitulasi {
+          width: 75%;
+        }
       }
       &:last-child {
         border-left: 1px solid #628b48;
@@ -259,7 +287,7 @@ const ReportTableBox = styled(Box)`
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
   > div {
     border-radius: 12px;
-    padding: 0px 2px;
+    background-color: transparent;
     div,
     nav {
       background-color: transparent;
@@ -422,7 +450,7 @@ const PrintContent = styled.div`
           :first-child {
             text-align: left;
           }
-          :last-child{
+          :last-child {
             text-align: right;
           }
         }
@@ -454,6 +482,33 @@ const PrintFooter = styled.div`
   }
 `
 
+const LogoStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: calc(100%);
+  align-items: center;
+  padding: 4px 4px 6px 6px;
+  background-color: #fafff5;
+  border-radius: 8px;
+  position: relative;
+  > * {
+    flex: 0 1 100%;
+    white-space: nowrap;
+  }
+  span {
+    height: 100%;
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    padding: 0 6px;
+    color: #628b48;
+    border-radius: 6px;
+  }
+  img {
+    height: calc(100% - 4px);
+  }
+`
 export {
   ActionsBox,
   FormBox,
@@ -466,5 +521,6 @@ export {
   PrintWrapper,
   PrintHeader,
   PrintContent,
-  PrintFooter
+  PrintFooter,
+  LogoStyled
 }

@@ -27,15 +27,12 @@ export default function LoginController() {
       ApiService.jsonRequest(endpoints.login, body, (response) => {
         if (!response.isError) {
           const accountInfo = {
-            estates: response.data.listEstate,
-            mill: response.data.mill,
             user: response.data.user
           }
           setStore('isLogin', true)
           setStore('accountInfo', accountInfo)
-          navigate('/tbs-inti', { replace: true })
+          navigate('/', { replace: true })
         }
-
         ToastNotification({
           title: response.isError ? 'Kesalahan' : 'Berhasil',
           message: response.message,

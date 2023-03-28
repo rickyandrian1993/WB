@@ -1,6 +1,7 @@
 import { Box, Paper } from '@mantine/core'
 import styled from 'styled-components'
 import bg from '../../assets/images/plantations.jpg'
+import { LogoStyled } from '../../assets/style/styled'
 
 const LoginPage = styled(Box)`
   background: url(${bg});
@@ -12,6 +13,15 @@ const LoginPage = styled(Box)`
   width: 100%;
   height: 100vh;
   position: relative;
+  ${LogoStyled} {
+    background: transparent;
+    img {
+      height: 80px;
+    }
+    span {
+      display: none;
+    }
+  }
 `
 const GlassCard = styled(Paper)`
   display: flex;

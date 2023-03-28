@@ -25,9 +25,11 @@ export const endpoints = {
   getListUploadData: `${baseAPIUrlLocal}/sync`,
   getMillUser: `${baseAPIUrlLocal}/mill`,
   getReport: `${baseAPIUrlLocal}/report`,
+  getReportData: `${baseAPIUrlLocal}/report/list`,
   getScaleHistory: `${baseAPIUrlLocal}/history/scale-in`,
   getTimbanganData: `${baseAPIUrlLocalExternal}/get-weigh`,
   getVendorVehicle: `${baseAPIUrlLocal}/vendor`,
+  getSupplier: `${baseAPIUrlLocal}/supplier`,
   inputData: `${baseAPIUrlLocal}/input-data/insert`,
   insertCommodity: `${baseAPIUrlLocal}/commodity/insert`,
   insertCustomer: `${baseAPIUrlLocal}/customer/insert`,
@@ -54,5 +56,8 @@ export const endpoints = {
   /* API Finger Print */
   authFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/scan`,
   registerFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/insert`,
-  validateFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/identify`
+  validateFinger: `${baseAPIUrlLocalFingerPrint}/fingerprint/identify`,
+  deleteUserBiometric: `${baseAPIUrlLocal}/credential/delete`,
+  registerUserBiometric: `${baseAPIUrlLocalFingerPrint}/user/biometric/update`,
+  identifyUserBiometric: `${baseAPIUrlLocalFingerPrint}/user/biometric/identify`,
 }

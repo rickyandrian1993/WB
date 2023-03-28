@@ -2,8 +2,12 @@ import { useCallback } from 'react'
 import { endpoints } from '../endpoints'
 import ApiService from '../ApiService'
 import { ToastNotification } from '../../components'
+import { setStore } from '../../helpers/utility'
+import { useNavigate } from 'react-router-dom'
 
 export default function FingerPrintController() {
+  const navigate = useNavigate()
+
   const fingerAuth = useCallback((loading, callback) => {
     loading(true)
     ApiService.jsonRequest(endpoints.authFinger, {}, (response) => {
@@ -55,5 +59,83 @@ export default function FingerPrintController() {
     )
   }, [])
 
-  return { fingerAuth, fingerValidate, fingerInsert }
+  const userBiometricDelete = useCallback((payload, loading, callback) => {
+    loading(true)
+    ApiService.jsonRequest(endpoints.deleteUserBiometric, payload, (response) => {
+      if (response.isError)
+        ToastNotification({
+          title: 'Kesalahan',
+          message: 'Gagal Menghapus Biometric Fingerprint',
+          isError: response.isError
+        })
+      else {
+        ToastNotification({
+          title: 'Berhasil',
+          message: 'Fingerprint Berhasil Dihapus',
+          isError: response.isError
+        })
+        callback(false)
+      }
+      loading(false)
+    })
+  }, [])
+
+  const userBiometricIdentify = useCallback(
+    (loading) => {
+      loading(true)
+      ApiService.jsonRequest(endpoints.identifyUserBiometric, {}, (response) => {
+        if (response.is_error || response.isError)
+          ToastNotification({
+            title: 'Kesalahan',
+            message: 'Biometric Tidak Terdaftar',
+            isError: response.isError
+          })
+        else {
+          ToastNotification({
+            title: 'Berhasil',
+            message: `Selamat Datang ${response.data.nm}`,
+            isError: response.isError
+          })
+          const accountInfo = {
+            user: { nm: response.data.nm, cd: response.data.cd, bm: true }
+          }
+          setStore('isLogin', true)
+          setStore('accountInfo', accountInfo)
+          navigate('/', { replace: true })
+        }
+        loading(false)
+      })
+    },
+    [navigate]
+  )
+
+  const userBiometricCreate = useCallback((payload, loading, callback) => {
+    loading(true)
+    ApiService.jsonRequest(endpoints.registerUserBiometric, payload, (response) => {
+      if (response.isError)
+        ToastNotification({
+          title: 'Kesalahan',
+          message: 'Gagal Menyimpan Biometric Fingerprint',
+          isError: response.isError
+        })
+      else {
+        ToastNotification({
+          title: 'Berhasil',
+          message: 'Pendaftaran Fingerprint Berhasil',
+          isError: response.isError
+        })
+        callback(true)
+      }
+      loading(false)
+    })
+  }, [])
+
+  return {
+    fingerAuth,
+    fingerValidate,
+    fingerInsert,
+    userBiometricDelete,
+    userBiometricCreate,
+    userBiometricIdentify
+  }
 }

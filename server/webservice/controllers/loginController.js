@@ -38,7 +38,7 @@ const CheckUserExist = (data, callback) => {
 const CheckUsernameAndPasswordInDB = (data, estateCd, callback) => {
   const hashing = md5(data.username + SALT + data.password + estateCd + SALT)
   const checkUsernameAndPasswordQuery = `
-    SELECT au.cd, au.nm FROM "pcc_app_user_pass" aup 
+    SELECT au.cd, au.nm, au.biometric FROM "pcc_app_user_pass" aup 
       JOIN "pcc_app_user" au ON aup.pcc_app_user_cd = au.cd 
     WHERE aup."password" = '${hashing}' AND aup."pcc_app_user_cd" = '${data.username}'`
   pool
@@ -79,7 +79,8 @@ const CheckUserAccess = (userData, callback) => {
             data: {
               user: {
                 cd: userData.cd,
-                nm: userData.nm
+                nm: userData.nm,
+                bm: !userData.biometric ? false : true
               }
             }
           })

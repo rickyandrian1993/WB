@@ -27,6 +27,26 @@ export default function ReportController() {
     )
   }, [])
 
+  const getReportData = useCallback((payload, callback) => {
+    ApiService.jsonRequest(
+      endpoints.getReportData,
+      {
+        ...payload,
+        startDate: moment(payload.startDate).format('Y-MM-DD'),
+        endDate: moment(payload.endDate).format('Y-MM-DD')
+      },
+      (response) => {
+        if (response.isError === true || response.isError === 'Y') {
+          ToastNotification({
+            title: 'Kesalahan',
+            message: response.message,
+            isError: response.isError
+          })
+        } else callback(response.data)
+      }
+    )
+  }, [])
+
   const getUploadList = useCallback((payload, loading, callback) => {
     loading(true)
     ApiService.jsonRequest(endpoints.getListUploadData, payload, (response) => {
@@ -61,5 +81,5 @@ export default function ReportController() {
     })
   }, [])
 
-  return { getReport, getUploadList, uploadData }
+  return { getReport, getReportData, getUploadList, uploadData }
 }

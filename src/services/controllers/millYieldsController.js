@@ -38,7 +38,7 @@ export default function LoginController() {
   }, [])
 
   const updateData = useCallback(
-    (body, loading, callback) => {
+    (body, loading) => {
       if (
         parseInt(body.first_w) === 0 ||
         parseInt(body.second_w) === 0 ||
@@ -65,7 +65,6 @@ export default function LoginController() {
             message: response.message,
             isError: response.isError
           })
-          callback()
           navigate('/print', { state: { type: 'TIKET', data: body } })
         }
         loading(false)

@@ -76,7 +76,7 @@ export default function PrintTbsPlasmaContent({ data }) {
             <Col span={6}>{customer_nm || '-'}</Col>
           </Grid>
           <Grid>
-            <Col span={6}>No. Kendaraan</Col>
+            <Col span={6}>No. Polisi</Col>
             <Col span={6}>{pcc_vehicle_cd || '-'}</Col>
           </Grid>
           <Grid>

@@ -3,7 +3,7 @@ import { Button, Divider, NumberInput, Select, Textarea, TextInput } from '@mant
 import { DatePicker } from '@mantine/dates'
 import { ColGrid, FormBox, FormGroup, ScaleGrid } from '../../../assets/style/styled'
 import { MillYieldsController } from '../../../services'
-import { dateFormat } from '../../../helpers/utility'
+import { dateFormat, noPol } from '../../../helpers/utility'
 import PropTypes from 'prop-types'
 import ScaleDisplay from '../../scaleDisplay/ScaleDisplay'
 import 'dayjs/locale/id'
@@ -134,9 +134,12 @@ export default function NonCommodityMasuk({ commodity, submitRef, form, dropdown
                   <TextInput
                     withAsterisk
                     disabled={loading}
-                    label="No. Kendaraan"
-                    placeholder="No. Kendaraan"
+                    label="No. Polisi"
+                    placeholder="No. Polisi"
                     {...form.getInputProps('pcc_vehicle_cd')}
+                    onChange={(e) => {
+                      form.getInputProps('pcc_vehicle_cd').onChange(noPol(e.target.value))
+                    }}
                   />
                 </ColGrid>
                 <ColGrid span={12}>

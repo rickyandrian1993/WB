@@ -22,12 +22,13 @@ export const removeAllLocalStorage = () => {
   return window.localStorage.clear()
 }
 
-export const getEstateList = () => {
+export const getEstateList = (type = null) => {
   const estate = []
   const { mill_detail } = getStore('mill')
 
   mill_detail.forEach((data) => {
-    estate.push({ estateCd: data.pcc_estate_cd, estateNm: data.pcc_estate_nm })
+    if (type === 'select') estate.push({ value: data.pcc_estate_cd, label: data.pcc_estate_nm })
+    else estate.push({ estateCd: data.pcc_estate_cd, estateNm: data.pcc_estate_nm })
   })
 
   return estate
@@ -102,6 +103,8 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
 
   const nfcIndicator = dataParent[0]
   const pcc_mill_cd = dataParent[9]
+  console.log('SCAN NFC', nfcIndicator, isGrading)
+  console.log('MILL', mill.cd, pcc_mill_cd)
   if (nfcIndicator !== '33' && nfcIndicator !== '34')
     ToastNotification({
       title: 'NFC Error',
@@ -149,7 +152,7 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
       pcc_mill_is_load_st: dataParent[10],
       is_lefted: dataParent[11],
       is_from_tph: dataParent[12],
-      date: dataParent[13],
+      created_dt: dataParent[13],
       total_loaded_nfc: dataParent[14],
       total_bunch: +dataParent[15],
       total_brondolan: +dataParent[16],
@@ -266,5 +269,45 @@ export const trimPayload = (payload, parity) => {
     }
     return null
   })
-  return result
+  return { ...payload, ...result }
+}
+
+export const noPol = (text) => {
+  if (typeof text !== 'string' || !text) return ''
+
+  const result = text.replace(/\s/g, '')
+  return result.toUpperCase()
+}
+
+export const filteringData = (datas, key) => {
+  return datas.reduce((result, value) => {
+    result[value[key]] = result[value[key]] || []
+    result[value[key]].push(value)
+    return result
+  }, Object.create(null))
+}
+
+export const filteringTwoKeys = (datas, key1, key2) => {
+  return datas.reduce((r, o, i) => {
+    const key = o[key1] + '-' + o[key2]
+    r[key] = r[key] || []
+    r[key].push(o)
+    return r
+  }, Object.create(null))
+}
+
+export const filteringTBSOnly = (datas) => {
+  const tbs = ['TBS Inti', 'TBS Luar', 'TBS Plasma', 'Brondolan', 'USB']
+
+  return filterItems(datas, tbs)
+}
+
+export const sumData = (datas, key) => {
+  return datas.reduce((accumulator, currentValue) => {
+    return accumulator + parseInt(currentValue[key])
+  }, 0)
+}
+
+const filterItems = (arr, query) => {
+  return arr.filter((el) => query.includes(el.comodity_nm))
 }

@@ -1,80 +1,29 @@
-import { Button, Loader, Select } from '@mantine/core'
+import React, { useState } from 'react'
+import { Button, LoadingOverlay, Select, Space } from '@mantine/core'
 import { DatePicker } from '@mantine/dates'
-import moment from 'moment'
-import React, { useCallback, useEffect, useState } from 'react'
-import { CSVLink } from 'react-csv'
-import DataTable from 'react-data-table-component'
-import {
-  ColGrid,
-  FormGroup,
-  ReportHeader,
-  ReportTableBox,
-  ScaleGrid
-} from '../../assets/style/styled'
+import { ColGrid, FormGroup, ReportHeader, ScaleGrid } from '../../assets/style/styled'
 import { ToastNotification } from '../../components'
-import { label } from '../../constants'
-import { labelNonDetail } from '../../constants/databaseLabelKeys'
-import { columns } from '../../constants/headerTable'
-import { generateHeader, getLastMonthDate, parseCSVData } from '../../helpers/utility'
-import { CommodityController, ReportController } from '../../services'
-
-const Expand = ({ data }) => {
-  const {
-    wb_arrive_dt,
-    estate_nm,
-    total_bunch,
-    ekspedisi_nm,
-    customer_nm,
-    seal_number,
-    cut,
-    after_cut,
-    bjr
-  } = data
-  const extra = {
-    estate_nm,
-    total_bunch,
-    ekspedisi_nm,
-    customer_nm,
-    seal_number,
-    cut,
-    after_cut,
-    bjr
-  }
-
-  return (
-    <ScaleGrid justify="space-between" px={12}>
-      {Object.keys(extra).map((items, i) => (
-        <ColGrid span="content" key={`${wb_arrive_dt}-${items}-${i}`}>
-          <p>{label[items]}</p>
-          <p>{extra[items] ?? '-'}</p>
-        </ColGrid>
-      ))}
-    </ScaleGrid>
-  )
-}
+import { ReportController } from '../../services'
+import TBSIntiReport from './pdf/tbsInti'
+import NonCommodity from './pdf/nonCommodity'
+import { commodityList } from '../../constants/commodityList'
+import Commodity from './pdf/commodity'
+import AllReportData from './pdf/allReport'
+import TbsLuarPlasmaUSBReport from './pdf/tbsLuarPlasmaUSB'
 
 export default function Report() {
-  const { getReport } = ReportController()
-  const { commodity } = CommodityController()
+  const { getReportData } = ReportController()
   const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(false)
   const [payload, setPayload] = useState({
-    commodity: 'all',
-    startDate: getLastMonthDate(),
-    endDate: new Date(),
-    page: 1,
-    perPage: 10,
-    total: 0
+    commodity: 'TBS Plasma',
+    estate: '',
+    supplier: '',
+    customer: '',
+    // startDate: new Date(),
+    startDate: '2023-01-17',
+    endDate: new Date()
   })
-
-  const handleChangeData = useCallback(
-    ({ results, currentPage, total }) => {
-      setData(results)
-      setPayload({ ...payload, page: currentPage, total })
-    },
-    [payload]
-  )
 
   const validateDateFilter = (start, end) => {
     if (start === null || end === null) {
@@ -90,134 +39,129 @@ export default function Report() {
         message: 'Tanggal mulai harus lebih kecil dari tanggal akhir',
         isError: true
       })
-    } else setLoading(true)
+    }
   }
 
-  useEffect(() => {
-    if (loading) {
-      getReport(payload, setLoading, handleChangeData)
-    }
-  }, [data, getReport, handleChangeData, loading, payload])
+  const globalSearchHandler = () => {
+    setLoading(true)
+    getReportData(payload, (res) => {
+      setData(res)
+      setLoading(false)
+    })
+  }
 
   return (
-    <ScaleGrid align="center">
-      <ColGrid>
-        <ReportHeader>
-          <ScaleGrid align="center" justify={'space-between'}>
-            <ColGrid span={6}>
-              <ScaleGrid>
-                <ColGrid span={4}>
-                  <Select
-                    rightSection={<i className="ri-arrow-down-s-line"></i>}
-                    styles={{ rightSection: { pointerEvents: 'none' } }}
-                    required
-                    withAsterisk
-                    label="Komoditi"
-                    placeholder="Komoditi"
-                    searchable
-                    data={[{ label: 'Semua', value: 'all' }, ...commodity]}
-                    size="sm"
-                    nothingFound="Tidak ada data."
-                    onChange={(commodity) => {
-                      setPayload({ ...payload, commodity })
-                      setLoading(true)
-                    }}
-                  />
-                </ColGrid>
-                <ColGrid span={8}>
-                  <FormGroup>
-                    <DatePicker
-                      label="Filter Date"
-                      placeholder="Tanggal Mulai"
-                      locale="id"
-                      value={payload.startDate}
-                      icon={<i className="ri-calendar-event-line" />}
-                      onChange={(e) => {
-                        validateDateFilter(e, payload.endDate)
-                        setPayload({ ...payload, startDate: e })
+    <>
+      <LoadingOverlay visible={loading} overlayBlur={2} />
+      <ScaleGrid align="center">
+        <ColGrid>
+          <ReportHeader>
+            <ScaleGrid align="center" justify={'space-between'}>
+              <ColGrid span={12}>
+                <ScaleGrid>
+                  <ColGrid span={2}>
+                    <Select
+                      rightSection={<i className="ri-arrow-down-s-line"></i>}
+                      styles={{ rightSection: { pointerEvents: 'none' } }}
+                      required
+                      withAsterisk
+                      label="Komoditi"
+                      placeholder="Komoditi"
+                      searchable
+                      data={[{ label: 'Semua', value: 'all', group: 'Semua' }, ...commodityList]}
+                      size="sm"
+                      nothingFound="Tidak ada data."
+                      onChange={(commodity) => {
+                        setPayload({
+                          ...payload,
+                          customer: '',
+                          estate: '',
+                          supplier: '',
+                          commodity
+                        })
+                        setData([])
                       }}
                     />
-                    <DatePicker
-                      placeholder="Tanggal Akhir"
-                      locale="id"
-                      value={payload.endDate}
-                      icon={<i className="ri-calendar-event-line" />}
-                      onChange={(e) => {
-                        validateDateFilter(payload.startDate, e)
-                        setPayload({ ...payload, endDate: e })
-                      }}
-                    />
-                  </FormGroup>
-                </ColGrid>
-              </ScaleGrid>
-            </ColGrid>
-            <ColGrid span={'content'}>
-              <ScaleGrid>
-                <ColGrid span={'content'}>
-                  <CSVLink
-                    data={parseCSVData(data)}
-                    headers={generateHeader(labelNonDetail)}
-                    separator=";"
-                    filename={`Laporan Timbangan ${moment(new Date()).format(
-                      'DD-MM-YY HHmmss'
-                    )}.csv`}
-                  >
-                    <Button leftIcon={<i className="ri-download-2-line"></i>}>Unduh CSV</Button>
-                  </CSVLink>
-                </ColGrid>
-                <ColGrid span={'content'}>
-                  <CSVLink
-                    data={parseCSVData(data)}
-                    headers={generateHeader(label)}
-                    separator=";"
-                    filename={`Laporan Timbangan Detail ${moment(new Date()).format(
-                      'DD-MM-YY HHmmss'
-                    )}.csv`}
-                  >
-                    <Button leftIcon={<i className="ri-download-2-line"></i>}>
-                      Unduh CSV Detail
+                  </ColGrid>
+                  {payload.commodity === 'all' && (
+                    <ColGrid span={2}>
+                      <DatePicker
+                        label="Tanggal"
+                        placeholder="Tanggal"
+                        locale="id"
+                        value={payload.startDate}
+                        icon={<i className="ri-calendar-event-line" />}
+                        onChange={(e) => {
+                          setPayload({ ...payload, startDate: e })
+                        }}
+                      />
+                    </ColGrid>
+                  )}
+                  {payload.commodity !== 'all' && (
+                    <ColGrid span={4}>
+                      <FormGroup>
+                        <DatePicker
+                          withAsterisk
+                          label="Filter Date"
+                          placeholder="Tanggal Mulai"
+                          locale="id"
+                          value={payload.startDate}
+                          icon={<i className="ri-calendar-event-line" />}
+                          onChange={(e) => {
+                            validateDateFilter(e, payload.endDate)
+                            setPayload({ ...payload, startDate: e })
+                          }}
+                        />
+                        <DatePicker
+                          placeholder="Tanggal Akhir"
+                          locale="id"
+                          value={payload.endDate}
+                          icon={<i className="ri-calendar-event-line" />}
+                          onChange={(e) => {
+                            validateDateFilter(payload.startDate, e)
+                            setPayload({ ...payload, endDate: e })
+                          }}
+                        />
+                      </FormGroup>
+                    </ColGrid>
+                  )}
+                  <ColGrid span={2}>
+                    <Button
+                      onClick={globalSearchHandler}
+                      leftIcon={<i className="ri-file-search-line"></i>}
+                    >
+                      Cari
                     </Button>
-                  </CSVLink>
-                </ColGrid>
-              </ScaleGrid>
-            </ColGrid>
-          </ScaleGrid>
-        </ReportHeader>
-      </ColGrid>
-      <ColGrid>
-        <ReportTableBox>
-          <DataTable
-            paginationTotalRows={payload.total}
-            columns={columns}
-            data={data}
-            expandableRowsComponent={Expand}
-            direction="auto"
-            expandOnRowClicked
-            expandableRows
-            expandableRowsHideExpander
-            fixedHeaderScrollHeight="300px"
-            highlightOnHover
-            persistTableHead
-            pagination
-            paginationServer
-            progressPending={loading}
-            progressComponent={<Loader color="#628B48" variant="bars" size="xl" mt={34} />}
-            onChangeRowsPerPage={(perPage, page) => {
-              setPayload({ ...payload, page, perPage })
-              setLoading(true)
-            }}
-            onChangePage={(page) => {
-              setPayload({ ...payload, page })
-              setLoading(true)
-            }}
-            defaultSortFieldId
-            pointerOnHover
-            responsive
-            subHeaderAlign="left"
-            subHeaderWrap
-          />
-        </ReportTableBox>
-      </ColGrid>
-    </ScaleGrid>
+                  </ColGrid>
+                </ScaleGrid>
+                <Space h="md" />
+              </ColGrid>
+            </ScaleGrid>
+          </ReportHeader>
+        </ColGrid>
+      </ScaleGrid>
+      {!loading && (
+        <>
+          {payload.commodity === 'all' && <AllReportData data={data} payload={payload} />}
+          {['TBS Inti', 'Brondolan'].includes(payload.commodity) && (
+            <TBSIntiReport data={data} payloads={{ payload, setPayload }} />
+          )}
+          {['TBS Luar', 'TBS Plasma', 'USB'].includes(payload.commodity) && (
+            <TbsLuarPlasmaUSBReport data={data} payloads={{ payload, setPayload }} />
+          )}
+          {data.length > 0 &&
+            commodityList
+              .filter((item) => item.group === 'Non-Commodity')
+              .map((group) => group.value)
+              .includes(payload.commodity) && <NonCommodity data={data} payloads={{ payload }} />}
+          {commodityList
+            .filter((item) => item.group === 'Commodity')
+            .map((group) => group.value)
+            .includes(payload.commodity) && (
+            <Commodity data={data} payloads={{ payload, setPayload }} />
+          )}
+        </>
+      )}
+    </>
   )
 }

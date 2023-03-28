@@ -130,8 +130,8 @@ const CpoPkoKeluar = ({ commodity, submitRef, form, dropdownData }) => {
                     styles={{ rightSection: { pointerEvents: 'none' } }}
                     value={vehicleSelected}
                     disabled={loading}
-                    label="No. Kendaraan"
-                    placeholder="No. Kendaraan"
+                    label="No. Polisi"
+                    placeholder="No. Polisi"
                     searchable
                     data={dropdownHistory}
                     size="sm"

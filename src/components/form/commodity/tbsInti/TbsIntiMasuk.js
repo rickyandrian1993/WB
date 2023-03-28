@@ -191,8 +191,8 @@ const TbsIntiMasuk = ({ commodity, submitRef, form, dropdownData }) => {
                   <TextInput
                     withAsterisk
                     disabled
-                    label="No. Kendaraan"
-                    placeholder="No. Kendaraan"
+                    label="No. Polisi"
+                    placeholder="No. Polisi"
                     {...form.getInputProps('pcc_vehicle_cd')}
                   />
                 </ColGrid>

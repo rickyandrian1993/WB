@@ -1,4 +1,5 @@
 import CommodityController from './controllers/commodityController'
+import SupplierController from './controllers/supplierController'
 import CustomerController from './controllers/customerController'
 import FingerPrintController from './controllers/fingerPrintController'
 import LoginController from './controllers/loginController'
@@ -23,6 +24,7 @@ export {
   MillYieldsController,
   ReportController,
   SerialPortController,
+  SupplierController,
   SyncController,
   TimbanganController,
   VendorController

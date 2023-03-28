@@ -14,7 +14,7 @@ export default function Clock() {
         month: 'long',
         year: 'numeric'
       })}
-      {' : '}
+      {' - '}
       {dateState.toLocaleString('id-ID', {
         hour: '2-digit',
         minute: '2-digit',

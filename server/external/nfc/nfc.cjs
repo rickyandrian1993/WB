@@ -9,11 +9,11 @@ router.post("/", async (_, res) => {
   await hndlNFCService.readNfc((err, data) => {
     if (err) {
       hndlNFCService.nfc.close();
-      if (err.message != undefined && err.message.indexOf("Status code: 0x6300") >= 0) {
+      if (err.message !== undefined && err.message.indexOf("Status code: 0x6300") >= 0) {
         return res.status(500).json({ isError: "Y", message: "error failed to read nfc card" });
-      } else if (err.message != undefined && err.message.indexOf("nfc reader not present") >= 0) {
+      } else if (err.message !== undefined && err.message.indexOf("nfc reader not present") >= 0) {
         return res.status(500).json({ isError: "Y", message: err.message });
-      } else if (err.message != undefined && err.message.indexOf("card.off") >= 0) {
+      } else if (err.message !== undefined && err.message.indexOf("card.off") >= 0) {
         return res.status(500).json({ isError: "Y", message: "No card detect" });
       }
     } else {
@@ -21,12 +21,12 @@ router.post("/", async (_, res) => {
         hndlNFCService.nfc.close();
         pretty.info("TEST nfc 5");
         try {
-          res.status(200).json({ isError: "Y", data });
+          return res.status(200).json({ isError: "Y", data });
         } catch {
           pretty.info("pass");
         }
       } else {
-        res.status(200).json({ isError: "N", data });
+        return res.status(200).json({ isError: "N", data });
       }
     }
   });

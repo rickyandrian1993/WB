@@ -97,6 +97,7 @@ const initialValues = {
     upload_flag: 'N',
     water: 0, // TBS Air
     water_kg: 0, // TBS Air
+    weight_gap: 0, // Selisih Berat
     wb_arrive_dt: getDateAndTimeNow(dateTimeHMS),
     wb_created_by: getStore('accountInfo')?.user?.nm,
     wb_created_dt: getDateAndTimeNow(dateTimeHMS),

@@ -110,23 +110,12 @@ const GetScaleHistory = (data, callback) => {
   const getAllScaleHistoryQuery = `
     SELECT * FROM pcc_mill_yields_activity 
     WHERE ((second_w is null OR second_w = 0) 
-      AND (netto_w is null or netto_w = 0))
-      AND mt_comodity_cd = '${data.commodity}'`
+      AND (netto_w is null or netto_w = 0))`
 
   pool
     .query(getAllScaleHistoryQuery)
-    .then((res) =>
-      callback({
-        ...success200,
-        data: res.rows
-      })
-    )
-    .catch((error) =>
-      callback({
-        ...error500,
-        data: `Error Get Scale History: ${error} `
-      })
-    )
+    .then((res) => callback({ ...success200, data: res.rows }))
+    .catch((error) => callback({ ...error500, data: `Error Get Scale History: ${error} ` }))
 }
 
 const UpdateMillYields = (data, callback) => {
@@ -245,7 +234,7 @@ const UpdateMillYields = (data, callback) => {
       young_fruit_kg = ${data.young_fruit_kg === null ? 0 : data.young_fruit_kg}
     WHERE cd = '${data.cd}';
     `
-  // console.log('query', updateInputQuery)
+  console.log('query', updateInputQuery)
   // const updateReportQuery = `UPDATE report SET status = 'New' WHERE tanggal::DATE = '${data.created_dt}';`
 
   pool

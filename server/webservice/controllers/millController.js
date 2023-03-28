@@ -3,58 +3,45 @@ import { error500, success200 } from '../constants/responseCallback.js'
 import pool from '../dbconfig.js'
 import { InsertCustomer } from './customerController.js'
 
-const GetMill = (callback) => {
+const GetMill = async (callback) => {
   const getMillQuery = `SELECT cd, nm, mill_manager FROM pcc_mill limit 1`
   const response = {}
-  pool
-    .query(getMillQuery)
-    .then(async (resMill) => {
-      response.mill = resMill.rowCount > 0 ? resMill.rows[0] : []
-      if (resMill.rowCount > 0)
-        await GetMillDetail(resMill, (res) => (response.mill_detail = res.rows))
-      else response.mill_detail = []
-      GetLastUpdate((res) => {
-        response.update_data = res.update_data
-        callback({ ...success200, data: response })
-      })
+
+  const mill = await pool.query(getMillQuery).catch((err) =>
+    callback({
+      ...error500,
+      data: `Error Get Mill: ${err}`
     })
-    .catch((error) =>
-      callback({
-        ...error500,
-        data: `Error Get Mill: ${error}`
-      })
-    )
+  )
+
+  if (mill.rowCount < 1) callback({ ...success200, data: [] })
+
+  const millDetail = await GetMillDetail(mill.rows[0].cd)
+  const lastUpdate = await GetLastUpdate()
+
+  response.mill = mill.rows[0]
+  response.mill_detail = millDetail.rows
+  response.update_data = lastUpdate.rowCount < 1 ? 0 : Date.parse(lastUpdate.rows[0].last_update)
+
+  callback({ ...success200, data: response })
 }
 
-const GetMillDetail = async (millData, callback) => {
-  const queryGetMillDetail = `SELECT * FROM pcc_mill_dtl WHERE pcc_mill_cd = '${millData.rows[0].cd}'`
-  pool
+const GetMillDetail = async (cd) => {
+  const queryGetMillDetail = `SELECT cd, pcc_estate_cd, pcc_estate_nm FROM pcc_mill_dtl WHERE pcc_mill_cd = '${cd}'`
+  const result = pool
     .query(queryGetMillDetail)
-    .then((resMillDetail) => callback(resMillDetail))
-    .catch((error) =>
-      callback({
-        ...error500,
-        data: `Error Get Mill Detail: ${error}`
-      })
-    )
+    .catch((err) => console.log(`Error get mill detail: ${err}`))
+
+  return result
 }
 
-const GetLastUpdate = (callback) => {
-  const data = {}
+const GetLastUpdate = () => {
   const updateDataQuery = 'SELECT * from update_data'
-  pool
+  const result = pool
     .query(updateDataQuery)
-    .then((resUpdateData) => {
-      data.update_data =
-        resUpdateData.rowCount === 0 ? 0 : Date.parse(resUpdateData.rows[0].last_update)
-      callback(data)
-    })
-    .catch((error) =>
-      callback({
-        ...error500,
-        data: `Error Get Update Data: ${error}`
-      })
-    )
+    .catch((err) => console.log(`Error get last update: ${err}`))
+
+  return result
 }
 
 const InsertMill = (data, callback) => {

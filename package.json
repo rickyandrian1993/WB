@@ -1,13 +1,13 @@
 {
   "name": "weigh-bridge",
   "author": "Wide Agri",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "server_url": "https://192.168.110.127:5041",
   "description": "Weigh Bridge an Electron application with React and Node",
   "main": "./main.js",
   "homepage": "./",
   "scripts": {
-    "start": "concurrently \"npm run react-start\" \"npm run server\"  \"npm run external\"  \"wait-on http://localhost:3000 && npm run electron-dev\"",
+    "start": "concurrently \"npm run server\"  \"npm run external\" \"npm run react-start\" \"wait-on http://localhost:3000 && npm run electron-dev\"",
     "server-start": "nodemon --watch server server/index.js",
     "server": "cd server/webservice && nodemon index",
     "external": "cd server/external && nodemon index",
@@ -45,6 +45,7 @@
     "app-module-path": "^2.2.0",
     "axios": "^1.2.1",
     "dayjs": "^1.11.7",
+    "dom-to-pdf": "^0.3.2",
     "electron-is-dev": "^1.1.0",
     "electron-updater": "^5.0.5",
     "express": "^4.17.1",

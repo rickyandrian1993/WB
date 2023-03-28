@@ -75,7 +75,7 @@ export default function PrintCommodityContent({ data }) {
             </Col>
           </Grid>
           <Grid>
-            <Col span={6}>No. Kendaraan</Col>
+            <Col span={6}>No. Polisi</Col>
             <Col span={6}>{pcc_vehicle_cd || '-'}</Col>
           </Grid>
           <Grid>

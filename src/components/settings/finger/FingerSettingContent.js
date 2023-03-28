@@ -16,6 +16,12 @@ import { FingerPrintController, LoginController } from '../../../services'
 import { FingerTable, FormCreate } from '../../controlButton/styledControlButton'
 import Loading from '../../loading/Loading'
 
+const role_position = [
+  { value: 'Mill Manager', label: 'Mill Manager' },
+  { value: 'Mill Support', label: 'Mill Support' },
+  { value: 'Mill IT', label: 'Mill IT' }
+]
+
 export default function FingerSettingContent() {
   const form = useForm({
     initialValues: {
@@ -41,9 +47,9 @@ export default function FingerSettingContent() {
   const [loading, setLoading] = useState(false)
   const [modal, setModal] = useState(false)
   const [check, setCheck] = useState(false)
+  const [users, setUser] = useState([])
   const { validateFingerPassword, getCredentialList } = LoginController()
   const { fingerAuth, fingerInsert } = FingerPrintController()
-  const [users, setUser] = useState([])
 
   const createCredential = (e) => {
     setLoading(true)
@@ -160,7 +166,7 @@ export default function FingerSettingContent() {
                       placeholder="Position"
                       name="role_position"
                       sx={{ position: 'relative' }}
-                      data={[{ value: 'Mill Manager', label: 'Mill Manager' }]}
+                      data={role_position}
                       {...form.getInputProps('role_position')}
                     />
                     <Checkbox
