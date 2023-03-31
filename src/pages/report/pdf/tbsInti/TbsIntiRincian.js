@@ -9,7 +9,8 @@ import PropTypes from 'prop-types'
 
 export default function TbsIntiRincian({ data, payloads: { payload } }) {
   const { mill } = getStore('mill')
-  const groupSupplier = filteringData(data, 'supplier')
+  const { data: dataReport } = data
+  const groupSupplier = filteringData(dataReport, 'supplier')
 
   return (
     <ReportSectionContent>
@@ -34,7 +35,7 @@ export default function TbsIntiRincian({ data, payloads: { payload } }) {
                 <ContentPdf key={`Supplier-${i}`}>
                   <ContentHeader>
                     <h4>{mill?.nm || '-'}</h4>
-                    <h5>Muaro Usau</h5>
+                    {/* <h5>Muaro Usau</h5> */}
                     <Space h="lg" />
                     <h4>RINCIAN PENIMBANGAN TBS PERAFDELING PERSUPPLIER</h4>
                     <div>
@@ -111,6 +112,6 @@ export default function TbsIntiRincian({ data, payloads: { payload } }) {
 }
 
 TbsIntiRincian.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.any,
   payloads: PropTypes.object
 }

@@ -42,7 +42,13 @@ export default function ReportController() {
             message: response.message,
             isError: response.isError
           })
-        } else callback(response.data)
+        } else {
+          if (
+            ['TBS Luar', 'TBS Plasma', 'USB', 'TBS Inti', 'Brondolan'].includes(payload.commodity)
+          )
+            callback(response)
+          else callback(response.data)
+        }
       }
     )
   }, [])

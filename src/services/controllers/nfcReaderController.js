@@ -28,7 +28,6 @@ export default function SerialPortController() {
             })
         } else {
           nfcParse(isGrading, data, form.values?.pcc_evacuation_activity_cd, (response) => {
-            console.log('nfc Read',response);
             Object.keys(response).map((items) => {
               if (typeof response[items] !== object) form.setFieldValue(items, response[items])
               return ''

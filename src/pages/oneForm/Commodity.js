@@ -6,11 +6,14 @@ import { ButtonWB, ScaleDisplay } from '../../components'
 import { initialValues } from '../../constants'
 import { allTrue } from '../../helpers/disableList'
 import submiter from '../../helpers/submiter'
+import { getStore } from '../../helpers/utility'
 import {
   CustomerController,
   MillYieldsController,
   NFCReaderController,
+  SupplierController,
   TimbanganController,
+  VehicleCdController,
   VendorController
 } from '../../services'
 import { DataTambahan, DataUmum, Grading, HeaderForm, Kualitas, Rekapitulasi } from './Sections'
@@ -21,12 +24,17 @@ const Commodity = () => {
   const [readTimbanganLoading, setReadTimbanganLoading] = useState(false)
   const [isFirst, setIsFirst] = useState(false)
   const [disableList, setDisableList] = useState(allTrue)
+  const [newHistory, setNewHistory] = useState([])
+  const [newSupplier, setNewSupplier] = useState([])
 
+  const { user } = getStore('accountInfo')
   const { customer } = CustomerController()
   const { vendor } = VendorController()
   const { readNFC } = NFCReaderController()
   const { getTimbanganData } = TimbanganController()
   const { insertData, updateData } = MillYieldsController()
+  const { insertVehicleCd } = VehicleCdController()
+  const { insertSupplierList } = SupplierController()
 
   const readTimbangan = () => {
     getTimbanganData(setReadTimbanganLoading, (res) => {
@@ -42,7 +50,6 @@ const Commodity = () => {
           second_w: res,
           bjr
         }))
-        console.log('Form', form)
       }
     })
   }
@@ -54,9 +61,12 @@ const Commodity = () => {
   const submitHandler = (values) => {
     const { firstWeightPayload, secondWeightPayload } = submiter(values)
     if (form.validate().hasErrors) return
-    isFirst
-      ? insertData(firstWeightPayload(), setLoading, form)
-      : updateData(secondWeightPayload(), setLoading)
+    if (newHistory === form.values.pcc_vehicle_cd)
+      insertVehicleCd({ cd: newHistory, created_by: user.nm }, setLoading)
+    if (newSupplier === form.values.supplier)
+      insertSupplierList({ name: newHistory, created_by: user.nm }, setLoading)
+    if (isFirst) insertData(firstWeightPayload(), setLoading, form)
+    else updateData(secondWeightPayload(), setLoading)
   }
 
   return (
@@ -71,6 +81,7 @@ const Commodity = () => {
               setLoading={setLoading}
               setIsFirst={setIsFirst}
               setDisableList={setDisableList}
+              setNewHistory={setNewHistory}
             />
           </ColGrid>
           <ColGrid span={5}>
@@ -78,8 +89,10 @@ const Commodity = () => {
               form={form}
               customer={customer}
               vendor={vendor}
+              loading={loading}
               setDisableList={setDisableList}
               isFirst={isFirst}
+              setNewSupplier={setNewSupplier}
               setIsFirst={setIsFirst}
               disableList={disableList}
             />

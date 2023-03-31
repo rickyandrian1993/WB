@@ -146,5 +146,5 @@ export default function TbsIntiSummary({ data }) {
 }
 
 TbsIntiSummary.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.any
 }

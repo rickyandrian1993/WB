@@ -1,5 +1,5 @@
 import { Select, Tabs } from '@mantine/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TbsIntiRincian from './TbsIntiRincian'
 import TbsIntiRekap from './TbsIntiRekap'
 import PropTypes from 'prop-types'
@@ -13,7 +13,13 @@ export default function TBSIntiReport(props) {
     data,
     payloads: { payload, setPayload }
   } = props
-  const { supplier } = SupplierController()
+  const { data: dataReport } = data
+  const { getSupplierList } = SupplierController()
+  const [supplier, setSupplier] = useState([])
+
+  useEffect(() => {
+    getSupplierList(setSupplier)
+  }, [getSupplierList])
   const estate = getEstateList('select')
 
   return (
@@ -50,10 +56,10 @@ export default function TBSIntiReport(props) {
       </ScaleGrid>
       <ScaleGrid align="center">
         <ColGrid>
-          {data.length < 1 && (
+          {dataReport?.length < 1 && (
             <h3 style={{ display: 'flex', justifyContent: 'center' }}>Tidak Ada Data.</h3>
           )}
-          {data.length > 0 && (
+          {dataReport?.length > 0 && (
             <Tabs defaultValue="rincian">
               <Tabs.List grow position="center">
                 <Tabs.Tab value="rincian">
@@ -79,6 +85,6 @@ export default function TBSIntiReport(props) {
 }
 
 TBSIntiReport.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.any,
   payloads: PropTypes.object
 }

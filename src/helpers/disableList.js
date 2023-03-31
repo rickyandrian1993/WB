@@ -170,11 +170,10 @@ const enableGrading = {
 }
 
 export const findDisableList = (key, isFirst) => {
-  console.log('finddisable', key, isFirst)
   switch (key) {
     case 'TBS Inti':
     case 'Brondolan':
-      return { ...disableTbsInti, comodity_nm: !isFirst }
+      return { ...disableTbsInti }
     case 'TBS Plasma':
     case 'USB':
     case 'TBS Luar':

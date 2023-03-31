@@ -1,12 +1,11 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useCallback } from 'react'
 import { ToastNotification } from '../../components'
 import ApiService from '../ApiService'
 import { endpoints } from '../endpoints'
 
-export default function SupplierController() {
-  const getSupplierList = useCallback(async (callback) => {
-    ApiService.jsonRequest(endpoints.getSupplier, {}, (response) => {
+export default function VehicleCdController() {
+  const getVehicleCd = useCallback(async (callback) => {
+    ApiService.jsonRequest(endpoints.getVehicleList, {}, (response) => {
       if (response.isError)
         ToastNotification({
           title: response.isError ? 'Kesalahan' : 'Berhasil',
@@ -16,15 +15,15 @@ export default function SupplierController() {
       else {
         const result = []
         response.data.forEach((data) => {
-          result.push({ value: data.cd, label: data.name })
+          result.push({ value: data.cd, label: data.cd })
         })
         callback(result)
       }
     })
   }, [])
 
-  const insertSupplierList = useCallback(async (payload, loading) => {
-    ApiService.jsonRequest(endpoints.insertSupplier, payload, (response) => {
+  const insertVehicleCd = useCallback(async (payload, loading) => {
+    ApiService.jsonRequest(endpoints.insertVehicleLocal, payload, (response) => {
       loading(true)
       if (response.isError)
         ToastNotification({
@@ -37,6 +36,5 @@ export default function SupplierController() {
       }
     })
   }, [])
-
-  return { getSupplierList, insertSupplierList }
+  return { getVehicleCd, insertVehicleCd }
 }

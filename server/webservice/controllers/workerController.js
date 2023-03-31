@@ -5,13 +5,14 @@ const FindDriver = async (data, callback) => {
   const { driver_cd, estate_cd } = data
   const findDriverQuery = `SELECT cd, nm FROM "pcc_worker" WHERE cd = '${driver_cd}' AND pcc_estate_cd = '${estate_cd}'`
 
-  await pool.query(findDriverQuery)
+  await pool
+    .query(findDriverQuery)
     .then((res) => {
       if (res.rowCount === 0) callback({})
       else callback(res.rows[0])
     })
     .catch((error) => {
-      console.log(`Error find driver: ${error}`)
+      console.error(`Error find driver: ${error}`)
       callback({})
     })
 }
@@ -26,7 +27,8 @@ const FindLoader = async (data, callback) => {
         AND pcc_estate_cd = '${estate_cd}'
     `
 
-    await pool.query(findLoaderQuery)
+    await pool
+      .query(findLoaderQuery)
       .then((res) => {
         if (res.rowCount === 0) callback({})
         else {
@@ -39,7 +41,7 @@ const FindLoader = async (data, callback) => {
         }
       })
       .catch((error) => {
-        console.log(`Error find loader: ${error}`)
+        console.error(`Error find loader: ${error}`)
         callback({})
       })
   } else callback({})

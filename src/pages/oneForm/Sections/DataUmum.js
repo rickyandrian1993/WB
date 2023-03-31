@@ -4,18 +4,35 @@ import { ColGrid, ScaleGrid } from '../../../assets/style/styled'
 import PropTypes from 'prop-types'
 import { commodityList } from '../../../constants'
 import { findDisableList } from '../../../helpers/disableList'
+import { SupplierController } from '../../../services'
 
-const DataUmum = ({ form, customer, vendor, disableList, setDisableList, isFirst, setIsFirst }) => {
-  const [supplierList, setSupplierList] = useState([])
-  const supplier = form.values.supplier
+const DataUmum = ({
+  form,
+  loading,
+  isFirst,
+  customer,
+  vendor,
+  disableList,
+  setDisableList,
+  setNewSupplier,
+  setIsFirst
+}) => {
+  const [supplier, setSupplier] = useState([])
+  const { getSupplierList } = SupplierController()
+  const formSupplier = form.values.supplier
 
   useEffect(() => {
-    if (supplier) {
-      if (!supplierList.find((item) => item.value === supplier)) {
-        setSupplierList((current) => [...current, { value: supplier, label: supplier }])
+    if (loading) {
+      if (!supplier.length) {
+        getSupplierList(setSupplier)
+      }
+      if (formSupplier) {
+        if (!supplier.find((item) => item.value === formSupplier)) {
+          setSupplier((current) => [...current, { value: formSupplier, label: formSupplier }])
+        }
       }
     }
-  }, [supplier, supplierList])
+  }, [formSupplier, getSupplierList, loading, setNewSupplier, supplier])
 
   return (
     <ScaleGrid>
@@ -39,6 +56,7 @@ const DataUmum = ({ form, customer, vendor, disableList, setDisableList, isFirst
                 setDisableList(findDisableList(e, isFirst))
                 if ((e === 'TBS Inti' || e === 'Brondolan') && !isFirst) setIsFirst(true)
                 form.getInputProps('comodity_nm').onChange(e)
+                form.setFieldValue('mt_comodity_cd', e)
               }}
             />
           </ColGrid>
@@ -60,7 +78,7 @@ const DataUmum = ({ form, customer, vendor, disableList, setDisableList, isFirst
           <ColGrid span={12}>
             <Select
               label="Supplier"
-              data={supplierList}
+              data={supplier}
               placeholder="Supplier"
               rightSection={<i className="ri-arrow-down-s-line"></i>}
               styles={{ rightSection: { pointerEvents: 'none' } }}
@@ -71,7 +89,8 @@ const DataUmum = ({ form, customer, vendor, disableList, setDisableList, isFirst
               disabled={disableList.supplier}
               onCreate={(query) => {
                 const item = { value: query, label: query }
-                setSupplierList((current) => [...current, item])
+                setSupplier((current) => [...current, item])
+                setNewSupplier(query)
                 return item
               }}
               {...form.getInputProps('supplier')}
@@ -201,12 +220,14 @@ const DataUmum = ({ form, customer, vendor, disableList, setDisableList, isFirst
 
 DataUmum.propTypes = {
   form: PropTypes.object,
+  isFirst: PropTypes.any,
   customer: PropTypes.any,
+  loading: PropTypes.bool,
   vendor: PropTypes.any,
   disableList: PropTypes.any,
-  setDisableList: PropTypes.any,
-  isFirst: PropTypes.any,
-  setIsFirst: PropTypes.any
+  setDisableList: PropTypes.func,
+  setIsFirst: PropTypes.func,
+  setSupplier: PropTypes.func
 }
 
 export default DataUmum

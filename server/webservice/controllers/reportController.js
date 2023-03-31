@@ -143,7 +143,7 @@ const getAllReportToday = (res, params) => {
     .query(query)
     .then((result) => res.json({ ...success200, data: result.rows }))
     .catch((err) => {
-      console.log('err', err)
+      console.error('err', err)
       res.status(500).json({ ...error500, data: err })
     })
 }
@@ -171,11 +171,66 @@ const getReportTbs = (res, params) => {
 
   pool
     .query(query)
-    .then((result) => res.json({ ...success200, data: result.rows }))
+    // .then((result) => res.json({ ...success200, data: result.rows }))
+    .then((result) => {
+      const additionalQuery = `
+        SELECT comodity_nm, netto_w::bigint, ffa, dirt
+        FROM pcc_mill_yields_activity
+        WHERE comodity_nm IN ('CPO', 'Kernel') AND (second_w <> 0 AND (wb_arrive_dt::DATE BETWEEN '${startDate}' AND '${endDate}'))`
+
+      pool
+        .query(additionalQuery)
+        .then((data) => {
+          const datas = data.rows
+
+          const commodityGroup = Object.entries(
+            datas.reduce((acc, { comodity_nm, netto_w, ffa, dirt }) => {
+              if (!acc[comodity_nm]) {
+                acc[comodity_nm] = []
+              }
+              acc[comodity_nm].push({ netto_w, ffa, dirt })
+              return acc
+            }, {})
+          ).map(([commodity, values]) => ({ commodity, values }))
+
+          let dataAdditional = []
+
+          commodityGroup.forEach((com) => {
+            const total_netto = sumData(com.values, 'netto_w')
+            const total_ffa = sumDataFloat(com.values, 'ffa')
+            const total_dirt = sumDataFloat(com.values, 'dirt')
+            dataAdditional.push({
+              commodity: com.commodity,
+              trip: com.values.length,
+              total_kg: total_netto,
+              total_ffa,
+              total_dirt
+            })
+          })
+
+          const allCommodityQuery = `
+            SELECT COUNT(cd) as trip, SUM(netto_w::bigint - cut::bigint) as total_netto, SUM(cut::bigint) as total_cut
+            FROM pcc_mill_yields_activity
+            WHERE second_w <> 0 AND (wb_arrive_dt::DATE BETWEEN '${startDate}' AND '${endDate}')`
+
+          pool
+            .query(allCommodityQuery)
+            .then((allDataResult) => {
+              res.json({
+                ...success200,
+                data: result.rows,
+                dataKeseluruhan: allDataResult.rows[0],
+                dataAdditional
+              })
+            })
+            .catch((err) => console.error('err', err))
+        })
+        .catch((err) => console.error('err', err))
+    })
     .catch((err) => res.status(500).json({ ...error500, data: err }))
 }
 
-const getReportTbsLuarPlasmaUsb = (res, params) => {
+const getReportTbsLuarPlasmaUsb = async (res, params) => {
   const { commodity, startDate, endDate, supplier, estate } = params
 
   const query = `
@@ -186,7 +241,7 @@ const getReportTbsLuarPlasmaUsb = (res, params) => {
       do_date, pcc_vehicle_cd, estate_nm,
       (netto_w::bigint - cut::bigint) as total_netto, spb_weight,
       CASE WHEN spb_weight::bigint > 0 THEN (netto_w::bigint - cut::bigint) - spb_weight ELSE 0 END as selisih
-    FROM pcc_mill_yields_activity       
+    FROM pcc_mill_yields_activity
     WHERE (second_w <> 0 AND mt_comodity_cd = '${commodity}') AND 
       (wb_arrive_dt::DATE BETWEEN '${startDate}' AND '${endDate}') ${
     supplier && `AND (supplier = '${supplier}' ${estate && `AND pcc_estate_cd = '${estate}'`})`
@@ -195,7 +250,61 @@ const getReportTbsLuarPlasmaUsb = (res, params) => {
 
   pool
     .query(query)
-    .then((result) => res.json({ ...success200, data: result.rows }))
+    .then((result) => {
+      const additionalQuery = `
+        SELECT comodity_nm, netto_w::bigint, ffa, dirt
+        FROM pcc_mill_yields_activity
+        WHERE comodity_nm IN ('CPO', 'Kernel') AND (second_w <> 0 AND (wb_arrive_dt::DATE BETWEEN '${startDate}' AND '${endDate}'))`
+
+      pool
+        .query(additionalQuery)
+        .then((data) => {
+          const datas = data.rows
+
+          const commodityGroup = Object.entries(
+            datas.reduce((acc, { comodity_nm, netto_w, ffa, dirt }) => {
+              if (!acc[comodity_nm]) {
+                acc[comodity_nm] = []
+              }
+              acc[comodity_nm].push({ netto_w, ffa, dirt })
+              return acc
+            }, {})
+          ).map(([commodity, values]) => ({ commodity, values }))
+
+          let dataAdditional = []
+
+          commodityGroup.forEach((com) => {
+            const total_netto = sumData(com.values, 'netto_w')
+            const total_ffa = sumDataFloat(com.values, 'ffa')
+            const total_dirt = sumDataFloat(com.values, 'dirt')
+            dataAdditional.push({
+              commodity: com.commodity,
+              trip: com.values.length,
+              total_kg: total_netto,
+              total_ffa,
+              total_dirt
+            })
+          })
+
+          const allCommodityQuery = `
+            SELECT COUNT(cd) as trip, SUM(netto_w::bigint - cut::bigint) as total_netto, SUM(cut::bigint) as total_cut
+            FROM pcc_mill_yields_activity
+            WHERE second_w <> 0 AND (wb_arrive_dt::DATE BETWEEN '${startDate}' AND '${endDate}')`
+
+          pool
+            .query(allCommodityQuery)
+            .then((allDataResult) => {
+              res.json({
+                ...success200,
+                data: result.rows,
+                dataKeseluruhan: allDataResult.rows[0],
+                dataAdditional
+              })
+            })
+            .catch((err) => console.error('err', err))
+        })
+        .catch((err) => console.error('err', err))
+    })
     .catch((err) => res.status(500).json({ ...error500, data: err }))
 }
 
@@ -244,6 +353,18 @@ const getReportNonCommodity = (res, params) => {
     .query(query)
     .then((result) => res.json({ ...success200, data: result.rows }))
     .catch((err) => res.status(500).json({ ...error500, data: err }))
+}
+
+const sumData = (datas, key) => {
+  return datas.reduce((accumulator, currentValue) => {
+    return accumulator + parseInt(currentValue[key])
+  }, 0)
+}
+
+const sumDataFloat = (datas, key) => {
+  return datas.reduce((accumulator, currentValue) => {
+    return accumulator + parseFloat(currentValue[key])
+  }, 0)
 }
 
 export { GetReport, GetReportList }

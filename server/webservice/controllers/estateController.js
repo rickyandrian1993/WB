@@ -12,7 +12,7 @@ const FindEstate = async (data, callback) => {
       else callback(res.rows[0])
     })
     .catch((error) => {
-      console.log(`Error find estate: ${error}`)
+      console.error(`Error find estate: ${error}`)
       callback({})
     })
 }
@@ -42,7 +42,7 @@ const FindEstateLevel = async (data, callback) => {
         }
       })
       .catch((error) => {
-        console.log(`Error find estate level: ${error}`)
+        console.error(`Error find estate level: ${error}`)
         callback({})
       })
   } else callback({})

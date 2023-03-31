@@ -1,6 +1,6 @@
 import { Button, Select, Space, Table } from '@mantine/core'
 import moment from 'moment'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import toPdf from '../toPdf'
 import PropTypes from 'prop-types'
 import { getStore, numberFormat, sumData } from '../../../../helpers/utility'
@@ -9,9 +9,14 @@ import { CustomerController, SupplierController } from '../../../../services'
 import { ColGrid, ScaleGrid } from '../../../../assets/style/styled'
 
 export default function Commodity({ data, payloads: { payload, setPayload } }) {
-  const { supplier } = SupplierController()
   const { customer } = CustomerController('select')
   const { mill } = getStore('mill')
+  const { getSupplierList } = SupplierController()
+  const [supplier, setSupplier] = useState([])
+
+  useEffect(() => {
+    getSupplierList(setSupplier)
+  }, [getSupplierList])
 
   return (
     <ReportSectionContent>
@@ -52,12 +57,8 @@ export default function Commodity({ data, payloads: { payload, setPayload } }) {
         </ColGrid>
       </ScaleGrid>
 
-      {data.length < 1 && (
-        <ReportSectionContent
-          style={{ display: 'grid', placeItems: 'center', border: '2px solid 628b48' }}
-        >
-          No Data Available.
-        </ReportSectionContent>
+      {data?.length < 1 && (
+        <h3 style={{ display: 'flex', justifyContent: 'center' }}>Tidak Ada Data.</h3>
       )}
       {data.length > 0 && (
         <ReportSectionContent>

@@ -1,7 +1,7 @@
 import pool from '../dbconfig.js'
 import { error500, success200 } from '../constants/responseCallback.js'
 
-const getSupplier = (req, res) => {
+const getSupplier = (_, res) => {
   const getListQuery = `SELECT cd, name FROM supplier ORDER BY name ASC`
   pool
     .query(getListQuery)

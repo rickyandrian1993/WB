@@ -36,7 +36,6 @@ const submiter = (values) => {
     delete payload.data.estate_level_cd
     delete payload.data.child_data
 
-    console.log('first submit', payload)
     return payload
   }
   const secondWeightPayload = () => {

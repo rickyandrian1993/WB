@@ -1,7 +1,10 @@
 import React from 'react'
+import { getStore } from '../../../../helpers/utility'
 import { ContentTtd } from '../../ReportStyles'
 
 export default function TtdPdf() {
+  const { user } = getStore('accountInfo')
+  const { mill } = getStore('mill')
   return (
     <ContentTtd>
       <table>
@@ -17,9 +20,9 @@ export default function TtdPdf() {
             <td>____________________</td>
           </tr>
           <tr>
-            <td>Mill Manager</td>
+            <td>{mill?.mill_manager || '-'}</td>
             <td>FC/Auditor WB</td>
-            <td>Operator WB</td>
+            <td>{user?.nm || '-'}</td>
           </tr>
         </tbody>
       </table>

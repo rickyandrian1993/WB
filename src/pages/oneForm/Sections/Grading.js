@@ -2,7 +2,7 @@ import { Divider, NumberInput, TextInput } from '@mantine/core'
 import React, { useRef, useState } from 'react'
 import { ColGrid, FormGroup, ScaleGrid } from '../../../assets/style/styled'
 import PropTypes from 'prop-types'
-import { isNaNToZero } from '../../../helpers/utility'
+import { calculateByTBS, isNaNToZero } from '../../../helpers/utility'
 
 const Grading = ({ form, disableList }) => {
   const cutVariable = useRef({
@@ -33,36 +33,8 @@ const Grading = ({ form, disableList }) => {
   })
 
   const getCutWeight = (val) => {
-    const {
-      fresh_fruit,
-      garbage,
-      grading_brondolan,
-      janjang_kosong,
-      long_stalk,
-      restan_overnight,
-      overripe_brondolan,
-      overripe_fruit,
-      sand_fruit,
-      young_fruit,
-      water
-    } = val
-    let bjr = isNaNToZero(form.values?.bjr)
+    let calculate = calculateByTBS(val, form)
     let netto = isNaNToZero(form.values?.netto_w)
-    let tempRottenKg = Math.round(0.25 * ((overripe_fruit * bjr) / netto - 0.05) * netto) || 0
-    let tempRottenBrondolan = Math.round((overripe_brondolan / 100) * (overripe_fruit + 0.25))
-    let calculate = {
-      fresh_fruit_kg: Math.round(+fresh_fruit * bjr * 0.5),
-      garbage_kg: Math.round(+garbage * 2),
-      grading_brondolan_kg: Math.round(0.3 * netto * (0.125 - grading_brondolan / 100)),
-      janjang_kosong_kg: Math.round(+janjang_kosong * bjr),
-      long_stalk_kg: Math.round(+long_stalk * bjr * 0.01),
-      overripe_fruit_kg: tempRottenKg > 0 ? tempRottenKg : 0,
-      restan_overnight_kg: Math.round((+restan_overnight / 100) * netto),
-      overripe_brondolan_kg: tempRottenBrondolan > 0 ? tempRottenBrondolan : 0,
-      water_kg: Math.round((+water / 100) * netto),
-      sand_fruit_kg: Math.round(+sand_fruit * bjr * 0.7),
-      young_fruit_kg: Math.round(+young_fruit * bjr * 0.5)
-    }
     setCutWeight(calculate)
     let total_cut = 0
     Object.keys(calculate).map((items) => {
@@ -77,10 +49,11 @@ const Grading = ({ form, disableList }) => {
   const handleCalculateInput = (value, name) => {
     const num = +value
     let obj = {}
+
     obj[name] = num
     form.getInputProps(name).onChange(num)
     cutVariable.current = { ...cutVariable.current, ...obj }
-    getCutWeight(cutVariable.current)
+    if (form.values.comodity_nm !== 'TBS Inti' && !!num) getCutWeight(cutVariable.current)
   }
 
   return (
@@ -109,7 +82,12 @@ const Grading = ({ form, disableList }) => {
             {...form.getInputProps('overripe_fruit')}
             onChange={(e) => handleCalculateInput(e, 'overripe_fruit')}
           />
-          <TextInput placeholder="0" disabled rightSection="Kg" value={cutWeight.overripe_fruit_kg} />
+          <TextInput
+            placeholder="0"
+            disabled
+            rightSection="Kg"
+            value={cutWeight.overripe_fruit_kg}
+          />
         </FormGroup>
       </ColGrid>
       <ColGrid span={3}>
@@ -163,7 +141,12 @@ const Grading = ({ form, disableList }) => {
             {...form.getInputProps('janjang_kosong')}
             onChange={(e) => handleCalculateInput(e, 'janjang_kosong')}
           />
-          <TextInput placeholder="0" disabled rightSection="Kg" value={cutWeight.janjang_kosong_kg} />
+          <TextInput
+            placeholder="0"
+            disabled
+            rightSection="Kg"
+            value={cutWeight.janjang_kosong_kg}
+          />
         </FormGroup>
       </ColGrid>
       <ColGrid span={3}>

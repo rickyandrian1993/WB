@@ -1,7 +1,26 @@
 import { error500, success200 } from '../constants/responseCallback.js'
 import pool from '../dbconfig.js'
 
-const GetVehicle = (req, callback) => {}
+const getVehicle = async (_, res) => {
+  const getList = `SELECT cd FROM pcc_vehicle ORDER BY cd ASC`
+
+  await pool
+    .query(getList)
+    .then((result) => res.json({ ...success200, data: result.rows }))
+    .catch((err) => res.status(500).json({ ...error500, data: `Error get list: ${err}` }))
+}
+
+const insertVehicleLocal = async (req, res) => {
+  const { cd, created_by } = req.body
+  const insertQuery = `
+    INSERT INTO pcc_vehicle (cd, created_by, is_delete, is_inactive)
+    VALUES ('${cd}', '${created_by}', 'N', 'N')`
+
+  await pool
+    .query(insertQuery)
+    .then((_) => res.json({ ...success200 }))
+    .catch((err) => res.status(500).json({ ...error500, data: `Error insert supplier: ${err}` }))
+}
 
 const InsertVehicle = (data, callback) => {
   let valueInsertVehicle = ''
@@ -77,4 +96,4 @@ const InsertVehicle = (data, callback) => {
     .catch((error) => callback({ ...error500, data: `Error Insert Vehicle: ${error}` }))
 }
 
-export { GetVehicle, InsertVehicle }
+export { getVehicle, InsertVehicle, insertVehicleLocal }

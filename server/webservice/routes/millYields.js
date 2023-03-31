@@ -2,10 +2,15 @@ import express from 'express'
 import {
   GetScaleHistory,
   InsertMillYileds,
-  UpdateMillYields
+  UpdateMillYields,
+  getRekapHistory,
+  getRekapHistorySupplier
 } from '../controllers/millYieldsController.js'
 
 const router = express.Router()
+
+router.post('/history-rekap', getRekapHistory)
+router.post('/history-rekap-supplier', getRekapHistorySupplier)
 
 router.post('/insert', (req, res) => {
   InsertMillYileds(req, (response) => {

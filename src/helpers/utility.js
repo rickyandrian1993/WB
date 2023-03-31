@@ -103,8 +103,6 @@ export const nfcParse = async (isGrading, data, evac_cd, resultCallback) => {
 
   const nfcIndicator = dataParent[0]
   const pcc_mill_cd = dataParent[9]
-  console.log('SCAN NFC', nfcIndicator, isGrading)
-  console.log('MILL', mill.cd, pcc_mill_cd)
   if (nfcIndicator !== '33' && nfcIndicator !== '34')
     ToastNotification({
       title: 'NFC Error',
@@ -310,4 +308,61 @@ export const sumData = (datas, key) => {
 
 const filterItems = (arr, query) => {
   return arr.filter((el) => query.includes(el.comodity_nm))
+}
+
+export const calculateByTBS = (value, form) => {
+  const commodity = form?.values?.comodity_nm
+  const {
+    fresh_fruit,
+    garbage,
+    grading_brondolan,
+    janjang_kosong,
+    long_stalk,
+    restan_overnight,
+    overripe_brondolan,
+    overripe_fruit,
+    sand_fruit,
+    young_fruit,
+    water
+  } = value
+
+  let bjr = isNaNToZero(form.values?.bjr)
+  let netto = isNaNToZero(form.values?.netto_w)
+  let result = {}
+  switch (commodity) {
+    case 'TBS Plasma':
+      let tempRottenKg = Math.round(0.25 * ((overripe_fruit * bjr) / netto - 0.05) * netto) || 0
+      let tempRottenBrondolan = Math.round((overripe_brondolan / 100) * (overripe_fruit + 0.25))
+      result = {
+        fresh_fruit_kg: Math.round(+fresh_fruit * bjr * 0.5),
+        garbage_kg: Math.round(+garbage * 2),
+        grading_brondolan_kg: Math.round(0.3 * netto * (0.125 - grading_brondolan / 100)),
+        janjang_kosong_kg: Math.round(+janjang_kosong * bjr),
+        long_stalk_kg: Math.round(+long_stalk * bjr * 0.01),
+        overripe_fruit_kg: tempRottenKg > 0 ? tempRottenKg : 0,
+        restan_overnight_kg: Math.round((+restan_overnight / 100) * netto),
+        overripe_brondolan_kg: tempRottenBrondolan > 0 ? tempRottenBrondolan : 0,
+        water_kg: Math.round((+water / 100) * netto),
+        sand_fruit_kg: Math.round(+sand_fruit * bjr * 0.7),
+        young_fruit_kg: Math.round(+young_fruit * bjr * 0.5)
+      }
+      return result
+    case 'TBS Luar':
+      result = {
+        fresh_fruit_kg: Math.round(+fresh_fruit * bjr),
+        janjang_kosong_kg: Math.round(+janjang_kosong * bjr),
+        long_stalk_kg: Math.round(+long_stalk * bjr),
+        overripe_fruit_kg: Math.round(+overripe_fruit * bjr),
+        sand_fruit_kg: Math.round(+sand_fruit * bjr),
+        young_fruit_kg: Math.round(+young_fruit * bjr),
+        garbage_kg: Math.round((+garbage / 100) * netto),
+        grading_brondolan_kg: Math.round((+grading_brondolan / 100) * netto),
+        restan_overnight_kg: Math.round((+restan_overnight / 100) * netto),
+        overripe_brondolan_kg: Math.round((+overripe_brondolan / 100) * netto),
+        water_kg: Math.round((+water / 100) * netto)
+      }
+      return result
+    default:
+      break
+  }
 }

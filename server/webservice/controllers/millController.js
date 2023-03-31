@@ -30,7 +30,7 @@ const GetMillDetail = async (cd) => {
   const queryGetMillDetail = `SELECT cd, pcc_estate_cd, pcc_estate_nm FROM pcc_mill_dtl WHERE pcc_mill_cd = '${cd}'`
   const result = pool
     .query(queryGetMillDetail)
-    .catch((err) => console.log(`Error get mill detail: ${err}`))
+    .catch((err) => console.error(`Error get mill detail: ${err}`))
 
   return result
 }
@@ -39,7 +39,7 @@ const GetLastUpdate = () => {
   const updateDataQuery = 'SELECT * from update_data'
   const result = pool
     .query(updateDataQuery)
-    .catch((err) => console.log(`Error get last update: ${err}`))
+    .catch((err) => console.error(`Error get last update: ${err}`))
 
   return result
 }
@@ -53,7 +53,7 @@ const InsertMill = (data, callback) => {
       const insertPasswordAdmin = `INSERT INTO super_user (password) VALUES ('d8a5782a57931d630fad6017435712cc')`
       pool
         .query(insertPasswordAdmin)
-        .catch((error) => console.log(`Error insert password admin: ${error}`))
+        .catch((error) => console.error(`Error insert password admin: ${error}`))
       InsertMillData(data, callback)
     })
     .catch((error) =>

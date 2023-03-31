@@ -1,5 +1,5 @@
 import { Select } from '@mantine/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ColGrid, ScaleGrid } from '../../../../assets/style/styled'
 import { SupplierController } from '../../../../services'
@@ -11,7 +11,13 @@ export default function TbsLuarPlasmaUSBReport(props) {
     data,
     payloads: { payload, setPayload }
   } = props
-  const { supplier } = SupplierController()
+  const { data: dataReport } = data
+  const { getSupplierList } = SupplierController()
+  const [supplier, setSupplier] = useState([])
+
+  useEffect(() => {
+    getSupplierList(setSupplier)
+  }, [getSupplierList])
 
   return (
     <ReportSectionContent>
@@ -33,10 +39,10 @@ export default function TbsLuarPlasmaUSBReport(props) {
       </ScaleGrid>
       <ScaleGrid align="center">
         <ColGrid>
-          {/* {data.length < 1 && (
+          {dataReport?.length < 1 && (
             <h3 style={{ display: 'flex', justifyContent: 'center' }}>Tidak Ada Data.</h3>
-          )} */}
-          {data.length > 0 && <Rincian {...props} />}
+          )}
+          {dataReport?.length > 0 && <Rincian {...props} />}
         </ColGrid>
       </ScaleGrid>
     </ReportSectionContent>
@@ -44,6 +50,6 @@ export default function TbsLuarPlasmaUSBReport(props) {
 }
 
 TbsLuarPlasmaUSBReport.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.any,
   payloads: PropTypes.object
 }

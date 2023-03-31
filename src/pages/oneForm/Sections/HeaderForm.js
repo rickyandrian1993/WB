@@ -4,17 +4,27 @@ import React, { useEffect, useState } from 'react'
 import { ColGrid, FormGroup, ScaleGrid } from '../../../assets/style/styled'
 import { noPol, parseValue } from '../../../helpers/utility'
 import PropTypes from 'prop-types'
-import { MillYieldsController } from '../../../services'
+import { MillYieldsController, VehicleCdController } from '../../../services'
 import { findDisableList } from '../../../helpers/disableList'
 
-const HeaderForm = ({ form, customer, loading, setLoading, setIsFirst, setDisableList }) => {
+const HeaderForm = ({
+  form,
+  customer,
+  loading,
+  setLoading,
+  setIsFirst,
+  setDisableList,
+  setNewHistory
+}) => {
   const [history, setHistory] = useState([])
+  const [vehicleList, setVehicleList] = useState([])
   const { getScaleHistory } = MillYieldsController()
+  const { getVehicleCd } = VehicleCdController()
   const vehicle_cd = form.values.pcc_vehicle_cd
 
   useEffect(() => {
     if (loading) {
-      if (!history.length || loading) {
+      if (!history.length || !vehicleList.length || loading) {
         getScaleHistory({}, setLoading, (res) => {
           const temp = []
           res?.forEach((data) =>
@@ -22,14 +32,25 @@ const HeaderForm = ({ form, customer, loading, setLoading, setIsFirst, setDisabl
           )
           setHistory(temp)
         })
+        getVehicleCd(setVehicleList)
       }
       if (vehicle_cd) {
-        if (!history.find((item) => item.value === vehicle_cd)) {
-          setHistory((current) => [...current, { value: vehicle_cd, label: vehicle_cd }])
+        if (!vehicleList.find((item) => item.value === vehicle_cd)) {
+          setVehicleList((current) => [...current, { value: vehicle_cd, label: vehicle_cd }])
         }
       }
     }
-  }, [getScaleHistory, history, loading, setLoading, vehicle_cd])
+  }, [
+    getScaleHistory,
+    getVehicleCd,
+    history,
+    history.length,
+    loading,
+    setNewHistory,
+    setLoading,
+    vehicleList,
+    vehicle_cd
+  ])
 
   const historyChangeHandler = (e) => {
     const selected = history.find((item) => {
@@ -38,7 +59,7 @@ const HeaderForm = ({ form, customer, loading, setLoading, setIsFirst, setDisabl
     form.reset()
     setIsFirst(true)
     if (!selected) {
-      form.getInputProps('pcc_vehicle_cd').onChange(noPol(e))
+      form.getInputProps('pcc_vehicle_cd').onChange(e)
       setDisableList(findDisableList(false))
     } else {
       form.getInputProps('pcc_vehicle_cd').onChange(selected.value)
@@ -51,7 +72,6 @@ const HeaderForm = ({ form, customer, loading, setLoading, setIsFirst, setDisabl
         Object.keys(data).map((item) => {
           return (newObj[item] = data[item] || '')
         })
-        console.log('selected', data.comodity_nm)
         setDisableList(findDisableList(data.comodity_nm))
         parseValue(newObj, form)
       }
@@ -65,7 +85,7 @@ const HeaderForm = ({ form, customer, loading, setLoading, setIsFirst, setDisabl
           <ColGrid span={6}>
             <Select
               label="No. Polisi"
-              data={history}
+              data={vehicleList}
               placeholder="No. Polisi"
               rightSection={<i className="ri-arrow-down-s-line"></i>}
               styles={{ rightSection: { pointerEvents: 'none' } }}
@@ -75,9 +95,9 @@ const HeaderForm = ({ form, customer, loading, setLoading, setIsFirst, setDisabl
               getCreateLabel={(query) => `+ Tambah ${query}`}
               onCreate={(query) => {
                 const item = { value: noPol(query), label: noPol(query) }
-                setHistory((current) => [...current, item])
+                setNewHistory(noPol(query))
+                setVehicleList((current) => [...current, item])
                 setIsFirst(true)
-                console.log('oncreate', item, '||', query)
                 return item
               }}
               {...form.getInputProps('pcc_vehicle_cd')}
@@ -142,7 +162,8 @@ HeaderForm.propTypes = {
   loading: PropTypes.bool,
   setIsFirst: PropTypes.func,
   setLoading: PropTypes.func,
-  setDisableList: PropTypes.func
+  setDisableList: PropTypes.func,
+  setNewHistory: PropTypes.func
 }
 
 export default HeaderForm

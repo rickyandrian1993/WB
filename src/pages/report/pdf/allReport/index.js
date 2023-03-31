@@ -18,15 +18,11 @@ export default function AllReportData({ data, payload }) {
   const { mill } = getStore('mill')
   const groupCommodity = filteringData(data, 'comodity_nm')
   const tbs = filteringTBSOnly(data)
-  console.log('tbs', tbs)
+
   return (
     <ReportSectionContent>
-      {data.length < 1 && (
-        <ReportSectionContent
-          style={{ display: 'grid', placeItems: 'center', border: '2px solid 628b48' }}
-        >
-          No Data Available.
-        </ReportSectionContent>
+      {data?.length < 1 && (
+        <h3 style={{ display: 'flex', justifyContent: 'center' }}>Tidak Ada Data.</h3>
       )}
       {data.length > 1 && (
         <ReportSectionContent>

@@ -16,12 +16,11 @@ export default function Report() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [payload, setPayload] = useState({
-    commodity: 'TBS Plasma',
+    commodity: '',
     estate: '',
     supplier: '',
     customer: '',
-    // startDate: new Date(),
-    startDate: '2023-01-17',
+    startDate: new Date(),
     endDate: new Date()
   })
 
@@ -149,11 +148,10 @@ export default function Report() {
           {['TBS Luar', 'TBS Plasma', 'USB'].includes(payload.commodity) && (
             <TbsLuarPlasmaUSBReport data={data} payloads={{ payload, setPayload }} />
           )}
-          {data.length > 0 &&
-            commodityList
-              .filter((item) => item.group === 'Non-Commodity')
-              .map((group) => group.value)
-              .includes(payload.commodity) && <NonCommodity data={data} payloads={{ payload }} />}
+          {commodityList
+            .filter((item) => item.group === 'Non-Commodity')
+            .map((group) => group.value)
+            .includes(payload.commodity) && <NonCommodity data={data} payloads={{ payload }} />}
           {commodityList
             .filter((item) => item.group === 'Commodity')
             .map((group) => group.value)

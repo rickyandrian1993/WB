@@ -9,7 +9,10 @@ import { ColGrid, ScaleGrid } from '../../../../assets/style/styled'
 import TtdPdf from '../components/TtdPdf'
 
 export default function TbsIntiRekap({ data, payloads: { payload } }) {
-  const groupSupplier = filteringData(data, 'supplier')
+  const { data: dataReport, dataAdditional, dataKeseluruhan } = data
+  const CPOData = dataAdditional[0] || {}
+  const KernelData = dataAdditional[1] || {}
+  const groupSupplier = filteringData(dataReport, 'supplier')
 
   const groupingDivisi = (arr) => {
     const divisi = filteringData(arr, 'divisi_cd')
@@ -78,7 +81,6 @@ export default function TbsIntiRekap({ data, payloads: { payload } }) {
                         Periode : {moment(payload.startDate).format('DD MMMM Y')} -{' '}
                         {moment(payload.endDate).format('DD MMMM Y')}
                       </p>
-                      <p>Estate: {'-'}</p>
                       <p>Inti / Plasma / Luar : {payload.commodity}</p>
                     </div>
                   </ContentHeader>
@@ -98,14 +100,14 @@ export default function TbsIntiRekap({ data, payloads: { payload } }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.length < 1 && (
+                      {dataReport.length < 1 && (
                         <tr>
                           <td colSpan={9} align="center">
                             No Data Available.
                           </td>
                         </tr>
                       )}
-                      {data.length > 1 && groupingDivisi(groupSupplier[val])}
+                      {dataReport.length > 1 && groupingDivisi(groupSupplier[val])}
                     </tbody>
                   </Table>
                   <ContentFooter>
@@ -117,25 +119,27 @@ export default function TbsIntiRekap({ data, payloads: { payload } }) {
                               <td>{val}</td>
                               <td>:</td>
                               <td>{groupSupplier[val].length} Trip</td>
-                              <td>169.230 Kg</td>
+                              <td>{numberFormat(sumData(groupSupplier[val], 'total_netto'))} Kg</td>
                             </tr>
                             <tr>
                               <td>Total Keseluruhan</td>
                               <td>:</td>
-                              <td>{data.length} Trip</td>
-                              <td>{numberFormat(sumData(data, 'total_netto'))} Kg</td>
+                              <td>{dataKeseluruhan.trip || 0} Trip</td>
+                              <td>{numberFormat(dataKeseluruhan.total_netto)} Kg</td>
                             </tr>
                             <tr>
                               <td>Total Pengiriman CPO</td>
                               <td>:</td>
-                              <td>4 Trip</td>
-                              <td>1234 Kg</td>
+                              <td>{CPOData?.trip ? numberFormat(CPOData.trip) : 0} Trip</td>
+                              <td>{CPOData?.total_kg ? numberFormat(CPOData.total_kg) : 0} Kg</td>
                             </tr>
                             <tr>
                               <td>Total Pengiriman Inti/Kernel</td>
                               <td>:</td>
-                              <td>0 Trip</td>
-                              <td>0 Kg</td>
+                              <td>{KernelData?.trip ? numberFormat(KernelData.trip) : 0} Trip</td>
+                              <td>
+                                {KernelData?.total_kg ? numberFormat(KernelData.total_kg) : 0} Kg
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -146,17 +150,19 @@ export default function TbsIntiRekap({ data, payloads: { payload } }) {
                             <tr>
                               <td>Potongan</td>
                               <td>:</td>
-                              <td>{numberFormat(sumData(data, 'cut'))} Kg</td>
+                              <td>{numberFormat(dataKeseluruhan?.total_cut)} Kg</td>
                             </tr>
                             <tr>
                               <td>FFA</td>
                               <td>:</td>
-                              <td>0 %</td>
+                              <td>{(CPOData?.total_ffa || 0) + (KernelData?.total_ffa || 0)} %</td>
                             </tr>
                             <tr>
                               <td>Kotoran</td>
                               <td>:</td>
-                              <td>0 %</td>
+                              <td>
+                                {(CPOData?.total_dirt || 0) + (KernelData?.total_dirt || 0)} %
+                              </td>
                             </tr>
                           </tbody>
                         </table>
@@ -174,6 +180,6 @@ export default function TbsIntiRekap({ data, payloads: { payload } }) {
 }
 
 TbsIntiRekap.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.any,
   payloads: PropTypes.object
 }

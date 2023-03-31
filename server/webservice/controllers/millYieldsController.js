@@ -3,6 +3,37 @@ import moment from 'moment'
 import { uid } from 'uid'
 import { error500, success200 } from '../constants/responseCallback.js'
 
+const getRekapHistory = async (req, res) => {
+  const getAllScaleHistoryQuery = `
+    SELECT comodity_nm, SUM(netto_w::bigint - cut::bigint) as total_berat,
+      (SELECT COUNT(cd) FROM pcc_mill_yields_activity WHERE netto_w < 1 AND wb_arrive_dt::date = now()::date) as total_kendaraan
+    FROM pcc_mill_yields_activity
+    WHERE wb_arrive_dt::date = now()::date
+    GROUP BY comodity_nm`
+
+  await pool
+    .query(getAllScaleHistoryQuery)
+    .then((result) => res.json({ ...success200, data: result.rows }))
+    .catch((error) =>
+      res.status(500).json({ ...error500, data: `Error Get Rekap History: ${error} ` })
+    )
+}
+
+const getRekapHistorySupplier = async (req, res) => {
+  const getAllScaleHistorySupplierQuery = `
+    SELECT supplier, COUNT(cd) as total_kendaraan, SUM(netto_w::bigint - cut::bigint) as total_berat
+    FROM pcc_mill_yields_activity
+    WHERE wb_arrive_dt::date = now()::date AND netto_w > 0
+    GROUP BY supplier`
+
+  await pool
+    .query(getAllScaleHistorySupplierQuery)
+    .then((result) => res.json({ ...success200, data: result.rows }))
+    .catch((error) =>
+      res.status(500).json({ ...error500, data: `Error Get Rekap History: ${error} ` })
+    )
+}
+
 const InsertMillYileds = (req, callback) => {
   const milLYieldData = req.body.data
   if (Object.keys(milLYieldData).length > 0) {
@@ -103,7 +134,7 @@ const insertEvac = (data) => {
       wb_arrive_dt
     ) VALUES ${valueEvacActDtl}`
 
-  pool.query(insertEvacActDtlQuery).catch((error) => console.log('error insert evac', error))
+  pool.query(insertEvacActDtlQuery).catch((error) => console.error('error insert evac', error))
 }
 
 const GetScaleHistory = (data, callback) => {
@@ -234,7 +265,6 @@ const UpdateMillYields = (data, callback) => {
       young_fruit_kg = ${data.young_fruit_kg === null ? 0 : data.young_fruit_kg}
     WHERE cd = '${data.cd}';
     `
-  console.log('query', updateInputQuery)
   // const updateReportQuery = `UPDATE report SET status = 'New' WHERE tanggal::DATE = '${data.created_dt}';`
 
   pool
@@ -261,4 +291,10 @@ const UpdateMillYields = (data, callback) => {
   // })
 }
 
-export { GetScaleHistory, InsertMillYileds, UpdateMillYields }
+export {
+  getRekapHistory,
+  getRekapHistorySupplier,
+  GetScaleHistory,
+  InsertMillYileds,
+  UpdateMillYields
+}
