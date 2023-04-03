@@ -262,7 +262,7 @@ const FormGroup = styled(Box)`
       &:first-child {
         position: initial;
       }
-      &.form {
+      &.field {
         &-rekapitulasi {
           width: 75%;
         }

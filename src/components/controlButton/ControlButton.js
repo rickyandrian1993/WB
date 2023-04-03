@@ -55,7 +55,13 @@ const ControlButton = () => {
 
   return (
     <ControlBox>
-      <ButtonWB color="yellow" variant="outline" size="sm" onClick={() => setOpenDrawer(true)}>
+      <ButtonWB
+        color="yellow"
+        variant="outline"
+        size="sm"
+        onClick={() => setOpenDrawer(true)}
+        style={{ zIndex: 1 }}
+      >
         <i className="ri-settings-3-line" />
       </ButtonWB>
       <ButtonWB color="red" variant="outline" size="sm" onClick={() => setOpenModal(true)}>

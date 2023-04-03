@@ -25,6 +25,8 @@ export const endpoints = {
   getListUploadData: `${baseAPIUrlLocal}/sync`,
   getMillUser: `${baseAPIUrlLocal}/mill`,
   getReport: `${baseAPIUrlLocal}/report`,
+  getRekapCommodity: `${baseAPIUrlLocal}/update-data/history-rekap`,
+  getRekapTabel: `${baseAPIUrlLocal}/update-data/history-rekap-supplier`,
   getReportData: `${baseAPIUrlLocal}/report/list`,
   getScaleHistory: `${baseAPIUrlLocal}/history/scale-in`,
   getTimbanganData: `${baseAPIUrlLocalExternal}/get-weigh`,

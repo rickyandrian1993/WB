@@ -187,7 +187,6 @@ export default function History() {
       <ColGrid>
         <ReportTableBox>
           <DataTable
-            title="Title"
             paginationTotalRows={payload.total}
             columns={columns}
             data={data}

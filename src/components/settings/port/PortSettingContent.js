@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Grid, Select } from '@mantine/core'
+import { Col, Grid, Loader, Select } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { useState } from 'react'
 import { SerialPortController } from '../../../services'
@@ -131,8 +131,8 @@ export default function PortSettingContent({ data, drawerVisible }) {
           />
         </Col>
         <Col>
-          <ButtonWB size="md" type="submit">
-            Simpan
+          <ButtonWB size="md" type="submit" style={{ width: '100%' }} disabled={loading}>
+            {loading ? <Loader color="#fff" variant="bars" size="sm" /> : 'SIMPAN'}
           </ButtonWB>
         </Col>
       </Grid>

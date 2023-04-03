@@ -42,7 +42,7 @@ const Commodity = () => {
       else {
         const { first_w, total_bunch } = form.values
         let netto_w = Math.abs(+first_w - res)
-        let bjr = (netto_w / total_bunch).toFixed(2)
+        let bjr = total_bunch === 0 ? 0 :(netto_w / total_bunch).toFixed(2)
         form.setValues((prev) => ({
           ...prev,
           after_cut: netto_w,
@@ -64,7 +64,7 @@ const Commodity = () => {
     if (newHistory === form.values.pcc_vehicle_cd)
       insertVehicleCd({ cd: newHistory, created_by: user.nm }, setLoading)
     if (newSupplier === form.values.supplier)
-      insertSupplierList({ name: newHistory, created_by: user.nm }, setLoading)
+      insertSupplierList({ name: newSupplier, created_by: user.nm }, setLoading)
     if (isFirst) insertData(firstWeightPayload(), setLoading, form)
     else updateData(secondWeightPayload(), setLoading)
   }

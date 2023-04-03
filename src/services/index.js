@@ -13,7 +13,7 @@ import SerialPortController from './controllers/serialPortController'
 import SupplierController from './controllers/supplierController'
 import SyncController from './controllers/syncController'
 import TimbanganController from './controllers/timbanganController'
-
+import RekapitulasiController from './controllers/rekapitulasiController'
 export {
   CommodityController,
   CustomerController,
@@ -26,6 +26,7 @@ export {
   ReportController,
   SerialPortController,
   VehicleCdController,
+  RekapitulasiController,
   SupplierController,
   SyncController,
   TimbanganController,

@@ -10,49 +10,52 @@ export default function MillSettingContent({ data }) {
   const [loading, setLoading] = useState(false)
   const form = useForm({
     initialValues: {
-      mill: null
+      mill: ''
     },
     validate: (values) => {
       return {
-        mill: values.mill === null ? 'Mill tidak boleh kosong.' : null
+        mill: values.mill === '' || values.mill === null ? 'Mill tidak boleh kosong.' : null
       }
     }
   })
 
-  const millChangeHandler = (e) => {
-    const mill = data.find((item) => item.value === e)
-    form.setFieldValue('mill', mill.data)
-  }
-
-  const settingOptionSubmitHandle = () => {
+  const millSubmitHandle = (values) => {
     if (form.validate().hasErrors) return
-    updateMillUser(form.values.mill, setLoading)
+
+    const millSelected = data.find((item) => item.value === values.mill)
+    updateMillUser(millSelected.data, setLoading)
   }
 
   return (
-    <Grid sx={{ '.mantine-Select-root': { position: 'relative' } }}>
-      <Col>
-        <Select
-          rightSection={<i className="ri-arrow-down-s-line"></i>}
-          styles={{ rightSection: { pointerEvents: 'none' } }}
-          withAsterisk
-          label="Mill"
-          placeholder="Mill"
-          searchable
-          data={data}
-          size="md"
-          radius="md"
-          required
-          nothingFound="Tidak ada data."
-          onChange={millChangeHandler}
-        />
-      </Col>
-      <Col>
-        <ButtonWB size="md" onClick={settingOptionSubmitHandle} disabled={loading}>
-          {loading ? <Loader color="#fff" variant="bars" size="sm" /> : 'SIMPAN'}
-        </ButtonWB>
-      </Col>
-    </Grid>
+    <form onSubmit={form.onSubmit(millSubmitHandle)}>
+      <Grid sx={{ '.mantine-Select-root': { position: 'relative' } }}>
+        <Col>
+          <Select
+            rightSection={<i className="ri-arrow-down-s-line"></i>}
+            styles={{ rightSection: { pointerEvents: 'none' } }}
+            withAsterisk
+            label="Mill"
+            placeholder="Mill"
+            searchable
+            data={data}
+            size="md"
+            radius="md"
+            nothingFound="Tidak ada data."
+            {...form.getInputProps('mill')}
+            onChange={(e) => {
+              const millSelected = data.find((item) => item.value === e)
+              form.setFieldValue('mill', millSelected.label)
+              form.getInputProps('mill').onChange(e)
+            }}
+          />
+        </Col>
+        <Col>
+          <ButtonWB type="submit" size="md" style={{ width: '100%' }} disabled={loading}>
+            {loading ? <Loader color="#fff" variant="bars" size="sm" /> : 'SIMPAN'}
+          </ButtonWB>
+        </Col>
+      </Grid>
+    </form>
   )
 }
 
