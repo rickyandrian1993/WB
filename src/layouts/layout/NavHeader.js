@@ -65,10 +65,6 @@ function NavHeader() {
       <Group>
         <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to="/">
           <i className="ri-scales-fill" />
-          All Form
-        </NavLink>
-        <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to="/commodity">
-          <i className="ri-scales-fill" />
           Timbang/Weigh
         </NavLink>
         <NavLink className={({ isActive }) => (isActive ? 'active' : 'inactive')} to="/history">
