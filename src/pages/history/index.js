@@ -12,11 +12,11 @@ import {
   ScaleGrid
 } from '../../assets/style/styled'
 import { ToastNotification } from '../../components'
-import { label } from '../../constants'
+import { commodityList, label } from '../../constants'
 import { labelNonDetail } from '../../constants/databaseLabelKeys'
 import { columns } from '../../constants/headerTable'
 import { generateHeader, getLastMonthDate, parseCSVData } from '../../helpers/utility'
-import { CommodityController, ReportController } from '../../services'
+import { ReportController } from '../../services'
 
 const Expand = ({ data }) => {
   const {
@@ -55,7 +55,6 @@ const Expand = ({ data }) => {
 
 export default function History() {
   const { getReport } = ReportController()
-  const { commodity } = CommodityController()
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -115,7 +114,7 @@ export default function History() {
                     label="Komoditi"
                     placeholder="Komoditi"
                     searchable
-                    data={[{ label: 'Semua', value: 'all' }, ...commodity]}
+                    data={[{ label: 'Semua', value: 'all', group: 'Semua' }, ...commodityList]}
                     size="sm"
                     nothingFound="Tidak ada data."
                     onChange={(commodity) => {
