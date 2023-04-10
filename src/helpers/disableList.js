@@ -153,7 +153,7 @@ export const disableTbsLain = {
   spb_weight: false,
   supplier: false,
   total_brondolan: false,
-  total_bunch: false,
+  total_bunch: false
 }
 
 const enableGrading = {
@@ -178,7 +178,7 @@ export const findDisableList = (key, isFirst) => {
     case 'TBS Luar':
       return {
         ...disableTbsLain,
-        ...(!isFirst ? enableGrading : null),
+        ...(!isFirst ? { ...enableGrading, total_bunch: true } : null),
         comodity_nm: !isFirst,
         nfc_button: isFirst
       }
