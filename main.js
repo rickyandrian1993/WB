@@ -56,8 +56,8 @@ if (!gotTheLock) {
 
   app.on('ready', () => {
     createWindow()
-    if (isDev) mainWindow.webContents.openDevTools()
     autoUpdater.checkForUpdatesAndNotify()
+    if (isDev) mainWindow.webContents.openDevTools()
   })
 
   app.on('window-all-closed', function () {

@@ -7,7 +7,7 @@ const DataTambahan = ({ form, loading, disableList }) => {
   return (
     <ScaleGrid>
       <Divider label="Data Tambahan" />
-      <ColGrid span='auto'>
+      <ColGrid span="auto">
         <TextInput
           label="No Seal"
           placeholder="No Seal"
@@ -15,7 +15,7 @@ const DataTambahan = ({ form, loading, disableList }) => {
           {...form.getInputProps('seal_number')}
         />
       </ColGrid>
-      <ColGrid span='auto'>
+      <ColGrid span="auto">
         <TextInput
           label="Kelas"
           placeholder="Kelas"
@@ -23,7 +23,7 @@ const DataTambahan = ({ form, loading, disableList }) => {
           {...form.getInputProps('grade_class')}
         />
       </ColGrid>
-      <ColGrid span='auto'>
+      <ColGrid span="auto">
         <NumberInput
           min={0}
           label="Berat SPB"
@@ -33,7 +33,7 @@ const DataTambahan = ({ form, loading, disableList }) => {
           {...form.getInputProps('spb_weight')}
         />
       </ColGrid>
-      <ColGrid span='auto'>
+      <ColGrid span="auto">
         <NumberInput
           min={0}
           label="Selisih Berat"

@@ -102,7 +102,6 @@ const DataUmum = ({
         <ScaleGrid justify="space-around" align="center">
           <ColGrid span={12}>
             <TextInput
-              withAsterisk
               label="Petani"
               placeholder="Petani"
               disabled={disableList.farmer}

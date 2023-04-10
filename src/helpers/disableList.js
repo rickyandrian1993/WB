@@ -96,6 +96,7 @@ export const disableNonCommodity = {
   do_number: false,
   driver_nm: false,
   first_w: false,
+  grade_class: false,
   loader_nm: false,
   mt_vndr_rent_vhcle_cd: false,
   netto_w: false,
@@ -148,13 +149,11 @@ export const disableTbsLain = {
   mt_vndr_rent_vhcle_cd: false,
   pcc_customer_cd: false,
   remark1: false,
-  sand_fruit: false,
   seal_number: false,
   spb_weight: false,
   supplier: false,
   total_brondolan: false,
   total_bunch: false,
-  water: false
 }
 
 const enableGrading = {
