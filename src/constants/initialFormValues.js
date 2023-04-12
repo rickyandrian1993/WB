@@ -1,6 +1,4 @@
 import moment from 'moment'
-import { getDateAndTimeNow, getStore } from '../helpers/utility'
-import { dateTimeHMS } from './dateFormat'
 
 const loginForm = {
   initialValues: {
@@ -25,7 +23,7 @@ const initialValues = {
     block_nm3: '',
     comodity_nm: '',
     contract: '',
-    created_by: getStore('accountInfo')?.user?.nm,
+    created_by: '',
     created_dt: moment().format('Y-MM-DD HH:mm:ss'),
     cut: 0, // Potongan
     dirt: 0,
@@ -57,7 +55,7 @@ const initialValues = {
     long_stalk: 0, // Tangkai Panjang
     long_stalk_kg: 0, // Tangkai Panjang
     mill_arrive_dt: moment().format('Y-MM-DD HH:mm:ss'), // Mill
-    mill_nm: getStore('mill')?.mill?.nm, // Mill
+    mill_nm: '', // Mill
     moist: 0,
     mt_vndr_rent_vhcle_cd: null, // Ekspedisi
     netto_w: 0,
@@ -66,7 +64,6 @@ const initialValues = {
     overripe_fruit: 0, // Buah Busuk
     overripe_fruit_kg: 0, // Buah Busuk
     pcc_customer_cd: null, // Customer
-    pcc_mill_cd: getStore('mill')?.mill?.cd, // Mill
     pcc_estate_cd: '',
     pcc_estate_level_cd: '',
     pcc_estate_level_cd2: '',
@@ -92,15 +89,10 @@ const initialValues = {
     total_brondolan: 0,
     total_bunch: 0,
     total_loaded_nfc: '',
-    updated_dt: getDateAndTimeNow(dateTimeHMS),
-    updated_by: getStore('accountInfo')?.user?.nm,
     upload_flag: 'N',
     water: 0, // TBS Air
     water_kg: 0, // TBS Air
     weight_gap: 0, // Selisih Berat
-    wb_arrive_dt: getDateAndTimeNow(dateTimeHMS),
-    wb_created_by: getStore('accountInfo')?.user?.nm,
-    wb_created_dt: getDateAndTimeNow(dateTimeHMS),
     young_fruit: 0, // Buah Muda
     young_fruit_kg: 0 // Buah Muda
   },

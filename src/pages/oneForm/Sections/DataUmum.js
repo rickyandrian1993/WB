@@ -53,10 +53,13 @@ const DataUmum = ({
               disabled={disableList.comodity_nm}
               {...form.getInputProps('comodity_nm')}
               onChange={(e) => {
+                const temp = form.values.pcc_vehicle_cd
+                form.reset()
                 setDisableList(findDisableList(e, isFirst))
                 if ((e === 'TBS Inti' || e === 'Brondolan') && !isFirst) setIsFirst(true)
                 form.getInputProps('comodity_nm').onChange(e)
                 form.setFieldValue('mt_comodity_cd', e)
+                form.setFieldValue('pcc_vehicle_cd', temp)
               }}
             />
           </ColGrid>
@@ -77,6 +80,7 @@ const DataUmum = ({
           </ColGrid>
           <ColGrid span={12}>
             <Select
+              withAsterisk
               label="Supplier"
               data={supplier}
               placeholder="Supplier"

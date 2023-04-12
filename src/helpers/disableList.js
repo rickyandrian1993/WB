@@ -195,7 +195,7 @@ export const findDisableList = (key, isFirst) => {
     case 'Solid':
     case 'Jangkos':
     case 'Cangkang':
-    case 'Lain-lain':
+    case 'Others':
       return { ...disableNonCommodity, comodity_nm: !isFirst }
     default:
       return allTrue

@@ -84,6 +84,7 @@ const HeaderForm = ({
         <ScaleGrid>
           <ColGrid span={6}>
             <Select
+              withAsterisk
               label="No. Polisi"
               data={vehicleList}
               placeholder="No. Polisi"

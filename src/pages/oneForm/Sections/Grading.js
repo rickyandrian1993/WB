@@ -159,7 +159,6 @@ const Grading = ({ form, disableList }) => {
             hideControls
             rightSection="%"
             decimalSeparator="."
-            precision={2}
             max={100}
             {...form.getInputProps('water')}
             onChange={(e) => handleCalculateInput(e, 'water')}
@@ -173,6 +172,8 @@ const Grading = ({ form, disableList }) => {
             label="Brondolan"
             placeholder="0"
             rightSection="%"
+            decimalSeparator="."
+            max={100}
             disabled={disableList.grading_brondolan}
             {...form.getInputProps('grading_brondolan')}
             onChange={(e) => handleCalculateInput(e, 'grading_brondolan')}
@@ -191,6 +192,8 @@ const Grading = ({ form, disableList }) => {
             label="Brondolan Busuk"
             placeholder="0"
             rightSection="%"
+            decimalSeparator="."
+            max={100}
             disabled={disableList.overripe_brondolan}
             {...form.getInputProps('overripe_brondolan')}
             onChange={(e) => handleCalculateInput(e, 'overripe_brondolan')}
@@ -209,6 +212,8 @@ const Grading = ({ form, disableList }) => {
             label="Overnight/Restan"
             placeholder="0"
             rightSection="%"
+            decimalSeparator="."
+            max={100}
             disabled={disableList.restan_overnight}
             {...form.getInputProps('restan_overnight')}
             onChange={(e) => handleCalculateInput(e, 'restan_overnight')}
@@ -227,6 +232,8 @@ const Grading = ({ form, disableList }) => {
             label="Sampah"
             placeholder="0"
             rightSection="%"
+            decimalSeparator="."
+            max={100}
             disabled={disableList.garbage}
             {...form.getInputProps('garbage')}
             onChange={(e) => handleCalculateInput(e, 'garbage')}

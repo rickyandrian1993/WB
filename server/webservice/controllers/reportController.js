@@ -30,6 +30,7 @@ const GetReport = (data, callback) => {
         ON pcc_mill_yields_activity.pcc_customer_cd = pcc_customer.cd
       WHERE pcc_mill_yields_activity.wb_arrive_dt::DATE
         BETWEEN '${startDate}' AND '${endDate}'
+      ORDER BY wb_arrive_dt DESC
       OFFSET ${startIndex} rows fetch next ${perPage} rows only
     `
   } else {
@@ -47,6 +48,7 @@ const GetReport = (data, callback) => {
         ON pcc_mill_yields_activity.pcc_customer_cd = pcc_customer.cd
       WHERE mt_comodity_cd = '${commodity}' AND pcc_mill_yields_activity.wb_arrive_dt::DATE
         BETWEEN '${startDate}' AND '${endDate}'
+      ORDER BY wb_arrive_dt DESC
       OFFSET ${startIndex} rows fetch next ${perPage} rows only
     `
   }

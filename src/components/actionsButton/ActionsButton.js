@@ -3,10 +3,10 @@ import { ActionsBox, ColGrid, ScaleGrid } from '../../assets/style/styled'
 import ButtonWB from '../buttons/ButtonWB'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router'
-import { findPathByCd } from '../../helpers/utility'
 import PopUpModal from '../popUpModal/PopUpModal'
-import { Col, Grid, Loader } from '@mantine/core'
+import { Col, Grid, Loader, Text } from '@mantine/core'
 import { FingerPrintController } from '../../services'
+import { commodityList } from '../../constants'
 
 const ModalContent = ({ setOpenModal, verify }) => (
   <Grid justify="center" align="center">
@@ -27,17 +27,13 @@ const ModalContent = ({ setOpenModal, verify }) => (
     </Col>
   </Grid>
 )
+
 export default function ActionsButton({ data }) {
   const { netto_w, mt_comodity_cd } = data
   const navigate = useNavigate()
   const [openModal, setOpenModal] = useState(false)
   const [isVerify] = useState(null)
   const { fingerValidate } = FingerPrintController()
-
-  const navigateToPage = (cd) => {
-    const url = findPathByCd(cd)
-    navigate(url.path, { state: 'out' })
-  }
 
   const handlePrint = (type, data) => {
     setOpenModal(true)
@@ -56,7 +52,16 @@ export default function ActionsButton({ data }) {
         <>
           {parseInt(netto_w) > 0 && (
             <>
-              <ColGrid span={6}>
+              <ColGrid
+                span={
+                  commodityList
+                    .filter((item) => item.group === 'Commodity')
+                    .map((group) => group.value)
+                    .includes(mt_comodity_cd)
+                    ? 6
+                    : 12
+                }
+              >
                 <ButtonWB
                   size="md"
                   color="red"
@@ -66,7 +71,10 @@ export default function ActionsButton({ data }) {
                   Print Tiket
                 </ButtonWB>
               </ColGrid>
-              {['CPO', 'PKO'].includes(mt_comodity_cd) && (
+              {commodityList
+                .filter((item) => item.group === 'Commodity')
+                .map((group) => group.value)
+                .includes(mt_comodity_cd) && (
                 <ColGrid span={6}>
                   <ButtonWB
                     size="md"
@@ -82,14 +90,9 @@ export default function ActionsButton({ data }) {
           )}
           {parseInt(netto_w) < 1 && (
             <ColGrid span={12}>
-              <ButtonWB
-                size="md"
-                color="red"
-                variant="outline"
-                onClick={() => navigateToPage(mt_comodity_cd)}
-              >
-                Timbangan Kedua
-              </ButtonWB>
+              <Text fz="xl" fw={700}>
+                Belum Timbang Kedua
+              </Text>
             </ColGrid>
           )}
         </>

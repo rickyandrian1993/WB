@@ -5,8 +5,7 @@ import { error500, success200 } from '../constants/responseCallback.js'
 
 const getRekapHistory = async (req, res) => {
   const getAllScaleHistoryQuery = `
-    SELECT comodity_nm, SUM(netto_w::bigint - cut::bigint) as total_berat,
-      (SELECT COUNT(cd) FROM pcc_mill_yields_activity WHERE netto_w < 1 AND wb_arrive_dt::date = now()::date) as total_kendaraan
+    SELECT comodity_nm, SUM(netto_w::bigint - cut::bigint) as total_berat, count(case when netto_w > 0 then null else 1 end) as total_kendaraan
     FROM pcc_mill_yields_activity
     WHERE wb_arrive_dt::date = now()::date
     GROUP BY comodity_nm`

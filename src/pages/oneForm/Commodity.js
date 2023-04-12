@@ -42,7 +42,7 @@ const Commodity = () => {
       else {
         const { first_w, total_bunch } = form.values
         let netto_w = Math.abs(+first_w - res)
-        let bjr = total_bunch === 0 ? 0 :(netto_w / total_bunch).toFixed(2)
+        let bjr = total_bunch === 0 ? 0 : (netto_w / total_bunch).toFixed(2)
         form.setValues((prev) => ({
           ...prev,
           after_cut: netto_w,
@@ -60,6 +60,7 @@ const Commodity = () => {
 
   const submitHandler = (values) => {
     const { firstWeightPayload, secondWeightPayload } = submiter(values)
+
     if (form.validate().hasErrors) return
     if (newHistory === form.values.pcc_vehicle_cd)
       insertVehicleCd({ cd: newHistory, created_by: user.nm }, setLoading)
