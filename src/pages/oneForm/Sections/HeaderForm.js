@@ -34,10 +34,11 @@ const HeaderForm = ({
         })
         getVehicleCd(setVehicleList)
       }
-      if (vehicle_cd) {
-        if (!vehicleList.find((item) => item.value === vehicle_cd)) {
-          setVehicleList((current) => [...current, { value: vehicle_cd, label: vehicle_cd }])
-        }
+    }
+    if (vehicle_cd) {
+      if (!vehicleList.find((item) => item.value === vehicle_cd)) {
+        setNewHistory(vehicle_cd)
+        setVehicleList((current) => [...current, { value: vehicle_cd, label: vehicle_cd }])
       }
     }
   }, [
@@ -60,7 +61,7 @@ const HeaderForm = ({
     setIsFirst(true)
     if (!selected) {
       form.getInputProps('pcc_vehicle_cd').onChange(e)
-      setDisableList(findDisableList(false))
+      setDisableList(findDisableList(false, true))
     } else {
       form.getInputProps('pcc_vehicle_cd').onChange(selected.value)
       if (typeof selected.data !== 'undefined') {
@@ -72,7 +73,7 @@ const HeaderForm = ({
         Object.keys(data).map((item) => {
           return (newObj[item] = data[item] || '')
         })
-        setDisableList(findDisableList(data.comodity_nm))
+        setDisableList(findDisableList(data.comodity_nm, false))
         parseValue(newObj, form)
       }
     }
@@ -98,7 +99,6 @@ const HeaderForm = ({
                 const item = { value: noPol(query), label: noPol(query) }
                 setNewHistory(noPol(query))
                 setVehicleList((current) => [...current, item])
-                setIsFirst(true)
                 return item
               }}
               {...form.getInputProps('pcc_vehicle_cd')}

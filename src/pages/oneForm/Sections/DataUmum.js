@@ -55,8 +55,12 @@ const DataUmum = ({
               onChange={(e) => {
                 const temp = form.values.pcc_vehicle_cd
                 form.reset()
-                setDisableList(findDisableList(e, isFirst))
-                if ((e === 'TBS Inti' || e === 'Brondolan') && !isFirst) setIsFirst(true)
+                if ((e === 'TBS Inti' || e === 'Brondolan') && !isFirst) {
+                  setIsFirst(true)
+                  setDisableList(findDisableList(e, true))
+                } else {
+                  setDisableList(findDisableList(e, isFirst))
+                }
                 form.getInputProps('comodity_nm').onChange(e)
                 form.setFieldValue('mt_comodity_cd', e)
                 form.setFieldValue('pcc_vehicle_cd', temp)

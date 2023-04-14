@@ -3,16 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { ColGrid, FormGroup, ScaleGrid } from '../../../assets/style/styled'
 import { RekapitulasiController } from '../../../services'
 
-export default function RekapCommodity() {
+export default function RekapCommodity(props) {
   const { rekapCommodity } = RekapitulasiController()
   const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (loading) {
-      rekapCommodity(setLoading, setData)
-    }
-  }, [loading, rekapCommodity])
+      rekapCommodity(setData)
+  }, [props.loading, rekapCommodity])
   return (
     <ScaleGrid>
       <ColGrid span={6}>
@@ -108,7 +105,7 @@ export default function RekapCommodity() {
       <ColGrid span={6}>
         <FormGroup>
           <TextInput
-            value={!data?.RBD?.total_kendaraan ? 0 : data.RBD?.total_kendaraan}
+            value={!data?.RBDPO?.total_kendaraan ? 0 : data.RBDPO?.total_kendaraan}
             disabled
             label="RBD"
             placeholder="0"
@@ -116,7 +113,7 @@ export default function RekapCommodity() {
             className="field-rekapitulasi"
           />
           <TextInput
-            value={!data?.RBD?.total_berat ? 0 : data.RBD?.total_berat}
+            value={!data?.RBDPO?.total_berat ? 0 : data.RBDPO?.total_berat}
             disabled
             placeholder="0"
             rightSection="Kg"
@@ -162,15 +159,15 @@ export default function RekapCommodity() {
       <ColGrid span={6}>
         <FormGroup>
           <TextInput
-            value={!data?.Oleins?.total_kendaraan ? 0 : data.Oleins?.total_kendaraan}
+            value={!data?.OLEINS?.total_kendaraan ? 0 : data.OLEINS?.total_kendaraan}
             disabled
-            label="Oleins"
+            label="OLEINS"
             placeholder="0"
             rightSection="Pcs"
             className="field-rekapitulasi"
           />
           <TextInput
-            value={!data?.Oleins?.total_berat ? 0 : data.Oleins?.total_berat}
+            value={!data?.OLEINS?.total_berat ? 0 : data.OLEINS?.total_berat}
             disabled
             placeholder="0"
             rightSection="Kg"
@@ -234,7 +231,7 @@ export default function RekapCommodity() {
       <ColGrid span={6}>
         <FormGroup>
           <TextInput
-            value={!data?.Jangkos?.total_kendaraan ? 0 : data.Jangkos?.total_kendaraan}
+            value={!data?.Others?.total_kendaraan ? 0 : data.Others?.total_kendaraan}
             disabled
             label="Jangkos/Lain"
             placeholder="0"
@@ -242,7 +239,7 @@ export default function RekapCommodity() {
             className="field-rekapitulasi"
           />
           <TextInput
-            value={!data?.Jangkos?.total_berat ? 0 : data.Jangkos?.total_berat}
+            value={!data?.Others?.total_berat ? 0 : data.Others?.total_berat}
             disabled
             placeholder="0"
             rightSection="Kg"

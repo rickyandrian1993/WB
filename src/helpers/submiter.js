@@ -19,9 +19,7 @@ const submiter = (values) => {
           created_dt:
             values.comodity_nm === 'TBS Inti' || values.comodity_nm === 'Brondolan'
               ? moment.unix(values.created_dt / 1000).format('Y-MM-DD HH:mm:ss')
-              : !values.created_dt
-              ? moment().format('Y-MM-DD HH:mm:ss')
-              : values.created_dt,
+              : moment().format('Y-MM-DD HH:mm:ss'),
           ...(values.comodity_nm === 'TBS Inti' || values.comodity_nm === 'Brondolan'
             ? {
                 nfc_received: 'Y',
@@ -32,7 +30,8 @@ const submiter = (values) => {
         },
         created_by: user?.nm,
         mill_nm: mill?.nm,
-        pcc_mill_cd: mill?.cd,
+        pcc_mill_cd: mill?.cd,    
+        mill_arrive_dt: moment().format('Y-MM-DD HH:mm:ss'), // Mill
         wb_arrive_dt: moment().format('Y-MM-DD HH:mm:ss'),
         wb_created_by: user?.nm,
         wb_created_dt: moment().format('Y-MM-DD HH:mm:ss')

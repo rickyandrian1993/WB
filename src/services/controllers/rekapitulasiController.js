@@ -4,8 +4,7 @@ import { endpoints } from '../endpoints'
 import { ToastNotification } from '../../components'
 
 export default function RekapitulasiController() {
-  const rekapCommodity = useCallback(async (loading, callback) => {
-    loading(true)
+  const rekapCommodity = useCallback(async (callback) => {
     ApiService.jsonRequest(
       endpoints.getRekapCommodity,
       {},
@@ -37,11 +36,12 @@ export default function RekapitulasiController() {
                     })
                 break
               case 'Jangkos':
-                !result['Other']
-                  ? (result['Other'] = { total_berat, total_kendaraan })
-                  : (result['Other'] = {
-                      total_berat: result['Other'].total_berat + total_berat,
-                      total_kendaraan: result['Other'].total_kendaraan + total_kendaraan
+              case 'Others':
+                !result['Others']
+                  ? (result['Others'] = { total_berat, total_kendaraan })
+                  : (result['Others'] = {
+                      total_berat: result['Others'].total_berat + total_berat,
+                      total_kendaraan: result['Others'].total_kendaraan + total_kendaraan
                     })
                 break
               default:
@@ -58,11 +58,9 @@ export default function RekapitulasiController() {
       },
       []
     )
-    loading(false)
   }, [])
 
-  const rekapTable = useCallback(async (loading, callback) => {
-    loading(true)
+  const rekapTable = useCallback(async (callback) => {
     ApiService.jsonRequest(
       endpoints.getRekapTabel,
       {},
@@ -77,7 +75,6 @@ export default function RekapitulasiController() {
       },
       []
     )
-    loading(false)
   }, [])
   return { rekapCommodity, rekapTable }
 }

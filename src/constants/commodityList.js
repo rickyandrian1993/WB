@@ -9,7 +9,7 @@ export const commodityList = [
   { value: 'CPKE', label: 'CPKE', group: 'Commodity' }, //CPKE
   { value: 'Kernel', label: 'Inti/Kernel', group: 'Commodity' },
   { value: 'RBDPO', label: 'RBDPO', group: 'Commodity' }, // RBD
-  { value: 'OLIEN', label: 'OLIEN', group: 'Commodity' }, // O
+  { value: 'OLEINS', label: 'OLEINS', group: 'Commodity' }, // O
   { value: 'Stearin', label: 'Stearin', group: 'Commodity' }, //ST
   { value: 'PFAD', label: 'PFAD', group: 'Commodity' }, // FA
   { value: 'Solar', label: 'Solar', group: 'Non-Commodity' },

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PrintWrapper } from '../../../assets/style/styled'
 import { commodity, nonCommodity } from '../../../constants/defaultConstant'
-import { findPathByCd } from '../../../helpers/utility'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import PrintCommodityContent from './components/PrintCommodityContent.js'
@@ -22,12 +21,8 @@ export default function Print() {
   }
 
   useEffect(() => {
-    if (!state) {
-      navigate('/report')
-    } else {
-      let pathRedirect = findPathByCd(state.data.mt_comodity_cd).path
-      printFunc().then((e) => navigate(pathRedirect))
-    }
+    if (!state) navigate('/history')
+    else printFunc().then(() => navigate('/'))
   }, [state, navigate])
 
   return (

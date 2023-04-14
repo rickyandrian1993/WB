@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 const loginForm = {
   initialValues: {
     username: '',
@@ -24,7 +22,7 @@ const initialValues = {
     comodity_nm: '',
     contract: '',
     created_by: '',
-    created_dt: moment().format('Y-MM-DD HH:mm:ss'),
+    created_dt: '',
     cut: 0, // Potongan
     dirt: 0,
     do_date: null,
@@ -54,7 +52,7 @@ const initialValues = {
     loader_nm_3: '', // Pemuat 3
     long_stalk: 0, // Tangkai Panjang
     long_stalk_kg: 0, // Tangkai Panjang
-    mill_arrive_dt: moment().format('Y-MM-DD HH:mm:ss'), // Mill
+    mill_arrive_dt: '', // Mill
     mill_nm: '', // Mill
     moist: 0,
     mt_vndr_rent_vhcle_cd: null, // Ekspedisi

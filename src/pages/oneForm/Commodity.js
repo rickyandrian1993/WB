@@ -38,29 +38,27 @@ const Commodity = () => {
 
   const readTimbangan = () => {
     getTimbanganData(setReadTimbanganLoading, (res) => {
-      if (isFirst) form.setFieldValue('first_w', res)
-      else {
-        const { first_w, total_bunch } = form.values
-        let netto_w = Math.abs(+first_w - res)
-        let bjr = total_bunch === 0 ? 0 : (netto_w / total_bunch).toFixed(2)
-        form.setValues((prev) => ({
-          ...prev,
-          after_cut: netto_w,
-          netto_w,
-          second_w: res,
-          bjr
-        }))
-      }
+    if (isFirst) form.setFieldValue('first_w', res)
+    else {
+      const { first_w, total_bunch } = form.values
+      let netto_w = Math.abs(+first_w - res)
+      let bjr = total_bunch === 0 ? 0 : (netto_w / total_bunch).toFixed(2)
+      form.setValues((prev) => ({
+        ...prev,
+        after_cut: netto_w,
+        netto_w,
+        second_w: res,
+        bjr
+      }))
+    }
     })
   }
-
   const nfcReader = () => {
     readNFC(isFirst ? false : true, setLoading, form)
   }
 
   const submitHandler = (values) => {
     const { firstWeightPayload, secondWeightPayload } = submiter(values)
-
     if (form.validate().hasErrors) return
     if (newHistory === form.values.pcc_vehicle_cd)
       insertVehicleCd({ cd: newHistory, created_by: user.nm }, setLoading)
@@ -122,7 +120,7 @@ const Commodity = () => {
                   size="sm"
                   leftIcon={<i className="ri-sim-card-2-line" />}
                   onClick={nfcReader}
-                  disabled={readTimbanganLoading || disableList.nfc_button}
+                  disabled={readTimbanganLoading || disableList.nfc_button || loading}
                 >
                   {loading ? <Loader variant="bars" color="#fff" /> : 'NFC'}
                 </ButtonWB>
@@ -171,7 +169,7 @@ const Commodity = () => {
           </ColGrid>
         </ScaleGrid>
       </FormBox>
-      <Rekapitulasi />
+      <Rekapitulasi loading={loading} />
     </>
   )
 }

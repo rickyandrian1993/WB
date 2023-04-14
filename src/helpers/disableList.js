@@ -1,4 +1,5 @@
 export const allTrue = {
+  name: 'alltrue',
   after_cut: true,
   afdeling_nm: true,
   bjr: true,
@@ -69,7 +70,7 @@ export const allTrue = {
   second_w: true,
   spb_date: true,
   spb_number: true,
-  spb_weight: true,
+  spb_weight: false,
   supplier: true,
   total_brondolan: true,
   total_bunch: true,
@@ -91,66 +92,51 @@ export const allTrue = {
 
 export const disableNonCommodity = {
   ...allTrue,
+  name: 'disableNonCommodity',
   contract: false,
   do_date: false,
   do_number: false,
   driver_nm: false,
   first_w: false,
-  grade_class: false,
   loader_nm: false,
   mt_vndr_rent_vhcle_cd: false,
   netto_w: false,
   pcc_customer_cd: false,
   pcc_vehicle_cd: false,
-  remark1: false,
-  seal_number: false,
   second_w: false,
   spb_date: false,
   spb_number: false,
-  spb_weight: false,
   supplier: false
 }
 
 export const disableCommodity = {
   ...allTrue,
-  dirt: false,
-  dobi: false,
+  name: 'disableCommodity',
   driver_nm: false,
-  ffa: false,
   loader_nm: false,
-  moist: false,
   mt_vndr_rent_vhcle_cd: false,
   pcc_customer_cd: false,
   pcc_vehicle_cd: false,
-  pv: false,
-  remark1: false,
-  seal_number: false,
-  spb_weight: false,
   supplier: false
 }
 
 export const disableTbsInti = {
   ...allTrue,
+  name: 'disableTbsInti',
   mt_vndr_rent_vhcle_cd: false,
   pcc_customer_cd: false,
-  remark1: false,
-  seal_number: false,
-  spb_weight: false,
   supplier: false,
   nfc_button: false
 }
 
 export const disableTbsLain = {
   ...allTrue,
+  name: 'disableTbsLain',
   driver_nm: false,
   farmer: false,
-  grade_class: false,
   loader_nm: false,
   mt_vndr_rent_vhcle_cd: false,
   pcc_customer_cd: false,
-  remark1: false,
-  seal_number: false,
-  spb_weight: false,
   supplier: false,
   total_brondolan: false,
   total_bunch: false
@@ -168,17 +154,36 @@ const enableGrading = {
   young_fruit: false
 }
 
+const enableKualitas = {
+  dirt: false,
+  dobi: false,
+  ffa: false,
+  moist: false,
+  pv: false
+}
+
+const enableExtra = {
+  grade_class: false,
+  remark1: false,
+  spb_weight: true,
+  seal_number: false
+}
+
 export const findDisableList = (key, isFirst) => {
   switch (key) {
     case 'TBS Inti':
     case 'Brondolan':
-      return { ...disableTbsInti }
+      return {
+        ...disableTbsInti,
+        ...(!isFirst ? { ...allTrue, ...enableExtra, comodity_nm: true } : null),
+        nfc_button: false
+      }
     case 'TBS Plasma':
     case 'USB':
     case 'TBS Luar':
       return {
         ...disableTbsLain,
-        ...(!isFirst ? { ...enableGrading, total_bunch: true } : null),
+        ...(!isFirst ? { ...allTrue, ...enableExtra, ...enableGrading } : null),
         comodity_nm: !isFirst,
         nfc_button: isFirst
       }
@@ -187,16 +192,24 @@ export const findDisableList = (key, isFirst) => {
     case 'CPKO':
     case 'CPKE':
     case 'RBDPO':
-    case 'OLIEN':
+    case 'OLEINS':
     case 'Stearin':
     case 'PFAD':
-      return { ...disableCommodity, comodity_nm: !isFirst }
+      return {
+        ...disableCommodity,
+        ...(!isFirst ? { ...allTrue, ...enableExtra, ...enableKualitas } : null),
+        comodity_nm: !isFirst
+      }
     case 'Solar':
     case 'Solid':
     case 'Jangkos':
     case 'Cangkang':
     case 'Others':
-      return { ...disableNonCommodity, comodity_nm: !isFirst }
+      return {
+        ...disableNonCommodity,
+        ...(!isFirst ? { ...allTrue, ...enableExtra } : null),
+        comodity_nm: !isFirst
+      }
     default:
       return allTrue
   }

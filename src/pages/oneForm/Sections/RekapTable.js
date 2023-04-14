@@ -10,16 +10,13 @@ const columns = [
   { name: 'Total Weight', selector: (row) => `${row.total_berat} Kg` ?? '-', grow: 2 }
 ]
 
-export default function RekapTable() {
+export default function RekapTable(props) {
   const { rekapTable } = RekapitulasiController()
   const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (loading) {
-      rekapTable(setLoading, setData)
-    }
-  }, [loading, rekapTable])
+    rekapTable(setData)
+  }, [props.loading, rekapTable])
   return (
     <ReportTableBox>
       <DataTable
@@ -27,10 +24,10 @@ export default function RekapTable() {
         data={data}
         direction="auto"
         fixedHeader
-        fixedHeaderScrollHeight="100%"
+        fixedHeaderScrollHeight="360px"
         highlightOnHover
         persistTableHead
-        progressPending={loading}
+        progressPending={props.loading}
         progressComponent={<Loader color="#628B48" variant="bars" size="xl" mt={34} />}
         defaultSortFieldId
         pointerOnHover
