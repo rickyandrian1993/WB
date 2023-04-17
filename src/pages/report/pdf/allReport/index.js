@@ -24,7 +24,7 @@ export default function AllReportData({ data, payload }) {
       {data?.length < 1 && (
         <h3 style={{ display: 'flex', justifyContent: 'center' }}>Tidak Ada Data.</h3>
       )}
-      {data.length > 1 && (
+      {data.length > 0 && (
         <ReportSectionContent>
           <Button
             className="print-pdf"

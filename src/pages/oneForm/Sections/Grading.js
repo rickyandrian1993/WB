@@ -51,7 +51,10 @@ const Grading = ({ form, disableList }) => {
     let obj = {}
     obj[name] = num
     cutVariable.current = { ...cutVariable.current, ...obj }
-    if (form.values.comodity_nm !== 'TBS Inti') getCutWeight(cutVariable.current)
+    if (form.values.comodity_nm === 'USB') form.setFieldValue(name, value)
+    else if (!['TBS Inti', 'Brondolan'].includes(form.values.comodity_nm))
+      getCutWeight(cutVariable.current)
+    // if (form.values.comodity_nm !== 'TBS Inti' || form.values.co) getCutWeight(cutVariable.current)
   }
 
   return (

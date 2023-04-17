@@ -38,19 +38,19 @@ const Commodity = () => {
 
   const readTimbangan = () => {
     getTimbanganData(setReadTimbanganLoading, (res) => {
-    if (isFirst) form.setFieldValue('first_w', res)
-    else {
-      const { first_w, total_bunch } = form.values
-      let netto_w = Math.abs(+first_w - res)
-      let bjr = total_bunch === 0 ? 0 : (netto_w / total_bunch).toFixed(2)
-      form.setValues((prev) => ({
-        ...prev,
-        after_cut: netto_w,
-        netto_w,
-        second_w: res,
-        bjr
-      }))
-    }
+      if (isFirst) form.setFieldValue('first_w', res)
+      else {
+        const { first_w, total_bunch } = form.values
+        let netto_w = Math.abs(+first_w - res)
+        let bjr = total_bunch === 0 ? 0 : (netto_w / total_bunch).toFixed(2)
+        form.setValues((prev) => ({
+          ...prev,
+          after_cut: netto_w,
+          netto_w,
+          second_w: res,
+          bjr
+        }))
+      }
     })
   }
   const nfcReader = () => {
