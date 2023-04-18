@@ -1,49 +1,61 @@
 import { Divider, NumberInput, TextInput } from '@mantine/core'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ColGrid, FormGroup, ScaleGrid } from '../../../assets/style/styled'
 import PropTypes from 'prop-types'
 import { calculateByTBS, isNaNToZero } from '../../../helpers/utility'
 
+const defaultCutVariable = {
+  fresh_fruit: 0,
+  garbage: 0,
+  grading_brondolan: 0,
+  janjang_kosong: 0,
+  long_stalk: 0,
+  restan_overnight: 0,
+  overripe_brondolan: 0,
+  overripe_fruit: 0,
+  sand_fruit: 0,
+  young_fruit: 0,
+  water: 0
+}
+
+const defaultCutWeight = {
+  fresh_fruit_kg: 0,
+  garbage_kg: 0,
+  grading_brondolan_kg: 0,
+  janjang_kosong_kg: 0,
+  long_stalk_kg: 0,
+  restan_overnight_kg: 0,
+  overripe_brondolan_kg: 0,
+  overripe_fruit_kg: 0,
+  sand_fruit_kg: 0,
+  young_fruit_kg: 0,
+  water_kg: 0
+}
+
 const Grading = ({ form, disableList }) => {
-  const cutVariable = useRef({
-    fresh_fruit: 0,
-    garbage: 0,
-    grading_brondolan: 0,
-    janjang_kosong: 0,
-    long_stalk: 0,
-    restan_overnight: 0,
-    overripe_brondolan: 0,
-    overripe_fruit: 0,
-    sand_fruit: 0,
-    young_fruit: 0,
-    water: 0
-  })
-  const [cutWeight, setCutWeight] = useState({
-    fresh_fruit_kg: 0,
-    garbage_kg: 0,
-    grading_brondolan_kg: 0,
-    janjang_kosong_kg: 0,
-    long_stalk_kg: 0,
-    restan_overnight_kg: 0,
-    overripe_brondolan_kg: 0,
-    overripe_fruit_kg: 0,
-    sand_fruit_kg: 0,
-    young_fruit_kg: 0,
-    water_kg: 0
-  })
+  const cutVariable = useRef(defaultCutVariable)
+  const [cutWeight, setCutWeight] = useState(defaultCutWeight)
+
+  useEffect(() => {
+    cutVariable.current = defaultCutVariable
+    setCutWeight(defaultCutWeight)
+  }, [disableList])
 
   const getCutWeight = (val) => {
-    let calculate = calculateByTBS(val, form)
+    Object.keys(val).map((obj) => form.setFieldValue(obj, val[obj]))
     let netto = isNaNToZero(form.values?.netto_w)
-    setCutWeight(calculate)
     let total_cut = 0
-    Object.keys(calculate).map((items) => {
-      return (total_cut = total_cut + calculate[items])
-    })
-    cutVariable.current = { ...cutVariable.current, total_cut }
+    if (form.values.comodity_nm !== 'USB') {
+      let calculate = calculateByTBS(val, form)
+      setCutWeight(calculate)
+      Object.keys(calculate).map((items) => {
+        return (total_cut = total_cut + calculate[items])
+      })
+      cutVariable.current = { ...cutVariable.current, total_cut }
+      Object.keys(calculate).map((items) => form.setFieldValue(items, calculate[items]))
+    }
     form.setFieldValue('cut', total_cut)
     form.setFieldValue('after_cut', +netto - +total_cut)
-    Object.keys(calculate).map((items) => form.setFieldValue(items, calculate[items]))
   }
 
   const handleCalculateInput = (value, name) => {
@@ -51,10 +63,10 @@ const Grading = ({ form, disableList }) => {
     let obj = {}
     obj[name] = num
     cutVariable.current = { ...cutVariable.current, ...obj }
-    if (form.values.comodity_nm === 'USB') form.setFieldValue(name, value)
-    else if (!['TBS Inti', 'Brondolan'].includes(form.values.comodity_nm))
+    if (form.values.comodity_nm !== 'TBS Inti' || form.values.co) {
+      form.getInputProps(name).onChange(value)
       getCutWeight(cutVariable.current)
-    // if (form.values.comodity_nm !== 'TBS Inti' || form.values.co) getCutWeight(cutVariable.current)
+    }
   }
 
   return (
