@@ -111,6 +111,7 @@ const initialValues = {
     'overripe_brondolan',
     'overripe_fruit',
     'pcc_vehicle_cd',
+    'remark1',
     'restan_overnight',
     'sand_fruit',
     'seal_number',

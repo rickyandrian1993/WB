@@ -47,7 +47,7 @@ const DataTambahan = ({ form, loading, disableList }) => {
         <Textarea
           minRows={1}
           label="Catatan"
-          disabled={disableList.remark1}
+          disabled={loading}
           {...form.getInputProps('remark1')}
         />
       </ColGrid>

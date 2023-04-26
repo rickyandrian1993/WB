@@ -59,6 +59,10 @@ const Grading = ({ form, disableList }) => {
   }
 
   const handleCalculateInput = (value, name) => {
+    if (!value) {
+      form.getInputProps(name).onChange(0)
+      return
+    }
     const num = isNaNToZero(+value)
     let obj = {}
     obj[name] = num
@@ -121,7 +125,7 @@ const Grading = ({ form, disableList }) => {
           <NumberInput
             name="sand_fruit"
             disabled={disableList.sand_fruit}
-            min={0}
+            placeholder="0"
             label="Buah Pasir"
             hideControls
             rightSection="tdn"
@@ -167,7 +171,6 @@ const Grading = ({ form, disableList }) => {
           <NumberInput
             name="water"
             disabled={disableList.water}
-            min={0}
             label="TBS Berair"
             hideControls
             rightSection="%"

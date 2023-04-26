@@ -61,7 +61,6 @@ export const allTrue = {
   pcc_wrkr_cd_loader_2: true,
   pcc_wrkr_cd_loader_3: true,
   pv: true,
-  remark1: true,
   restan_overnight: true,
   restan_overnight_kg: true,
   sand_fruit: true,
@@ -151,7 +150,9 @@ const enableGrading = {
   overripe_brondolan: false,
   overripe_fruit: false,
   restan_overnight: false,
-  young_fruit: false
+  sand_fruit: false,
+  young_fruit: false,
+  water: false
 }
 
 const enableKualitas = {
@@ -164,7 +165,6 @@ const enableKualitas = {
 
 const enableExtra = {
   grade_class: false,
-  remark1: false,
   spb_weight: true,
   seal_number: false
 }
