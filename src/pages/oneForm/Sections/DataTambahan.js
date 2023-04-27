@@ -4,6 +4,11 @@ import { ColGrid, ScaleGrid } from '../../../assets/style/styled'
 import PropTypes from 'prop-types'
 
 const DataTambahan = ({ form, loading, disableList }) => {
+  const handleCalculateGap = (value) => {
+    const first_w = form.values.first_w
+    form.setFieldValue('weight_gap', first_w - value)
+  }
+
   return (
     <ScaleGrid>
       <Divider label="Data Tambahan" />
@@ -31,11 +36,14 @@ const DataTambahan = ({ form, loading, disableList }) => {
           rightSection="Kg"
           disabled={disableList.spb_weight}
           {...form.getInputProps('spb_weight')}
+          onChange={(e) => {
+            handleCalculateGap(e)
+            form.getInputProps('spb_weight').onChange(e)
+          }}
         />
       </ColGrid>
       <ColGrid span="auto">
         <NumberInput
-          min={0}
           label="Selisih Berat"
           hideControls
           rightSection="Kg"

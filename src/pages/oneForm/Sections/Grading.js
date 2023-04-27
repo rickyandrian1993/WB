@@ -59,16 +59,12 @@ const Grading = ({ form, disableList }) => {
   }
 
   const handleCalculateInput = (value, name) => {
-    if (!value) {
-      form.getInputProps(name).onChange(0)
-      return
-    }
     const num = isNaNToZero(+value)
     let obj = {}
     obj[name] = num
     cutVariable.current = { ...cutVariable.current, ...obj }
-    if (form.values.comodity_nm !== 'TBS Inti' || form.values.co) {
-      form.getInputProps(name).onChange(value)
+    if (form.values.comodity_nm !== 'TBS Inti') {
+      form.getInputProps(name).onChange(num)
       getCutWeight(cutVariable.current)
     }
   }

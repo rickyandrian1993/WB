@@ -120,6 +120,7 @@ const DataUmum = ({
             <TextInput
               label="Jumlah Tandan"
               placeholder="Jumlah Tandan"
+              withAsterisk={!disableList.total_bunch}
               disabled={disableList.total_bunch}
               {...form.getInputProps('total_bunch')}
             />
