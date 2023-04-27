@@ -33,8 +33,8 @@ const label = {
   grading_brondolan_kg: 'Brondolan (Kg)',
   overripe_brondolan: 'Brondolan Busuk (%)',
   overripe_brondolan_kg: 'Brondolan Busuk (Kg)',
-  restan_overnight: 'Brondolan Busuk (%)',
-  restan_overnight_kg: 'Brondolan Busuk (Kg)',
+  restan_overnight: 'Restan Overnight (%)',
+  restan_overnight_kg: 'Restan Overnight (Kg)',
   garbage: 'Sampah (%)',
   garbage_kg: 'Sampah (Kg)'
 }

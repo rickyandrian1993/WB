@@ -336,7 +336,8 @@ export const calculateByTBS = (value, form) => {
       result = {
         fresh_fruit_kg: Math.round(+fresh_fruit * bjr * 0.5),
         garbage_kg: Math.round(+garbage * 2),
-        grading_brondolan_kg: Math.round(0.3 * netto * (0.125 - grading_brondolan / 100)),
+        grading_brondolan_kg:
+          grading_brondolan === 0 ? 0 : Math.round(0.3 * netto * (0.125 - grading_brondolan / 100)),
         janjang_kosong_kg: Math.round(+janjang_kosong * bjr),
         long_stalk_kg: Math.round(+long_stalk * bjr * 0.01),
         overripe_fruit_kg: tempRottenKg > 0 ? tempRottenKg : 0,

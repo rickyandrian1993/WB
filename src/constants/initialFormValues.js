@@ -173,7 +173,7 @@ const initialValues = {
       spb_number: values.spb_number.trim().length > 20 ? 'Max karakter 20' : null,
       spb_weight: values?.spb_weight?.toString().length > 5 ? 'Max karakter 5.' : null,
       total_bunch:
-        values?.comodity_nm.search('TBS') === 0 || values?.comodity_nm.search('Unstripped')
+        values?.comodity_nm.search('TBS') === 0 || values?.comodity_nm.search('USB') === 0
           ? values?.total_bunch?.toString().length > 5
             ? 'Max karakter 5.'
             : !values.total_bunch
