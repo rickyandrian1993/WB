@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Divider, Select, TextInput } from '@mantine/core'
+import { Divider, NumberInput, Select, TextInput } from '@mantine/core'
 import { ColGrid, ScaleGrid } from '../../../assets/style/styled'
 import PropTypes from 'prop-types'
 import { commodityList } from '../../../constants'
@@ -117,7 +117,7 @@ const DataUmum = ({
             />
           </ColGrid>
           <ColGrid span={12}>
-            <TextInput
+            <NumberInput
               label="Jumlah Tandan"
               placeholder="Jumlah Tandan"
               withAsterisk={!disableList.total_bunch}
@@ -126,7 +126,7 @@ const DataUmum = ({
             />
           </ColGrid>
           <ColGrid span={12}>
-            <TextInput
+            <NumberInput
               label="Brondolan"
               placeholder="Brondolan"
               rightSection="Kg"
