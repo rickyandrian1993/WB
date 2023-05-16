@@ -169,7 +169,7 @@ const enableExtra = {
   seal_number: false
 }
 
-export const findDisableList = (key, isFirst) => {
+export const findDisableList = (key, isFirst, nfc = true) => {
   switch (key) {
     case 'TBS Inti':
     case 'Brondolan':
@@ -183,9 +183,10 @@ export const findDisableList = (key, isFirst) => {
     case 'TBS Luar':
       return {
         ...disableTbsLain,
-        ...(!isFirst ? { ...allTrue, ...enableExtra, ...enableGrading } : null),
-        comodity_nm: !isFirst,
-        nfc_button: isFirst
+        ...(!isFirst && !nfc ? { ...allTrue, ...enableExtra, ...enableGrading } : null),
+        total_brondolan: !isFirst,
+        total_bunch: !isFirst,
+        comodity_nm: !isFirst
       }
     case 'CPO':
     case 'Kernel':

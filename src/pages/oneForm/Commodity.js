@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { ColGrid, FormBox, ScaleGrid } from '../../assets/style/styled'
 import { ButtonWB, ScaleDisplay } from '../../components'
 import { initialValues } from '../../constants'
-import { allTrue } from '../../helpers/disableList'
+import { allTrue, findDisableList } from '../../helpers/disableList'
 import submiter from '../../helpers/submiter'
 import { getStore } from '../../helpers/utility'
 import {
@@ -50,13 +50,12 @@ const Commodity = () => {
           second_w: res,
           bjr
         }))
+        setDisableList(findDisableList(form.values.comodity_nm, isFirst, false))
       }
     })
   }
-  const nfcReader = () => {
-    readNFC(isFirst ? false : true, setLoading, form)
-  }
 
+  const nfcReader = () => readNFC(isFirst ? false : true, setLoading, form)
   const submitHandler = (values) => {
     const { firstWeightPayload, secondWeightPayload } = submiter(values)
     if (form.validate().hasErrors) return

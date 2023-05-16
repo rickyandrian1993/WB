@@ -58,9 +58,7 @@ const DataUmum = ({
                 if ((e === 'TBS Inti' || e === 'Brondolan') && !isFirst) {
                   setIsFirst(true)
                   setDisableList(findDisableList(e, true))
-                } else {
-                  setDisableList(findDisableList(e, isFirst))
-                }
+                } else setDisableList(findDisableList(e, isFirst))
                 form.getInputProps('comodity_nm').onChange(e)
                 form.setFieldValue('mt_comodity_cd', e)
                 form.setFieldValue('pcc_vehicle_cd', temp)
@@ -118,6 +116,7 @@ const DataUmum = ({
           </ColGrid>
           <ColGrid span={12}>
             <NumberInput
+              min={0}
               label="Jumlah Tandan"
               placeholder="Jumlah Tandan"
               withAsterisk={!disableList.total_bunch}
@@ -127,6 +126,7 @@ const DataUmum = ({
           </ColGrid>
           <ColGrid span={12}>
             <NumberInput
+              min={0}
               label="Brondolan"
               placeholder="Brondolan"
               rightSection="Kg"

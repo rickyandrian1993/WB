@@ -1,7 +1,7 @@
 {
   "name": "weigh-bridge",
   "author": "Wide Agri",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "server_url": "https://192.168.110.127:5041",
   "description": "Weigh Bridge an Electron application with React and Node",
   "main": "./main.js",
