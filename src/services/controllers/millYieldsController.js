@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 export default function LoginController() {
   const navigate = useNavigate()
 
-  const insertData = useCallback((body, loading, form) => {
+  const insertData = useCallback((body, loading, callback) => {
     if (!body.data.first_w) {
       ToastNotification({
         title: 'Kesalahan',
@@ -31,9 +31,10 @@ export default function LoginController() {
           message: response.message,
           isError: response.isError
         })
-        form.reset()
+        // form.reset()
       }
       loading(false)
+      callback(response)
     })
   }, [])
 

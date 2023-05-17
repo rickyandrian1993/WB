@@ -1,6 +1,6 @@
 import { Divider, Loader } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ColGrid, FormBox, ScaleGrid } from '../../assets/style/styled'
 import { ButtonWB, ScaleDisplay } from '../../components'
 import { initialValues } from '../../constants'
@@ -25,6 +25,7 @@ const Commodity = () => {
   const [isFirst, setIsFirst] = useState(false)
   const [disableList, setDisableList] = useState(allTrue)
   const [newHistory, setNewHistory] = useState([])
+  const [history, setHistory] = useState([])
   const [newSupplier, setNewSupplier] = useState([])
 
   const { user } = getStore('accountInfo')
@@ -35,6 +36,17 @@ const Commodity = () => {
   const { insertData, updateData } = MillYieldsController()
   const { insertVehicleCd } = VehicleCdController()
   const { insertSupplierList } = SupplierController()
+  const { getScaleHistory } = MillYieldsController()
+
+  useEffect(() => {
+    getScaleHistory({}, setLoading, (res) => {
+      const temp = []
+      res?.forEach((data) =>
+        temp.push({ value: data.pcc_vehicle_cd, label: data.pcc_vehicle_cd, data })
+      )
+      setHistory(temp)
+    })
+  }, [getScaleHistory])
 
   const readTimbangan = () => {
     getTimbanganData(setReadTimbanganLoading, (res) => {
@@ -63,7 +75,17 @@ const Commodity = () => {
       insertVehicleCd({ cd: newHistory, created_by: user.nm }, setLoading)
     if (newSupplier === form.values.supplier)
       insertSupplierList({ name: newSupplier, created_by: user.nm }, setLoading)
-    if (isFirst) insertData(firstWeightPayload(), setLoading, form)
+    if (isFirst)
+      insertData(firstWeightPayload(), setLoading, () => {
+        form.reset()
+        getScaleHistory({}, setLoading, (res) => {
+          const temp = []
+          res?.forEach((data) =>
+            temp.push({ value: data.pcc_vehicle_cd, label: data.pcc_vehicle_cd, data })
+          )
+          setHistory(temp)
+        })
+      })
     else updateData(secondWeightPayload(), setLoading)
   }
 
@@ -80,6 +102,7 @@ const Commodity = () => {
               setIsFirst={setIsFirst}
               setDisableList={setDisableList}
               setNewHistory={setNewHistory}
+              history={history}
             />
           </ColGrid>
           <ColGrid span={5}>

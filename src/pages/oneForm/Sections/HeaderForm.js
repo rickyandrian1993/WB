@@ -3,7 +3,7 @@ import { DatePicker } from '@mantine/dates'
 import React, { useEffect, useState } from 'react'
 import { ColGrid, FormGroup, ScaleGrid } from '../../../assets/style/styled'
 import { noPol, parseValue } from '../../../helpers/utility'
-import PropTypes from 'prop-types'
+import PropTypes, { object } from 'prop-types'
 import { MillYieldsController, VehicleCdController } from '../../../services'
 import { findDisableList } from '../../../helpers/disableList'
 
@@ -14,9 +14,10 @@ const HeaderForm = ({
   setLoading,
   setIsFirst,
   setDisableList,
-  setNewHistory
+  setNewHistory,
+  history
 }) => {
-  const [history, setHistory] = useState([])
+  // const [history, setHistory] = useState([])
   const [vehicleList, setVehicleList] = useState([])
   const { getScaleHistory } = MillYieldsController()
   const { getVehicleCd } = VehicleCdController()
@@ -25,13 +26,13 @@ const HeaderForm = ({
   useEffect(() => {
     if (loading) {
       if (!history.length || !vehicleList.length || loading) {
-        getScaleHistory({}, setLoading, (res) => {
-          const temp = []
-          res?.forEach((data) =>
-            temp.push({ value: data.pcc_vehicle_cd, label: data.pcc_vehicle_cd, data })
-          )
-          setHistory(temp)
-        })
+        // getScaleHistory({}, setLoading, (res) => {
+        //   const temp = []
+        //   res?.forEach((data) =>
+        //     temp.push({ value: data.pcc_vehicle_cd, label: data.pcc_vehicle_cd, data })
+        //   )
+        //   setHistory(temp)
+        // })
         getVehicleCd(setVehicleList)
       }
     }
@@ -164,7 +165,8 @@ HeaderForm.propTypes = {
   setIsFirst: PropTypes.func,
   setLoading: PropTypes.func,
   setDisableList: PropTypes.func,
-  setNewHistory: PropTypes.func
+  setNewHistory: PropTypes.func,
+  history: PropTypes.arrayOf(object)
 }
 
 export default HeaderForm
