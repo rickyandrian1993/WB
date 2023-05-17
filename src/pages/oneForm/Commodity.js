@@ -73,7 +73,7 @@ const Commodity = () => {
     if (form.validate().hasErrors) return
     if (newHistory === form.values.pcc_vehicle_cd)
       insertVehicleCd({ cd: newHistory, created_by: user.nm }, setLoading)
-    if (newSupplier === form.values.supplier)
+    if (newSupplier === form.values.supplier && isFirst)
       insertSupplierList({ name: newSupplier, created_by: user.nm }, setLoading)
     if (isFirst)
       insertData(firstWeightPayload(), setLoading, () => {

@@ -2,7 +2,7 @@ import { LoadingOverlay } from '@mantine/core'
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PrintWrapper } from '../../../assets/style/styled'
-import { commodity, nonCommodity } from '../../../constants/defaultConstant'
+import { commodity } from '../../../constants/defaultConstant'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import PrintCommodityContent from './components/PrintCommodityContent.js'
@@ -25,6 +25,36 @@ export default function Print() {
     else printFunc().then(() => navigate('/'))
   }, [state, navigate])
 
+  const checkCommodity = (value) => {
+    switch (value) {
+      case 'CPO':
+      case 'Kernel':
+      case 'CPKO':
+      case 'CPKE':
+      case 'RBDPO':
+      case 'OLEINS':
+      case 'Stearin':
+      case 'PFAD':
+        return <PrintCommodityContent data={state?.data} />
+      case 'Solar':
+      case 'Solid':
+      case 'Jangkos':
+      case 'Cangkang':
+      case 'Others':
+        return <PrintNonCommodityContent data={state?.data} />
+      case 'TBS Inti':
+      case 'Brondolan':
+        return <PrintTbsIntiContent data={state?.data} />
+      case 'TBS Plasma':
+        return <PrintTbsPlasmaContent data={state?.data} />
+      case 'TBS Luar':
+      case 'USB':
+        return <PrintTbsLuarContent data={state?.data} />
+      default:
+        break
+    }
+  }
+
   return (
     <div style={{ position: 'relative', borderRadius: '16px' }}>
       {state && (
@@ -33,21 +63,7 @@ export default function Print() {
           {state?.type === 'SPB' && commodity.includes(state?.data?.mt_comodity_cd) && (
             <SPBContent data={state?.data} />
           )}
-          {state?.type === 'TIKET' && commodity.includes(state?.data?.mt_comodity_cd) && (
-            <PrintCommodityContent data={state?.data} />
-          )}
-          {state?.type === 'TIKET' && nonCommodity.includes(state?.data?.mt_comodity_cd) && (
-            <PrintNonCommodityContent data={state?.data} />
-          )}
-          {state?.type === 'TIKET' && state?.data?.mt_comodity_cd === 'TBS Inti' && (
-            <PrintTbsIntiContent data={state?.data} />
-          )}
-          {state?.type === 'TIKET' && state?.data?.mt_comodity_cd === 'TBS Luar' && (
-            <PrintTbsLuarContent data={state?.data} />
-          )}
-          {state?.type === 'TIKET' && state?.data?.mt_comodity_cd === 'TBS Plasma' && (
-            <PrintTbsPlasmaContent data={state?.data} />
-          )}
+          {state?.type === 'TIKET' && checkCommodity(state?.data?.mt_comodity_cd)}
           <Footer data={state?.data} />
         </PrintWrapper>
       )}
